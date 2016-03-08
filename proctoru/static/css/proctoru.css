@@ -1,0 +1,9 @@
+/* CSS for ProctorUXBlock */
+
+.proctoru_block .count {
+    font-weight: bold;
+}
+
+.proctoru_block p {
+    cursor: pointer;
+}
