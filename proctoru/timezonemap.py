@@ -105,7 +105,10 @@ win_tz = {'AUS Central Standard Time': 'Australia/Darwin',
  'W. Europe Standard Time': 'Europe/Berlin',
  'West Asia Standard Time': 'Asia/Tashkent',
  'West Pacific Standard Time': 'Pacific/Port_Moresby',
- 'Yakutsk Standard Time': 'Asia/Yakutsk'}
+ 'Yakutsk Standard Time': 'Asia/Yakutsk',
+ 'Kamchatka Standard Time': 'Europe/Moscow',
+ 'Mid-Atlantic Standard Time': 'America/New_York',
+ 'Pacific Standard Time (Mexico)': 'America/Los_Angeles'}
 
 # Old name for the win_tz variable:
 tz_names = win_tz
