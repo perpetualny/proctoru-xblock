@@ -16,7 +16,7 @@ ProctorU XBlock Installation Guide:
 
 6. To add authentication token for ProctorU.
 		
-		Login to admin panel of django.
-		Click Open ProctorUAuthToken.
-		Click on Add new ProctorUAuthToken.
-		Copy-Paste Your AuthToken to and Save.
+		a. Login to admin panel of django.
+		b. Click Open ProctorUAuthToken.
+		c. Click on Add new ProctorUAuthToken.
+		d. Copy-Paste Your AuthToken to and Save.
