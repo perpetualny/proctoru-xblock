@@ -3,17 +3,17 @@
         
     <!---->
     <div class="proctoring-results proctoru">
-      <h1 class="result-heading">Proctoring Results for "{{self.display_name}}"</h1>
+      <h1 class="result-heading">{% trans "Proctoring Results for" %} "{{self.display_name}}"</h1>
       <div class="row">
 
         <!--LHS-->
         <div class="col-md-6 lhs">
-          <h4 class="results-heading">Students</h4>
+          <h4 class="results-heading">{% trans "Students" %}</h4>
           {% for student in students %}
           <!--single row-->
            <div class="result-row grey-bg">
            <label class="pull-left">{{student.user.username}}</label>
-           <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.username}}">Get Results</button>
+           <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.username}}">{% trans "Get Results" %}</button>
            </div>
           <!--end single row-->
           {% endfor %}
@@ -23,35 +23,35 @@
 
         <!--RHS-->
         <div class="col-md-6 rhs">
-          <h4 class="results-heading">Results</h4>
+          <h4 class="results-heading">{% trans "Results" %}</h4>
 
           <div class="box-wrapper result-box" style="display: none">
             <h2 class="results-heading student-name"></h2>
 
-            <p class="single-row"><label><strong>Scheduled:</strong></label>
+            <p class="single-row"><label><strong>{% trans "Scheduled:" %}</strong></label>
             <label class="start-date"></label>
             </p>
 
-            <p class="single-row"><label><strong>Completed:</strong></label>
+            <p class="single-row"><label><strong>{% trans "Completed:" %}</strong></label>
             <label class="completd-date"></label>
             </p>
             
-            <h4 class="notes-heading">Session Notes:</h4>
+            <h4 class="notes-heading">{% trans "Session Notes:" %}</h4>
             <p class="session-notes">{{self.notes}}</p>
 
             <div class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
-              <h3 class="session-status-heading text-center">ID Checked</h3>
+              <h3 class="session-status-heading text-center">{% trans "ID Checked" %}</h3>
             </div>
 
             <div class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
-              <h3 class="session-status-heading text-center">Authenticated</h3>
+              <h3 class="session-status-heading text-center">{% trans "Authenticated" %}</h3>
             </div>
 
             <div class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
-              <h3 class="session-status-heading text-center">Exam Submitted</h3>
+              <h3 class="session-status-heading text-center">{% trans "Exam Submitted" %}</h3>
             </div>
 
           </div><!--end box-wrapper-->

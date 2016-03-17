@@ -22,6 +22,7 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
+            <label type="text" class="form-control date-time-input">{% trans "Select a Date..." %}</label>
                 <div id="datepicker"></div>
                     <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                     <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
@@ -37,8 +38,8 @@
                     {% if status == "emptylist" %}
                     <li class="time-row">
                         <div class="col-md-8">
-                            <h4 class="time-row-heading">No available exam times</h4>
-                            <p class="time-row-heading2">Please try some other date</p>
+                            <h4 class="time-row-heading">{% trans "No available exam times" %}</h4>
+                            <p class="time-row-heading2">{% trans "Please try some other date" %}</p>
                         </div>
                     </li>
                     {% endif %}

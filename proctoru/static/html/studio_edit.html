@@ -32,11 +32,11 @@
                                 <div class="form-group">
                                   <label for="" class="col-sm-12 control-label text-left">{% trans "Exam Duration (In Minutes)"  %}<span class="color-red" id="exam-duration-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
-                                   <input type="text" class="form-control" id="exam-duration" placeholder="02:00 Hours" value="{{ self.duration }}" required>
+                                   <input type="text" class="form-control" id="exam-duration" placeholder="In Minutes" value="{{ self.duration }}" required>
                                   </div>
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-4" style="position:relative;">
                                 <div class="form-group">
                                   <label for="" class="col-sm-12 control-label">{% trans "Exam Start Date" %}  <span class="color-red" id="exam-start-date-error" style="display:none;">{% trans "*" %}</span></label>

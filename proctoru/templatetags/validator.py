@@ -21,7 +21,7 @@ def get_ramaining_timestamp(tm, user_id):
         utcmoment = utcmoment_unaware.replace(tzinfo=pytz.utc)
 
         delta = dt - utcmoment
-        return "{0} Days {1}Hours {2} Minutes from now".format(delta.days, delta.seconds//3600, (delta.seconds//60) % 60)
+        return "{0} Days {1} Hours {2} Minutes from now".format(delta.days, delta.seconds//3600, (delta.seconds//60) % 60)
     except:
         return False
 
