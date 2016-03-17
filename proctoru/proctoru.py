@@ -7,7 +7,6 @@ import logging
 import random
 import pytz
 import time
-from tzlocal import get_localzone
 import dateutil.parser
 
 from django.contrib.auth.models import User
