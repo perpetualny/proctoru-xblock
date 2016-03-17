@@ -1,0 +1,75 @@
+{% load i18n %}
+<div class="content-wrapper proctoru">
+    <h2>{% trans "FINAL EXAM" %}</h2>
+    <p class="content-para">{% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam bibendum metus eget tellus lobortis, vitae dapibus quam tincidunt. Praesent quis bibendum diam." %}<span class="color-skyblue"><strong>ProctorU</strong></span>{% trans "erat nec diam commodo, mattis efficitur leo suscipit. Duis in lectus quis turpis congue tristique. Etiam metus tellus, dapibus vel pulvinar vel, faucibus at tortor. Sed egestas imperdiet sem, a mollis nisl tempus eu. Duis mollis tristique mollis." %}</p>
+    <div class="form-wrapper proctoru">
+        <h3 class="form-title display-inline-block">{% trans "Reschedule Exam" %}</h3>
+         <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modify Your Personal Information" %}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="border-bottom">&nbsp;</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="form-title">{% trans "Exam is available from..." %}</h3>
+                <label class="exam-schedule-timings">{{first_date_available}} TO</label>
+                <label class="exam-schedule-timings margin-left20">{{last_date_available}}</label>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row min-height-calendar">
+            <!--LHS-->
+            <div class="col-sm-5">
+                <div id="datepicker"></div>
+                <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
+                <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
+                <input id="selected-date" type="hidden" name="selected-date" value="{{selected_date}}">
+                                    <div class="clearfix">&nbsp;</div>
+                    <section class="box-wrapper">
+                        <h3 class="box-heading">{% trans "Current Exam Time" %}</h3>
+                        <div class="box-content text-center">
+                            <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
+                            <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
+                            <h5 class="box-content-text text-center"></h5>
+                            <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "KEEP TIME" %}</button>
+                        </div>
+                    </section>
+            </div>
+            <!--end LHS-->
+            <!--RHS-->
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label type="text" class="form-control date-time-input">{% trans "Select a time..." %}</label>
+                    <ul class="list-unstyled time-section">
+                    {% for available_time in time_list %}
+                        <li class="time-row {{available_time.data_value|get_ramaining_timestamp_status:self.runtime.user_id}}">
+                            <div class="col-md-8">
+                                <h4 class="time-row-heading">{{available_time.time_utc}}</h4>
+                                <p class="time-row-heading2">{{available_time.day_year}}</p>
+                                <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "SELECT TIME" %}</button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!--end RHS-->
+        </div>
+    </div>
+    <!--this is user info modal -->
+    <div id="user-info-modal" class="modalDialog">
+            <div>
+                <!-- <a href="#close" title="Close" class="close">X</a> -->
+                <h4>{% trans "Modifying Your Personal Information" %}</h4>
+                    <p>{% trans "if ypur personal information changes, or if you no longer desire our service, you may correct,amend, delete/remove, ask to have it removed from our site or deactivate it by making the change on your profile page or by emailing our customer support at help@proctorU.com or by contacting us by telephone or postal mail at the contact information listed below we will respond to your request to access within reasonable timeframe" %}</p>
+                <p>{% trans "The telephone nuber to contact is 855-772-8678. The mailing address is 3083 Independence Ave, Suite A, Livermore California, 94551" %}</p>
+                <p class="text-center"> <a href="#close" class="btn btn-default">Close</a></p>
+            <div>
+       </div>
+       <!--this is user info modal -->
+    <!--end form-wrapper-->
+</div>

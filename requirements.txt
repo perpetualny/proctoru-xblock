@@ -2,4 +2,5 @@ ddt
 mock
 unicodecsv==0.9.4
 -e git+https://github.com/edx/xblock-utils.git@581ed636c862b286002bb9a3724cc883570eb54c#egg=xblock-utils
+-e git+https://github.com/openfun/xblock-utils2.git@e412419c2c1189c70fa24911a6dff834dff634cf#egg=xblock_utils2-master
 -e .

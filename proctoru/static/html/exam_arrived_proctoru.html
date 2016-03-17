@@ -1,0 +1,59 @@
+{% load i18n %}
+<div class="content-wrapper proctoru">
+    <h2>{% trans "FINAL EXAM" %}</h2>
+    <p class="content-para">{% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam bibendum metus eget tellus lobortis, vitae dapibus quam tincidunt. Praesent quis bibendum diam." %} <span class="color-skyblue"><strong>ProctorU</strong></span>{% trans " erat nec diam commodo, mattis efficitur leo suscipit. Duis in lectus quis turpis congue tristique. Etiam metus tellus, dapibus vel pulvinar vel, faucibus at tortor. Sed egestas imperdiet sem, a mollis nisl tempus eu. Duis mollis tristique mollis." %}</p>
+    <div class="form-wrapper proctoru">
+        <h3 class="form-title">{% trans "Exam Scheduled" %}</h3>
+        
+        <div class="row">
+         <div class="col-md-12">
+          <div class="border-bottom">&nbsp;</div>
+          <input type="hidden" name="exam-url" id="exam-url" value="{{exam.url}}"></input>
+         </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="form-title">{% trans "Exam Time" %}</h3>
+                <p class="schedule-text exam-time text-uppercase">{{self.exam_time|format_date}}</p>
+            </div>
+            <div class="col-sm-6">
+                <h3 class="form-title">{% trans "Exam Begins in:" %}</h3>
+
+                <p class="schedule-text" style="display: none;">
+                <h2 class="exam-visible color-green" style="display: none;">Available Now</h2>
+                    <div class="exam-invisible" style="display: block;">
+                        <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time|get_remaining_time}}"></input>
+                        <div id="clockdiv">
+                          <div>
+                            <span class="days exam-time"></span>
+                            <span class="smalltext exam-time">{% trans "Days" %}</span>
+                          </div>
+                          <div>
+                            <span class="hours exam-time"></span>
+                            <span class="smalltext exam-time">{% trans "Hours" %}</span>
+                          </div>
+                          <div>
+                            <span class="minutes exam-time"></span>
+                            <span class="smalltext exam-time">{% trans "Minutes" %}</span>
+                          </div>
+                          <!-- <div>
+                            <span class="seconds exam-time"></span>
+                            <span class="smalltext">{% trans "Seconds" %}</span>
+                          </div> -->
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+      
+         <div class="clearfix">&nbsp;</div>
+          <div class="form-group">
+            <button type="button" class="btn btn-info start-exam-btn exam-visible" style="display: none;">{% trans "START EXAM" %}</button>
+            <button type="button" class="btn btn-info reschedule-exam-btn exam-invisible">{% trans "RESCHEDULE EXAM" %}</button>
+            <button type="button" class="btn btn-info check-equipmnt-btn">{% trans "CHECK YOUR EQUIPMENT" %}</button>
+            <button type="button" class="btn btn-default cancel-exam-btn pull-right">{% trans "CANCEL" %}</button>
+          </div>
+    </div>
+    <!--end form-wrapper-->
+</div>

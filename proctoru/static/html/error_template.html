@@ -1,0 +1,9 @@
+<div class="content-wrapper proctoru">
+   {% if status == "examdatepass" %}
+      <h3>Exam is not available Now</h3>
+      <p class="content-para">Please contact Fun Mooc for further information.</p>
+   {% elif status == "error" %}
+      <h3>An unexpected error occured</h3>
+      <p class="content-para">Please contact Fun Mooc for further information.</p>
+   {% endif %}
+</div>
