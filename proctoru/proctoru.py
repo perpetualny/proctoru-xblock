@@ -284,6 +284,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 fragment.initialize_js('ProctorUXBlockSchedule')
                 return fragment
             else:
+                context.update({"self": self})
                 fragment.add_content(
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
@@ -559,7 +560,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             'country': user_data.get('country', "US"),
             'phone1': user_data.get('phone_number', None),
             'time_zone_id': user_data.get('time_zone', None),
-            'description': 'test description11',
+            'description': self.description,
+            'notes': "{0} Password is - {1}".format(self.notes, self.password),
             'duration': self.duration,
             'start_date': shedule_time,
             'takeitnow': 'Y',

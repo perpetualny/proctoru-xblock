@@ -1,9 +1,9 @@
 {% load i18n %}
 <div class="content-wrapper proctoru">
-    <h2>{% trans "FINAL EXAM" %}</h2>
-    <p class="content-para">{% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam bibendum metus eget tellus lobortis, vitae dapibus quam tincidunt. Praesent quis bibendum diam." %}<span class="color-skyblue"><strong>ProctorU</strong></span>{% trans "erat nec diam commodo, mattis efficitur leo suscipit. Duis in lectus quis turpis congue tristique. Etiam metus tellus, dapibus vel pulvinar vel, faucibus at tortor. Sed egestas imperdiet sem, a mollis nisl tempus eu. Duis mollis tristique mollis." %}</p>
+ <h2>{{self.display_name}}</h2>
+ <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>
     <div class="form-wrapper proctoru">
-        <h3 class="form-title display-inline-block">{% trans "Reschedule Exam" %}</h3>
+        <h3 class="form-title display-inline-block pull-left">{% trans "Reschedule Exam" %}</h3>
          <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modify Your Personal Information" %}</a>
         <div class="row">
             <div class="col-md-12">
@@ -13,8 +13,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <h3 class="form-title">{% trans "Exam is available from..." %}</h3>
-                <label class="exam-schedule-timings">{{first_date_available}} TO</label>
-                <label class="exam-schedule-timings margin-left20">{{last_date_available}}</label>
+                <label class="exam-schedule-timings">{{first_date_available}}</label>
+                <label class="exam-schedule-timings">TO</label>
+                <label class="exam-schedule-timings">{{last_date_available}}</label>
             </div>
         </div>
         <div class="clearfix">&nbsp;</div>
