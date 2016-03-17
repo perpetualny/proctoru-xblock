@@ -149,7 +149,7 @@ function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
         dt = $(element).find("#rem_time").val();
-        var deadline = new Date(parseInt(dt));
+        var deadline = new Date(dt);
         initializeClock('clockdiv', deadline);
     });
 
@@ -323,4 +323,8 @@ function initializeClock(id, endtime) {
 
   updateClock();
   var timeinterval = setInterval(updateClock, 1000);
+}
+
+
+function ProctorUXBlockBlank(runtime, element) {
 }

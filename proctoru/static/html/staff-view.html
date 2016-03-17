@@ -12,8 +12,8 @@
           {% for student in students %}
           <!--single row-->
            <div class="result-row grey-bg">
-           <label class="pull-left">{{student.user.get_full_name}}</label>
-           <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.get_full_name}}">Get Results</button>
+           <label class="pull-left">{{student.user.username}}</label>
+           <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.username}}">Get Results</button>
            </div>
           <!--end single row-->
           {% endfor %}
@@ -37,7 +37,7 @@
             </p>
             
             <h4 class="notes-heading">Session Notes:</h4>
-            <p class="session-notes">Lorem Ipsum Dolar sit amet. Ipsum Dolar sit amet. Dolar sit amet. sit amet. amet. Lorem Ipsum Dolar sit amet. Ipsum Dolar sit amet. Dolar sit amet. sit amet. amet.</p>
+            <p class="session-notes">{{self.notes}}</p>
 
             <div class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>

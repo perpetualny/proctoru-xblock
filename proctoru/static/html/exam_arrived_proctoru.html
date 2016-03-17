@@ -23,24 +23,24 @@
                 <p class="schedule-text" style="display: none;">
                 <h2 class="exam-visible color-green" style="display: none;">Available Now</h2>
                     <div class="exam-invisible" style="display: block;">
-                        <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time|get_remaining_time}}"></input>
+                        <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time}}"></input>
                         <div id="clockdiv">
                           <div>
-                            <span class="days exam-time"></span>
-                            <span class="smalltext exam-time">{% trans "Days" %}</span>
+                            <span class="days"></span>
+                            <span class="smalltext">{% trans "Days" %}</span>
                           </div>
                           <div>
-                            <span class="hours exam-time"></span>
-                            <span class="smalltext exam-time">{% trans "Hours" %}</span>
+                            <span class="hours"></span>
+                            <span class="smalltext">{% trans "Hours" %}</span>
                           </div>
                           <div>
-                            <span class="minutes exam-time"></span>
-                            <span class="smalltext exam-time">{% trans "Minutes" %}</span>
+                            <span class="minutes"></span>
+                            <span class="smalltext">{% trans "Minutes" %}</span>
                           </div>
-                          <!-- <div>
-                            <span class="seconds exam-time"></span>
+                          <div>
+                            <span class="seconds"></span>
                             <span class="smalltext">{% trans "Seconds" %}</span>
-                          </div> -->
+                          </div>
                         </div>
                     </div>
                 </p>

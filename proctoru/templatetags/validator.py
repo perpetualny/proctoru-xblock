@@ -47,12 +47,6 @@ def get_ramaining_timestamp_status(tm, user_id):
 
 
 @register.filter
-def get_remaining_time(tm):
-    tm = parser.parse(tm)
-    return int(time.mktime(tm.timetuple())) * 1000
-
-
-@register.filter
 def get_seconds_from_minutes(minutes):
     return int(minutes) * 60
 

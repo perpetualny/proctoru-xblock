@@ -503,7 +503,7 @@ text-decoration: none;
     color: #000;
     display: inline-block;
     font-weight: 100;
-  /*  text-align: center;*/
+    text-align: center;
     font-size: 30px;
 }
 

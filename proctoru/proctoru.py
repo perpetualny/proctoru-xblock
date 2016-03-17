@@ -46,7 +46,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
     display_name = String(display_name=ugettext_lazy("Exam Name"),
                           default="ProctorU XBlock",
                           scope=Scope.settings,
-                          help=ugettext_lazy("This name appears in the horizontal navigation at the top of the page.")
+                          help=ugettext_lazy(
+                              "This name appears in the horizontal navigation at the top of the page.")
                           )
 
     start_date = String(display_name=ugettext_lazy("Exam Start Date"),
@@ -122,7 +123,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                     scope=Scope.user_state)
 
     is_exam_unlocked = Boolean(help=ugettext_lazy("Is exam unlocked?"), default=False,
-                                    scope=Scope.user_state)
+                               scope=Scope.user_state)
 
     is_exam_ended = Boolean(help=ugettext_lazy("Is exam ended?"), default=False,
                             scope=Scope.user_state)
@@ -152,6 +153,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
     def _user_is_staff(self):
         return getattr(self.runtime, 'user_is_staff', False)
 
+    def _allowed_certs(self):
+        user = User.objects.get(pk=self.runtime.user_id)
+        return user.profile.allow_certificate
+
     def get_course_key_string(self):
         return self.location.course_key._to_string()
 
@@ -167,9 +172,9 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             fragment.add_css(
                 self.resource_string('static/css/proctoru.css'))
             return fragment
-        if self._user_is_staff():
+        elif self._user_is_staff():
             return self.staff_view()
-        else:  # student view
+        elif self._allowed_certs():
             api_obj = ProctoruAPI()
             fragment = Fragment()
             context = {}
@@ -216,10 +221,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     fragment.add_content(
                         loader.render_template('static/html/error_template.html', context))
                 else:
-                    context = api_obj.render_shedule_ui(self.runtime.user_id, time_details, self.duration)
+                    context = api_obj.render_shedule_ui(
+                        self.runtime.user_id, time_details, self.duration)
                     context.update({'self': self})
 
-                    exam_time_heading = api_obj.get_formated_exam_start_date(self.exam_time, self.runtime.user_id)
+                    exam_time_heading = api_obj.get_formated_exam_start_date(
+                        self.exam_time, self.runtime.user_id)
 
                     context.update({
                         'exam_time_heading': exam_time_heading,
@@ -259,7 +266,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     fragment.add_content(
                         loader.render_template('static/html/error_template.html', context))
                 else:
-                    context = api_obj.render_shedule_ui(self.runtime.user_id, time_details, self.duration)
+                    context = api_obj.render_shedule_ui(
+                        self.runtime.user_id, time_details, self.duration)
                     context.update({'self': self})
 
                     status = context.get('status')
@@ -280,6 +288,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
                 return fragment
+        else:
+            fragment = Fragment()
+            fragment.add_content(
+                loader.render_template('static/html/blank.html', context))
+            fragment.initialize_js('ProctorUXBlockBlank')
+            return fragment
 
     def _render_template(self, ressource, **kwargs):
         template = Template(self.resource_string(ressource))
@@ -354,7 +368,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         self.exam_start_time = data.get("exam_start_time", "")
         self.exam_end_time = data.get("exam_end_time", "")
         self.notes = data.get("exam_notes", "")
-        self.password = data.get("exam_password", "")
         self.time_zone = data.get("time_zone")
 
         return {'status': 'success'}
@@ -593,7 +606,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             }
 
     @XBlock.json_handler
-    def cancle_rescheduling(self,data=None,suffix=""):
+    def cancle_rescheduling(self, data=None, suffix=""):
         """
         Cancel Rescheduling.
         """

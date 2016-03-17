@@ -21,7 +21,6 @@ function ProctoruStudio(runtime, element) {
             'exam_start_time': $('#exam-start-time').val(),
             'exam_end_time': $('#exam-end-time').val(),
             'exam_notes': $("#exam-notes").val(),
-            'exam_password': $("#exam-password").val(),
             'time_zone':$("#time-zone").val()
         };
 
