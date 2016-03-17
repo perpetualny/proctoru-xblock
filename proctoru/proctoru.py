@@ -174,7 +174,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             return fragment
         elif self._user_is_staff():
             return self.staff_view()
-        elif self._allowed_certs():
+        else:
             api_obj = ProctoruAPI()
             fragment = Fragment()
             context = {}
@@ -289,12 +289,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
                 return fragment
-        else:
-            fragment = Fragment()
-            fragment.add_content(
-                loader.render_template('static/html/blank.html', context))
-            fragment.initialize_js('ProctorUXBlockBlank')
-            return fragment
 
     def _render_template(self, ressource, **kwargs):
         template = Template(self.resource_string(ressource))
