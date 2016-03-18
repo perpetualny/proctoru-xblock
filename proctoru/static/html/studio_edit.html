@@ -8,14 +8,14 @@
                     <div class="popup-form">
                         <form class="form-horizontal">
                             <div class="form-group">
-                              <label for="" class="col-sm-12 control-label">{% trans "Exam Name" %}<span class="color-red" id="exam-name-error" style="display:none;">{% trans "*" %}</span></label>
+                              <label for="" class="col-sm-12 control-label">{% trans "ENom de l'examen" %}<span class="color-red" id="exam-name-error" style="display:none;">{% trans "*" %}</span></label>
                               <div class="col-sm-5">
                                <input type="text" class="form-control" id="exam-name" placeholder="Final Exam" value="{{ self.display_name }}" required>
                               </div>
                             </div>
 
                             <div class="form-group">
-                              <label for="" class="col-sm-12 control-label">{% trans "Exam Description(For Students)" %}<span class="color-red" id="exam-description-error" style="display:none;">{% trans "*" %}</span></label>
+                              <label for="" class="col-sm-12 control-label">{% trans "Description de l'examen(For Students)" %}<span class="color-red" id="exam-description-error" style="display:none;">{% trans "*" %}</span></label>
                                     <div class="col-sm-12">
                               {% if self.description %}
                                     <textarea class="form-control" rows="5" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required>{{ self.description }}</textarea>
@@ -30,7 +30,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label text-left">{% trans "Exam Duration (In Minutes)"  %}<span class="color-red" id="exam-duration-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label text-left">{% trans "Dur&eacute;e de l'examen (minutes)"  %}<span class="color-red" id="exam-duration-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                    <input type="text" class="form-control" id="exam-duration" placeholder="In Minutes" value="{{ self.duration }}" required>
                                   </div>
@@ -39,7 +39,7 @@
                             
                             <div class="col-md-4" style="position:relative;">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label">{% trans "Exam Start Date" %}  <span class="color-red" id="exam-start-date-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label">{% trans "Date de d&eacute;but de l'examen" %}  <span class="color-red" id="exam-start-date-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                    <input type="text" class="form-control" id="exam-start-date" value="{{ self.start_date|filter_date_format }}" required>
                                   </div>
@@ -47,7 +47,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label">{% trans "Exam Start Time" %} <span class="color-red" id="exam-start-time-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label">{% trans "Heure de d&eacute;but de l'examen" %} <span class="color-red" id="exam-start-time-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                       <select class="form-control" id="exam-start-time" value="{{ self.exam_start_time}}" required>
                                           <option value="00:00">00:00</option>
@@ -83,7 +83,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label">{% trans "Time Zone" %}<span class="color-red" id="timezone-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label">{% trans "Fuseau horaire" %}<span class="color-red" id="timezone-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                       <select class="form-control" id="time-zone" required>
                                           <option>Select Time Zone</option>
@@ -100,7 +100,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label">{% trans "Exam End Date" %}<span class="color-red" id="exam-end-date-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label">{% trans "Date de fin de l'examen" %}<span class="color-red" id="exam-end-date-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                     <input type="text" class="form-control" id="exam-end-date"value="{{ self.end_date|filter_date_format }}" required>
                                   </div>
@@ -109,7 +109,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="" class="col-sm-12 control-label">{% trans "Exam End Time" %}<span class="color-red" id="exam-end-time-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <label for="" class="col-sm-12 control-label">{% trans "Heure de fin de l'examen" %}<span class="color-red" id="exam-end-time-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                       <select class="form-control" id="exam-end-time" value="{{ self.exam_end_time }}" required>
                                           <option value="00:00">00:00</option>
@@ -147,7 +147,7 @@
                              <div class="clearfix"></div>
 
                             <div class="form-group">
-                              <label for="" class="col-sm-12 control-label">{% trans "Exam Notes(For Proctor)" %}<span class="color-red" id="exam-notes-error" style="display:none;">{% trans "*" %}</span></label>
+                              <label for="" class="col-sm-12 control-label">{% trans "Notes concernant l'examen (pour le surveillant)" %}<span class="color-red" id="exam-notes-error" style="display:none;">{% trans "*" %}</span></label>
                               <div class="col-sm-12">
                                <textarea class="form-control" rows="5" id="exam-notes" placeholder="Open Book, No Calculator" required>{{ self.notes }}</textarea>
                               </div>

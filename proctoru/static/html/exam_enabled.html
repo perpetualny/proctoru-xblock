@@ -3,12 +3,12 @@
  <h2>{{self.display_name}}</h2>
  <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>  
     <div class="form-wrapper proctoru margin-bottom15">
-        <h3 class="form-title">{% trans "Time Remaining" %}</h3>
-        <h2 class="text-center"><span id="countdown" class="timer" data="{{self.duration|get_seconds_from_minutes}}"></span> <span class="rm-label">{% trans "Remaining" %}</span></h2>
+        <h3 class="form-title">{% trans "Temps restant" %}</h3>
+        <h2 class="text-center"><span id="countdown" class="timer" data="{{self.duration|get_seconds_from_minutes}}"></span> <span class="rm-label">{% trans "Restant" %}</span></h2>
         <div class="row">
             <div class="col-sm-12 password-reset">
                 <div class="form-group  text-center">
-                  <button type="button" class="btn btn-info end-exam-btn">{% trans "END EXAM<" %}/button>
+                  <button type="button" class="btn btn-info end-exam-btn">{% trans "Terminer l'examen" %}</button>
                 </div>
             </div>
         </div>

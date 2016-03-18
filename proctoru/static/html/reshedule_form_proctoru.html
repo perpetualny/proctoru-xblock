@@ -3,8 +3,8 @@
  <h2>{{self.display_name}}</h2>
  <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>
     <div class="form-wrapper proctoru">
-        <h3 class="form-title display-inline-block pull-left">{% trans "Reschedule Exam" %}</h3>
-         <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modify Your Personal Information" %}</a>
+        <h3 class="form-title display-inline-block pull-left">{% trans "Modifier l'horaire de l'examen" %}</h3>
+         <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modifiez vos informations personnelles" %}</a>
         <div class="row">
             <div class="col-md-12">
                 <div class="border-bottom">&nbsp;</div>
@@ -12,7 +12,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="form-title">{% trans "Exam is available from..." %}</h3>
+                <h3 class="form-title">{% trans "L'examen est disponible &agrave; partir de ..." %}</h3>
                 <label class="exam-schedule-timings">{{first_date_available}}</label>
                 <label class="exam-schedule-timings">{{last_date_available}}</label>
             </div>
@@ -21,7 +21,7 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
-            <label type="text" class="form-control date-time-input">{% trans "Select a Date..." %}</label>
+            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez a Date..." %}</label>
                 <div id="datepicker"></div>
                 <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                 <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
@@ -41,7 +41,7 @@
             <!--RHS-->
             <div class="col-sm-7">
                 <div class="form-group">
-                    <label type="text" class="form-control date-time-input">{% trans "Select a time..." %}</label>
+                    <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une heure" %}</label>
                     <ul class="list-unstyled time-section">
                     {% for available_time in time_list %}
                         <li class="time-row {{available_time.data_value|get_ramaining_timestamp_status:self.runtime.user_id}}">
@@ -51,7 +51,7 @@
                                 <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "SELECT TIME" %}</button>
+                                <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button>
                             </div>
                         </li>
                     {% endfor %}
@@ -65,10 +65,10 @@
     <div id="user-info-modal" class="modalDialog">
             <div>
                 <!-- <a href="#close" title="Close" class="close">X</a> -->
-                <h4>{% trans "Modifying Your Personal Information" %}</h4>
-                    <p>{% trans "if ypur personal information changes, or if you no longer desire our service, you may correct,amend, delete/remove, ask to have it removed from our site or deactivate it by making the change on your profile page or by emailing our customer support at help@proctorU.com or by contacting us by telephone or postal mail at the contact information listed below we will respond to your request to access within reasonable timeframe" %}</p>
-                <p>{% trans "The telephone nuber to contact is 855-772-8678. The mailing address is 3083 Independence Ave, Suite A, Livermore California, 94551" %}</p>
-                <p class="text-center"> <a href="#close" class="btn btn-default">Close</a></p>
+                <h4>{% trans "Modifiez vos informations personnelles" %}</h4>
+                    <p>{% trans "Si vos informations personnelles changent, ou si vous ne d&eacute;sirez plus utiliser notre service, vous pouvez corriger, mettre &agrave; jour, modifier, supprimer, demander qu'elles soient retir&eacute;es de notre site ou d&eacute;sactiver votre compte par courriel en faisant le changement sur votre page de profil ou de notre service client&egrave;le contactable par email &agrave; help@proctoru.com ou en nous contactant par t&eacute;l&eacute;phone ou par courrier postal aux coordonn&eacute;es ci-dessous. Nous r&eacute;pondrons &agrave; votre demande d'acc&egrave;s dans un d&eacute;lai raisonnable ." %}</p>
+                <p>{% trans "Le num&eacute;ro de t&eacute;l&eacute;phone &agrave; contacter est (+1) 855-772-8678 . L'adresse postale est 3083 Independence Ave , Suite A, Livermore California, 94551" %}</p>
+                <p class="text-center"> <a href="#close" class="btn btn-default">Fermer</a></p>
             <div>
        </div>
        <!--this is user info modal -->
