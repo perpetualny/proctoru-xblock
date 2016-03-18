@@ -12,6 +12,7 @@ import dateutil.parser
 from django.contrib.auth.models import User
 from django.template import Context, Template
 from django.utils.translation import ugettext_lazy, ugettext as _
+from student.models import CourseEnrollment
 
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String, Boolean
@@ -153,9 +154,13 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
     def _user_is_staff(self):
         return getattr(self.runtime, 'user_is_staff', False)
 
-    def _allowed_certs(self):
-        user = User.objects.get(pk=self.runtime.user_id)
-        return user.profile.allow_certificate
+    def _allowed_verified(self):
+        course_enrollment = CourseEnrollment.objects.get(
+            course_id=self.location.course_key, user=self.runtime.user_id)
+        if course_enrollment.mode == 'verified':
+            return True
+        else:
+            return False
 
     def get_course_key_string(self):
         return self.location.course_key._to_string()
@@ -174,7 +179,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             return fragment
         elif self._user_is_staff():
             return self.staff_view()
-        else:
+        elif self._allowed_verified():
             api_obj = ProctoruAPI()
             fragment = Fragment()
             context = {}
@@ -289,6 +294,14 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
                 return fragment
+        else:
+            fragment = Fragment()
+            context = {}
+            context.update({"self": self})
+            fragment.add_content(
+                loader.render_template('static/html/blank.html', context))
+            fragment.initialize_js('ProctorUXBlockBlank')
+            return fragment
 
     def _render_template(self, ressource, **kwargs):
         template = Template(self.resource_string(ressource))
@@ -545,16 +558,16 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
         student_data = {
             'time_sent': datetime.datetime.utcnow().isoformat(),
-            'student_id': user_data.get('id', None),
-            'last_name': user_data.get('last_name', None),
-            'first_name': user_data.get('first_name', None),
-            'email': user_data.get('email', None),
-            'address1': user_data.get('address', None),
-            'city': user_data.get('city', None),
-            'country': user_data.get('country', "US"),
-            'phone1': user_data.get('phone_number', None),
-            'time_zone_id': user_data.get('time_zone', None),
-            'description': self.description,
+            'student_id': str(user_data.get('id', None))[:50],
+            'last_name': user_data.get('last_name', None)[:50],
+            'first_name': user_data.get('first_name', None)[:50],
+            'email': user_data.get('email', None)[:50],
+            'address1': user_data.get('address', None)[:100],
+            'city': user_data.get('city', None)[:50],
+            'country': user_data.get('country', "US")[:2],
+            'phone1': str(user_data.get('phone_number', None))[:15],
+            'time_zone_id': user_data.get('time_zone', None)[:60],
+            'description': self.description[:255],
             'notes': "{0} Password is - {1}".format(self.notes, self.password),
             'duration': self.duration,
             'start_date': shedule_time,

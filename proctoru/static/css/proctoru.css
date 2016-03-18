@@ -27,7 +27,6 @@ body {
 
 
 .content-wrapper.proctoru {
-    overflow: hidden;
     padding: 0px;
 }
 
@@ -425,8 +424,15 @@ background-image: none;
     font-weight: bold;
     color: #fff;
 }
-
-
+.ui-datepicker-calendar tr td.ui-datepicker-current-day .ui-state-default.ui-state-active{
+    border-radius: 3px;
+}
+.ui-datepicker-calendar tr th {
+text-align: center;
+}
+.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all{
+    width:auto;
+}
 /*end custom ui datepicker*/
 
 
@@ -731,4 +737,9 @@ font-size: 28px;
 .form-wrapper.proctoru.user-info-form .inside-wrapper{
     border-radius: 3px;
 }
+
+.content-wrapper.proctoru .form-wrapper.proctoru  label.exam-schedule-timings{
+font-size: 14px;
+}
+
 /*end of css code for style issue fixes*/

@@ -25,11 +25,11 @@ class ProctoruAPI():
         try:
             user = User.objects.get(pk=user_id)
             proctoru_user = ProctoruUser(student=user,
-                                         phone_number=post_data.get('phone'),
-                                         time_zone=post_data.get('time_zone'),
-                                         address=post_data.get('address'),
-                                         city=post_data.get('city'),
-                                         country=post_data.get('country'),
+                                         phone_number=str(post_data.get('phone'))[:15],
+                                         time_zone=post_data.get('time_zone')[:60],
+                                         address=post_data.get('address')[:100],
+                                         city=post_data.get('city')[:50],
+                                         country=post_data.get('country')[:2],
                                          )
             proctoru_user.save()
             return {"status": "success"}

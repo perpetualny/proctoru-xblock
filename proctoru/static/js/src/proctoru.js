@@ -102,7 +102,7 @@ function ProctorUXBlockSchedule(runtime, element) {
 }
 
 var createAccountFormValidation = function(data){
-    if (data.phone != ""){
+    if (data.phone != "" & data.phone.length < 16){
         if(!isNaN(data.phone)){
             $("#phone-error-message").hide();
         } else {
@@ -114,14 +114,14 @@ var createAccountFormValidation = function(data){
         return false; 
     }
 
-    if(data.address == ""){
+    if(data.address == "" | data.address.length > 100){
         $("#address-error-message").show();
         return false;
     } else {
         $("#address-error-message").hide();
     }
 
-    if(data.city == ""){
+    if(data.city == "" | data.city.length > 50){
         $("#city-error-message").show();
         return false;
     } else {
@@ -149,7 +149,7 @@ function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
         dt = $(element).find("#rem_time").val();
-        var deadline = new Date(dt);
+        var deadline = new Date(parseInt(dt));
         initializeClock('clockdiv', deadline);
     });
 
@@ -323,8 +323,4 @@ function initializeClock(id, endtime) {
 
   updateClock();
   var timeinterval = setInterval(updateClock, 1000);
-}
-
-
-function ProctorUXBlockBlank(runtime, element) {
 }

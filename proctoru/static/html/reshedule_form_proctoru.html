@@ -14,7 +14,6 @@
             <div class="col-sm-12">
                 <h3 class="form-title">{% trans "Exam is available from..." %}</h3>
                 <label class="exam-schedule-timings">{{first_date_available}}</label>
-                <label class="exam-schedule-timings">TO</label>
                 <label class="exam-schedule-timings">{{last_date_available}}</label>
             </div>
         </div>
@@ -22,6 +21,7 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
+            <label type="text" class="form-control date-time-input">{% trans "Select a Date..." %}</label>
                 <div id="datepicker"></div>
                 <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                 <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">

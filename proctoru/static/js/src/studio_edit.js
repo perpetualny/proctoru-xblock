@@ -62,7 +62,7 @@ var validateExamFormData = function(data){
     }
 
 
-    if(data.exam_description == ""){
+    if(data.exam_description == "" | data.exam_description.length > 255){
         $("#exam-description-error").css("display", "inline-block");
         return false
     } else {
