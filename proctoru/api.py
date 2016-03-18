@@ -12,10 +12,10 @@ from .timezonemap import win_tz
 
 
 API_URLS = {
-    "get_time_zone": "https://x.proctoru.com/api/getTimeZoneList",
-    "get_sche_info_avl_time_list": "https://x.proctoru.com/api/getScheduleInfoAvailableTimesList",
-    "add_adhoc_process": "https://x.proctoru.com/api/addAdHocProcess",
-    "remove_reservation": "https://x.proctoru.com/api/removeReservation",
+    "get_time_zone": "https://y.proctoru.com/api/getTimeZoneList",
+    "get_sche_info_avl_time_list": "https://y.proctoru.com/api/getScheduleInfoAvailableTimesList",
+    "add_adhoc_process": "https://y.proctoru.com/api/addAdHocProcess",
+    "remove_reservation": "https://y.proctoru.com/api/removeReservation",
 }
 
 
