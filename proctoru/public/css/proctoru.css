@@ -401,16 +401,16 @@ body {
 }
 
 .ui-widget-header .ui-icon {
-    background-image: url(images/arrow.png);
+    background-image: url(/xblock/resource/proctoru/public/images/arrow.png);
 }
 
 .ui-datepicker .ui-datepicker-prev span {
-    background-image: #fff url(images/arrow.png);
+    background-image: #fff url(/xblock/resource/proctoru/public/images/arrow.png);
     background-position: 0px 2px;
 }
 
 .ui-datepicker .ui-datepicker-next span {
-    background-image: #fff url(images/arrow.png);
+    background-image: #fff url(/xblock/resource/proctoru/public/images/arrow.png);
 }
 
 .ui-datepicker .ui-datepicker-prev span {
