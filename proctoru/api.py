@@ -25,9 +25,12 @@ class ProctoruAPI():
         try:
             user = User.objects.get(pk=user_id)
             proctoru_user = ProctoruUser(student=user,
-                                         phone_number=str(post_data.get('phone'))[:15],
-                                         time_zone=post_data.get('time_zone')[:60],
-                                         address=post_data.get('address')[:100],
+                                         phone_number=str(
+                                             post_data.get('phone'))[:15],
+                                         time_zone=post_data.get(
+                                             'time_zone')[:60],
+                                         address=post_data.get(
+                                             'address')[:100],
                                          city=post_data.get('city')[:50],
                                          country=post_data.get('country')[:2],
                                          )
@@ -127,16 +130,18 @@ class ProctoruAPI():
 
         api_exam_start_time = time_details.get("api_exam_start_time")
 
+        offset_time = self.get_ramaining_countdown(
+            api_exam_start_time.isoformat(), pr_user)
+
         if api_exam_start_time:
             data = {
                 "time_sent": time_details.get("time_stamp"),
                 'duration': duration,
                 'time_zone_id': pr_user.time_zone,
-                'start_date': api_exam_start_time.isoformat(),
-                'takeitnow': 'Y',
+                'start_date': offset_time,
+                'takeitnow': 'N',
                 'isadhoc': 'Y'
             }
-
             avl_date_time_list_json = self.get_schedule_info_avl_timeslist(
                 data)
 
@@ -162,7 +167,6 @@ class ProctoruAPI():
                 return {'status': "error"}
         else:
             return {'status': "error"}
-        # return {'status': "error"}
 
     def get_time_list_for_specific_date(self, selected_date, available_time_list):
         """
@@ -183,18 +187,17 @@ class ProctoruAPI():
         exam_start_date_time = time_details.get('exam_start_date_time')
 
         exam_start_date_time = dateutil.parser.parse(
-            exam_start_date_time)  # .astimezone(pytz.utc)
+            exam_start_date_time)
 
         exam_end_date_time = time_details.get('exam_end_date_time')
 
         exam_end_date_time = dateutil.parser.parse(
-            exam_end_date_time)  # .astimezone(pytz.utc)
+            exam_end_date_time)
 
         time_stamp = datetime.datetime.utcnow().isoformat()
 
         current_date = datetime.datetime.utcnow()
 
-        # utc.localize(current_date)
         current_date = current_date.replace(tzinfo=pytz.utc)
 
         if current_date <= exam_end_date_time:
@@ -202,8 +205,6 @@ class ProctoruAPI():
             if exam_start_date_time <= current_date:
                 str_exam_start_date_time = current_date
 
-                # str_exam_start_date_time = current_date.strftime(
-                #     "%m/%d/%Y")
             elif exam_start_date_time > current_date:
                 str_exam_start_date_time = exam_start_date_time
 
@@ -213,18 +214,7 @@ class ProctoruAPI():
                 dt = datetime.datetime.strptime(
                     '{0} 00:00'.format(user_selected_date), '%m/%d/%Y %H:%M')
 
-                # dt = dt.astimezone()
-                dt = dt.replace(tzinfo=pytz.utc)
-                if dt.date() == current_date.date():
-                    # add_currenttime
-                    timeinfo = current_date.strftime("%H:%M:%f")
-                    dt = datetime.datetime.strptime(
-                        '{0} {1}'.format(user_selected_date, timeinfo), '%m/%d/%Y %H:%M:%f')
-
-                    dt = dt.replace(tzinfo=pytz.utc)
-                    # dt = dt.astimezone()
-
-                api_exam_start_time = dt
+                api_exam_start_time = dt.replace(tzinfo=pytz.utc)
 
                 if api_exam_start_time < current_date:
                     api_exam_start_time = current_date
@@ -233,6 +223,12 @@ class ProctoruAPI():
                 api_exam_start_time = exam_start_date_time
             else:
                 api_exam_start_time = current_date
+
+            api_exam_start_time = datetime.datetime(
+                api_exam_start_time.year,
+                api_exam_start_time.month,
+                api_exam_start_time.day,
+                tzinfo=pytz.utc)
 
             time_details = {
                 'time_stamp': time_stamp,
@@ -243,6 +239,7 @@ class ProctoruAPI():
                 'str_exam_end_date': str_exam_end_date_time,
                 'status': 'examdateavailable',
             }
+
             return time_details
         else:
             return {'status': 'examdatepass'}
@@ -408,18 +405,17 @@ class ProctoruAPI():
                 'local_start_date', None)
             )
 
-            if exam_start_date_time <= dt_obj <= exam_end_date_time:
+            retrived_date = dateutil.parser.parse(self.getexamtime_staff(
+                dt_obj.isoformat(),
+                tzobj)
+            )
+
+            if exam_start_date_time <= retrived_date <= exam_end_date_time:
                 date_time_obj_list.append(dt_obj)
 
         if date_time_obj_list:
-            # TO DO
-            date_available = min(date_time_obj_list)
-            # last_date_available = max(date_time_obj_list)
 
-            time_list = self.get_time_list_for_specific_date(
-                selected_date=date_available,
-                available_time_list=date_time_obj_list
-            )
+            time_list = date_time_obj_list
 
             if time_list:
                 available_times_for_day = []
@@ -456,3 +452,26 @@ class ProctoruAPI():
             'status': 'emptylist'
         }
         return context
+
+    def get_utc_offset(self, dt, tm):
+        dm = dt.strftime('%z')
+        tm = '{0}{1}:{2}'.format(tm[:-6], dm[:3], dm[3:])
+        return tm
+
+    def get_ramaining_countdown(self, tm, user):
+        try:
+            tzobj = pytz.timezone(win_tz[user.time_zone])
+            dt = dateutil.parser.parse(tm).astimezone(tzobj)
+            tm = self.get_utc_offset(dt, tm)
+            return tm
+        except:
+            return False
+
+    def getexamtime_staff(self, tm, timezone):
+        try:
+            tzobj = timezone
+            dt = dateutil.parser.parse(tm).astimezone(tzobj)
+            tm = self.get_utc_offset(dt, tm)
+            return tm
+        except:
+            return False

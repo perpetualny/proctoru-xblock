@@ -743,3 +743,6 @@ font-size: 14px;
 }
 
 /*end of css code for style issue fixes*/
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group select{
+    max-width: 438px;
+}

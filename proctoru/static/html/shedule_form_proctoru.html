@@ -21,7 +21,7 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
-            <label type="text" class="form-control date-time-input">{% trans "Select a Date..." %}</label>
+            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une date ..." %}</label>
                 <div id="datepicker"></div>
                     <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                     <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
@@ -29,6 +29,7 @@
             </div>
             <!--end LHS-->
             <!--RHS-->
+
             <div class="col-sm-7">
                 <div class="form-group">
                     <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une heure" %}</label>
@@ -37,13 +38,13 @@
                     {% if status == "emptylist" %}
                     <li class="time-row">
                         <div class="col-md-8">
-                            <h4 class="time-row-heading">{% trans "No available exam times" %}</h4>
-                            <p class="time-row-heading2">{% trans "Please try some other date" %}</p>
+                            <h4 class="time-row-heading">{% trans "Aucun horaire d'examen disponibles" %}</h4>
+                            <p class="time-row-heading2">{% trans "S'il vous pla&Icirc;t essayer une autre date" %}</p>
                         </div>
                     </li>
                     {% endif %}
                     {% for available_time in time_list %}
-                        <li class="time-row {{available_time.data_value|get_ramaining_timestamp_status:self.runtime.user_id}}">
+                        <li class="time-row">
                             <div class="col-md-8">
                                 <h4 class="time-row-heading">{{available_time.time_utc}}</h4>
                                 <p class="time-row-heading2">{{available_time.day_year}}</p>

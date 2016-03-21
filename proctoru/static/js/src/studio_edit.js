@@ -99,7 +99,7 @@ var validateExamFormData = function(data){
         $("#exam-password-error").hide();
     }
 
-    if(data.time_zone == "Select Time Zone"){
+    if(data.time_zone == "Fuseau horaire"){
         $("#timezone-error").css("display", "inline-block");
         return false
     } else {

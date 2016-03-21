@@ -334,6 +334,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         This function is used to add values to the xblock student view
         after user instaructor adds proctorU exam block.
         """
+        api_obj = ProctoruAPI()
 
         start_date = data.get('exam_start_date')
         end_date = data.get('exam_end_date')
@@ -351,22 +352,16 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
         start_datetime = start_datetime.replace(tzinfo=pytz.utc)
 
-        start_datetime = start_datetime.astimezone(tzobj)
-
-        # start_datetime = start_datetime.strftime('%Y-%m-%dT%H:%M:%S')
-
-        start_datetime = start_datetime.isoformat()
+        start_datetime = api_obj.getexamtime_staff(
+            start_datetime.isoformat(), tzobj)
 
         end_datetime = datetime.datetime.strptime(
             exam_end_datetime, "%m/%d/%Y/%H:%M")
 
         end_datetime = end_datetime.replace(tzinfo=pytz.utc)
 
-        end_datetime = end_datetime.astimezone(tzobj)
-
-        end_datetime = end_datetime.isoformat()
-
-        # end_datetime = end_datetime.strftime('%Y-%m-%dT%H:%M:%S')
+        end_datetime = api_obj.getexamtime_staff(
+            end_datetime.isoformat(), tzobj)
 
         self.display_name = data.get("exam_name", "")
         self.description = data.get("exam_description", "")
@@ -433,8 +428,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         api_obj = ProctoruAPI()
         context = api_obj.render_shedule_ui(self.runtime.user_id)
 
-        # context.update({'calendar_arrow_url': self.runtime.local_resource_url(self, 'public/images/arrow.jpg')})
-
         html = loader.render_template(
             'static/html/shedule_form_proctoru.html', context)
         return {
@@ -484,7 +477,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         if response_data.get('response_code') == 1:
             return {
                 'status': 'success',
-                'msg': 'Successfully canceled!',
+                'msg': 'Annul&eacute; avec succ&egrave;s!',
             }
         else:
             return {
@@ -543,10 +536,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         call adhoc process
         """
-        # TO DO
-        # Create and store student_id and reservation_id as per api data type and store in db
-        # Provide required input to adadhocprocess.
-        # Country needs to be 2 digit, rightnow static
         api_obj = ProctoruAPI()
 
         user_data = api_obj.get_user(self.runtime.user_id)
@@ -567,11 +556,11 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             'country': user_data.get('country', "US")[:2],
             'phone1': str(user_data.get('phone_number', None))[:15],
             'time_zone_id': user_data.get('time_zone', None)[:60],
-            'description': self.description[:255],
-            'notes': "{0} Password is - {1}".format(self.notes, self.password),
+            'description': "{0} {1} - {2} \n {3}".format(self.location.course_key.course, self.location.course_key.run, self.display_name, self.description)[:255],
+            'notes': 'Password is - {0}\nExam Notes - {1}'.format(self.password, self.notes),
             'duration': self.duration,
             'start_date': shedule_time,
-            'takeitnow': 'Y',
+            'takeitnow': 'N',
             'reservation_id': reservation_id,
         }
 
@@ -592,7 +581,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 "course_id": self.get_course_key_string(),
                 "url": json_response.get('data').get('url'),
             }
-            # TODO when actule schedule done
+            # when actule schedule done
             self.exam_time = shedule_time
             self.is_exam_scheduled = True
             self.is_rescheduled = False

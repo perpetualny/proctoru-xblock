@@ -23,7 +23,7 @@
                 <p class="schedule-text" style="display: none;">
                 <h2 class="exam-visible color-green" style="display: none;">Disponible maintenant</h2>
                     <div class="exam-invisible" style="display: block;">
-                        <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time}}"></input>
+                        <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time|get_ramaining_countdown:self.runtime.user_id}}"></input>
                         <div id="clockdiv">
                           <div>
                             <span class="days"></span>

@@ -42,7 +42,7 @@ function ProctorUXBlockCreate(runtime, element) {
     var populateTimeZoneDropDown = function(timeZones) {
         $.each(timeZones, function(index, item) {
             $('#time-zone').append(
-                $('<option></option>').val(item.Id).html(item.Description)
+                $('<option></option>').val(item.Id).html(item.DisplayName)
             );
         }); 
     }
@@ -128,7 +128,7 @@ var createAccountFormValidation = function(data){
         $("#city-error-message").hide();
     }
 
-    if (data.time_zone == "Select timezone"){
+    if (data.time_zone == "Fuseau horaire"){
         $("#timezone-error-message").show();
         return false;
     } else {
@@ -149,7 +149,7 @@ function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
         dt = $(element).find("#rem_time").val();
-        var deadline = new Date(parseInt(dt));
+        var deadline = new Date(dt);
         initializeClock('clockdiv', deadline);
     });
 
@@ -307,7 +307,7 @@ function initializeClock(id, endtime) {
 
   function updateClock() {
     var t = getTimeRemaining(endtime);
-    if(t.minutes <= 2){
+    if(t.minutes <= 2 && t.hours == 0){
         $(document).find('.exam-invisible').hide();
         $(document).find('.exam-visible').show();
     }

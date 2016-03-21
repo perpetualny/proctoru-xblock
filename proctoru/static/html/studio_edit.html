@@ -8,7 +8,7 @@
                     <div class="popup-form">
                         <form class="form-horizontal">
                             <div class="form-group">
-                              <label for="" class="col-sm-12 control-label">{% trans "ENom de l'examen" %}<span class="color-red" id="exam-name-error" style="display:none;">{% trans "*" %}</span></label>
+                              <label for="" class="col-sm-12 control-label">{% trans "Nom de l'examen" %}<span class="color-red" id="exam-name-error" style="display:none;">{% trans "*" %}</span></label>
                               <div class="col-sm-5">
                                <input type="text" class="form-control" id="exam-name" placeholder="Final Exam" value="{{ self.display_name }}" required>
                               </div>
@@ -86,12 +86,12 @@
                                   <label for="" class="col-sm-12 control-label">{% trans "Fuseau horaire" %}<span class="color-red" id="timezone-error" style="display:none;">{% trans "*" %}</span></label>
                                   <div class="col-sm-12">
                                       <select class="form-control" id="time-zone" required>
-                                          <option>Select Time Zone</option>
+                                          <option>Fuseau horaire</option>
                                           {% for time_zone in time_zone_list %}
                                               {% if self.time_zone == time_zone.Id %}
-                                                  <option value="{{ time_zone.Id }}" selected>{{ time_zone.Description }}</option>
+                                                  <option value="{{ time_zone.Id }}" selected>{{ time_zone.DisplayName }}</option>
                                               {% endif %}
-                                                  <option value="{{ time_zone.Id }}">{{ time_zone.Description  }}</option>
+                                                  <option value="{{ time_zone.Id }}">{{ time_zone.DisplayName  }}</option>
                                           {% endfor %}
                                       </select>
                                   </div>
