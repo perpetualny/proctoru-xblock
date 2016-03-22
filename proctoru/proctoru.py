@@ -221,6 +221,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 time_details = api_obj.get_time_details_api(
                     time_details, self.exam_date)
 
+                time_details['staff_time_zone'] = self.time_zone
+
                 if time_details.get('status') == "examdatepass":
                     context.update({'self': self, 'status': "examdatepass"})
                     fragment.add_content(
@@ -265,6 +267,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
                 time_details = api_obj.get_time_details_api(
                     time_details, self.exam_date)
+
+                time_details['staff_time_zone'] = self.time_zone
 
                 if time_details.get('status') == "examdatepass":
                     context.update({'self': self, 'status': "examdatepass"})
@@ -530,6 +534,17 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 'status': _('error'),
                 'msg': _('Database error'),
             }
+
+    @XBlock.json_handler
+    def get_student_activity(self, data=None, suffix=None):
+        """
+        Get available schedule
+        """
+        student_id = data.get("student_id")
+        api_obj = ProctoruAPI()
+        response_data = api_obj.get_student_activity(
+            student_id, self.get_course_key_string(), self.start_date, self.end_date)
+        return response_data
 
     @XBlock.json_handler
     def call_addhoc(self, data=None, suffix=None):

@@ -1,5 +1,9 @@
 /* CSS for ProctorUXBlock */
 
+.proctoru .btn {
+    text-shadow: none;
+}
+
 .proctoru_block .count {
     font-weight: bold;
 }
@@ -17,14 +21,9 @@ body {
     color: #1EC4D8;
 }
 
-/*.content-wrapper {
-    padding: 0px 4px 0px 40px;
-}
-*/
-.content-wrapper.proctoru  .min-height-calendar{
+.content-wrapper.proctoru .min-height-calendar {
     min-height: 311px;
 }
-
 
 .content-wrapper.proctoru {
     padding: 0px;
@@ -49,9 +48,9 @@ body {
     font-weight: bold;
 }
 
-.form-wrapper.proctoru.user-info-form h2.form-title{
-   font-size: 18px;
-   text-align: center;
+.form-wrapper.proctoru.user-info-form h2.form-title {
+    font-size: 18px;
+    text-align: center;
 }
 
 .form-wrapper.proctoru .border-bottom {
@@ -148,12 +147,14 @@ body {
     background-color: #19c0db;
     border-color: #0b8cac;
 }
+
 .form-wrapper.proctoru .btn-info:focus,
 .form-wrapper.proctoru .btn-info:hover {
-box-shadow: none;
-outline: none;
-background-image: none;
+    box-shadow: none;
+    outline: none;
+    background-image: none;
 }
+
 .form-wrapper.proctoru.user-info-form .form-group h4 {
     color: #4c4c4c;
     font-size: 14px;
@@ -207,7 +208,6 @@ background-image: none;
     font-family: Arial;
     color: #ffffff;
     font-size: 14px;
-    /*padding: 13px 13px 13px 13px;*/
     border-top: solid #0b8cac 1px;
     border-right: solid #0b8cac 1px;
     border-bottom: solid #0b8cac 1px;
@@ -239,14 +239,7 @@ background-image: none;
 }
 
 .form-wrapper.proctoru .box-wrapper .box-heading {
-/*      background: #87ddf4;
-      background-image: -webkit-linear-gradient(top, #87ddf4, #12b7e0);
-      background-image: -moz-linear-gradient(top, #87ddf4, #12b7e0);
-      background-image: -ms-linear-gradient(top, #87ddf4, #12b7e0);
-      background-image: -o-linear-gradient(top, #87ddf4, #12b7e0);
-      background-image: linear-gradient(to bottom, #87ddf4, #12b7e0);
-      text-decoration: none;*/
-    background-image:none;
+    background-image: none;
     color: #4c4c4c;
     font-size: 16px;
     padding: 14px;
@@ -257,7 +250,8 @@ background-image: none;
 
 
 /* custom ui dtepicker TO DO arrow needs to be fixed */
-.form-wrapper.proctoru #datepicker{
+
+.form-wrapper.proctoru #datepicker {
     color: #4c4c4c;
     font-size: 16px;
     margin: 0px;
@@ -342,10 +336,11 @@ background-image: none;
     outline: none;
 }
 
-.form-wrapper.proctoru #datepicker:focus{
+.form-wrapper.proctoru #datepicker:focus {
     box-shadow: none;
     outline: none;
 }
+
 .ui-widget-header {
     background: #fff;
     border: none;
@@ -383,13 +378,22 @@ background-image: none;
     color: #fff;
 }
 
+.ui-datepicker .ui-state-default.ui-state-hover {
+    background: #0fb5df;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+}
+
 .ui-datepicker td span,
 .ui-datepicker td a {
     padding: 14px;
 }
 
-.ui-datepicker td {
+.ui-datepicker td,
+.ui-datepicker th {
     padding: 0px;
+    text-align: center !important
 }
 
 .ui-icon-circle-triangle-e {
@@ -409,11 +413,12 @@ background-image: none;
     background-image: #fff url(images/arrow.png);
 }
 
-.ui-datepicker .ui-datepicker-prev span{
+.ui-datepicker .ui-datepicker-prev span {
     background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
     background-position: 0px 2px;
-  } 
-  .ui-datepicker .ui-datepicker-next span {
+}
+
+.ui-datepicker .ui-datepicker-next span {
     background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
     background-position: -39px 2px;
 }
@@ -424,22 +429,148 @@ background-image: none;
     font-weight: bold;
     color: #fff;
 }
-.ui-datepicker-calendar tr td.ui-datepicker-current-day .ui-state-default.ui-state-active{
+
+.ui-datepicker-calendar tr td.ui-datepicker-current-day .ui-state-default.ui-state-active {
     border-radius: 3px;
 }
-.ui-datepicker-calendar tr th {
-text-align: center;
+
+.ui-datepicker .ui-widget-header {
+    background-color: #fff
 }
-.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all{
-    width:auto;
+
+.proctoru a:hover {
+    outline: 0;
+    color: #23527c;
+    text-decoration: underline;
 }
+
+a:link:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:link,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:link,
+a:link:focus,
+a:visited:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:link,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:link,
+a:link:focus,
+a:visited:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+a:link:focus,
+a:visited:hover,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+a:link:focus,
+a:visited:hover,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+.ui-state-default:hover {
+    background: #0fb5df;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default .ui-datepicker-calendar tr th {
+    text-align: center;
+}
+
+.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    width: auto;
+}
+
+.ui-datepicker .ui-datepicker-next {
+    right: 1px;
+}
+
+.ui-datepicker .ui-datepicker-prev {
+    left: 1px;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    top: 1px;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover {
+    border: none;
+}
+
+.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.ui-datepicker .ui-datepicker-next.ui-state-hover .ui-icon-circle-triangle-e,
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-w {
+    background-image: none;
+}
+
+.ui-datepicker-next.ui-corner-all.ui-state-hover.ui-datepicker-next-hover {
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    color: #fff;
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: -39px 2px;
+    background-repeat: no-repeat;
+}
+
+.ui-datepicker-prev.ui-corner-all.ui-state-hover.ui-datepicker-prev-hover {
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    color: #fff;
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: 0px 2px;
+    background-repeat: no-repeat;
+}
+
+.ui-datepicker .ui-datepicker-next.ui-state-hover .ui-icon-circle-triangle-e,
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-e {
+    background-image: none;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-w {
+    background-image: none;
+}
+
+.ui-datepicker .ui-datepicker-next,
+.ui-datepicker .ui-datepicker-prev {
+    width: 16px;
+    height: 16px;
+}
+
+
 /*end custom ui datepicker*/
 
 
 /*code for instructor editor page code*/
-.content-wrapper.no-padding{
-padding: 0px;
+
+.content-wrapper.no-padding {
+    padding: 0px;
 }
+
 .popup-wrapper.proctoru {
     margin: 0px auto;
     background-color: #e5e5e5;
@@ -476,40 +607,48 @@ padding: 0px;
     text-decoration: none;
     width: 75px;
     height: 35px;
-   
 }
 
 .popup-wrapper.proctoru span.popup-btn-span a {
     font-size: 14px;
     font-weight: 600;
     color: #1EC4D8;
-    
 }
+
 .popup-wrapper.proctoru span.popup-btn-span a:hover {
-text-decoration: none;
+    text-decoration: none;
 }
 
 .popup-wrapper.proctoru .popup-wraper-white {
-    padding:18px 25px 70px 25px;
+    padding: 18px 25px 70px 25px;
     background: #fff;
     margin-bottom: 15px;
 }
-.popup-wrapper.proctoru .popup-wraper-white .popup-form{
 
-}
-.popup-wrapper.proctoru .popup-wraper-white .popup-form .control-label{
+.popup-wrapper.proctoru .popup-wraper-white .popup-form {}
+
+.popup-wrapper.proctoru .popup-wraper-white .popup-form .control-label {
     text-align: left;
-    color:#8d8d8d;
+    color: #8d8d8d;
     margin-bottom: 5px;
     font-size: 14px;
 }
+
+.ui-widget-header > .ui-state-hover {
+    background: none;
+}
+
+
 /*end code for instructor editor page code*/
-.margin-bottom15{
+
+.margin-bottom15 {
     margin-bottom: 15px;
 }
 
+
 /* Start clock css */
-#clockdiv{
+
+#clockdiv {
     font-family: sans-serif;
     color: #000;
     display: inline-block;
@@ -518,24 +657,25 @@ text-decoration: none;
     font-size: 30px;
 }
 
-#clockdiv > div{
+#clockdiv > div {
     padding: 0px;
     display: inline-block;
 }
 
-#clockdiv div > span{
+#clockdiv div > span {
     padding: 0px;
     display: inline-block;
 }
 
-.smalltext{
+.smalltext {
     padding-top: 0px;
     font-size: 16px;
 }
+
+
 /* End clock css */
 
-
-.col-sm-6 .color-green{
+.col-sm-6 .color-green {
     color: #28A22D;
     font-weight: bold;
 }
@@ -601,148 +741,184 @@ text-decoration: none;
     margin-right: 20px;
     font-weight: 500;
 }
-.proctoring-results.proctoru .rhs .box-wrapper h4.notes-heading{
+
+.proctoring-results.proctoru .rhs .box-wrapper h4.notes-heading {
     font-size: 16px;
     font-weight: 600;
 }
-.proctoring-results.proctoru .rhs .box-wrapper p.session-notes{
-   font-size: 14px;
-   color:#000000;
-   margin-bottom: 42px;
+
+.proctoring-results.proctoru .rhs .box-wrapper p.session-notes {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 42px;
 }
-.proctoring-results.proctoru .rhs .box-wrapper h3.session-status-heading{
-font-size: 20px;
-color:#4c4c4c;
-margin-top: 0px;
+
+.proctoring-results.proctoru .rhs .box-wrapper h3.session-status-heading {
+    font-size: 20px;
+    color: #4c4c4c;
+    margin-top: 0px;
 }
-.proctoring-results.proctoru .rhs .box-wrapper .checked{
-    width:42px;
-    height:42px;
+
+.proctoring-results.proctoru .rhs .box-wrapper .checked {
+    width: 42px;
+    height: 42px;
     text-align: center;
     margin: 0px auto;
     display: block;
     margin-bottom: 18px;
 }
+
+
 /*end code for proctoring result for final exam*/
 
+
 /* code for error * in studio editor */
-.color-red{
-color:#ff0000;;
+
+.color-red {
+    color: #ff0000;
+    ;
 }
+
 
 /* end */
 
 .modalDialog {
-        position: fixed;
-        font-family: Arial, Helvetica, sans-serif;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: rgba(0,0,0,0.8);
-        z-index: 99999;
-        opacity:0;
-        -webkit-transition: opacity 400ms ease-in;
-        -moz-transition: opacity 400ms ease-in;
-        transition: opacity 400ms ease-in;
-        pointer-events: none;
-    }
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
 
-    .modalDialog:target {
-        opacity:1;
-        pointer-events: auto;
-    }
+.modalDialog:target {
+    opacity: 1;
+    pointer-events: auto;
+}
 
-    .modalDialog > div {
-        width: 485px;
-        position: relative;
-        margin: 10% auto;
-        padding: 5px 20px 13px 20px;
-        border-radius: 10px;
-        background: #fff;
-        background: -moz-linear-gradient(#fff, #999);
-        background: -webkit-linear-gradient(#fff, #999);
-        background: -o-linear-gradient(#fff, #999);
-    }
+.modalDialog > div {
+    width: 485px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+}
 
-    .close {
-        background: #606061;
-        color: #FFFFFF;
-        line-height: 25px;
-        position: absolute;
-        right: -12px;
-        text-align: center;
-        top: -10px;
-        width: 24px;
-        text-decoration: none;
-        font-weight: bold;
-        -webkit-border-radius: 12px;
-        -moz-border-radius: 12px;
-        border-radius: 12px;
-        -moz-box-shadow: 1px 1px 3px #000;
-        -webkit-box-shadow: 1px 1px 3px #000;
-        box-shadow: 1px 1px 3px #000;
-    }
+.close {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+}
 
-    .close:hover { background: #00d9ff; }
+.close:hover {
+    background: #00d9ff;
+}
+
 
 /*start of css code for style issue fixes*/
+
 .proctoru .modify-user-string {
     font-size: 12px;
-cursor: pointer;
+    cursor: pointer;
 }
-.proctoru .margin-top10{
-    margin-top:10px;
+
+.proctoru .margin-top10 {
+    margin-top: 10px;
 }
-.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group{
-padding-left:5px;
-margin-bottom: 0px;
-}
-.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group h4{
-    margin-top:10px;
-    margin-bottom: 8px;
-}
-.content-wrapper.proctoru.proctoru-xblock-container{
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group {
+    padding-left: 5px;
     margin-bottom: 0px;
 }
-.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group .form-c{
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group h4 {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.content-wrapper.proctoru.proctoru-xblock-container {
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group .form-c {
     height: 36px;
-padding: 8px 13px;
+    padding: 8px 13px;
 }
 
-.form-wrapper.proctoru.user-info-form .inside-wrapper button.schedule-exam{
-    margin-top:38px;
-    width:180px;
-}
-.content-wrapper.proctoru.proctoru-xblock-container .user-info-rhs{
-float:left;
-max-width:auto;
-width:252px;
+.form-wrapper.proctoru.user-info-form .inside-wrapper button.schedule-exam {
+    margin-top: 38px;
+    width: 180px;
 }
 
-#ui-datepicker-div.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all{
-    width:auto!important;
+.content-wrapper.proctoru.proctoru-xblock-container .user-info-rhs {
+    float: left;
+    max-width: auto;
+    width: 252px;
 }
-.form-wrapper.proctoru .exam-time{
-font-size: 25px;
-font-weight: 900;  
+
+#ui-datepicker-div.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    width: auto!important;
 }
-.form-wrapper.proctoru .text-uppercase{
+
+.form-wrapper.proctoru .exam-time {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.form-wrapper.proctoru .text-uppercase {
     text-transform: uppercase;
 }
 
-.content-wrapper.proctoru.proctoru-xblock-container h2{
-font-size: 28px;
+.content-wrapper.proctoru.proctoru-xblock-container h2 {
+    font-size: 28px;
 }
-.form-wrapper.proctoru.user-info-form .inside-wrapper{
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper {
     border-radius: 3px;
 }
 
-.content-wrapper.proctoru .form-wrapper.proctoru  label.exam-schedule-timings{
-font-size: 14px;
+.content-wrapper.proctoru .form-wrapper.proctoru label.exam-schedule-timings {
+    font-size: 14px;
+    display: block;
 }
 
+
 /*end of css code for style issue fixes*/
-.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group select{
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group select {
     max-width: 438px;
 }
+
+.form-wrapper.proctoru .min-height-calendar .form-control.date-time-input {
+    background: #f3f3f3;
+    margin: 0px;
+    border-radius: 0px;
+    border: 1px solid #dcdddd;
+    border-bottom: 0;
+    box-shadow: none;
+}
+/*-----------*/

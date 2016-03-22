@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h3 class="form-title">{% trans "L'examen est disponible &agrave; partir de ..." %}</h3>
-                <label class="exam-schedule-timings">{{first_date_available}}</label>
+                <label class="exam-schedule-timings">{{first_date_available}} To</label>
                 <label class="exam-schedule-timings">{{last_date_available}}</label>
             </div>
         </div>
@@ -45,12 +45,12 @@
                     {% endif %}
                     {% for available_time in time_list %}
                         <li class="time-row">
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <h4 class="time-row-heading">{{available_time.time_utc}}</h4>
                                 <p class="time-row-heading2">{{available_time.day_year}}</p>
                                 <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button>
                             </div>
                         </li>

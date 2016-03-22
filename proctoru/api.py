@@ -16,6 +16,7 @@ API_URLS = {
     "get_sche_info_avl_time_list": "https://y.proctoru.com/api/getScheduleInfoAvailableTimesList",
     "add_adhoc_process": "https://y.proctoru.com/api/addAdHocProcess",
     "remove_reservation": "https://y.proctoru.com/api/removeReservation",
+    "client_activity_report": "https://y.proctoru.com/api/clientActivityReport",
 }
 
 
@@ -337,6 +338,34 @@ class ProctoruAPI():
         except:
             return None
 
+    def get_student_activity(self, user_id, course_key, start_date, end_date):
+        """
+        This resource returns an activity report of reservations on the ProctorU website for a specified date range or test-taker.
+        user = user id
+        start_date =  exam start date
+        end_date =  exam end date
+        """
+        try:
+            exam = ProctorUExam.objects.get(
+                user_id=user_id, course_id=course_key)
+            time_stamp = datetime.datetime.utcnow().isoformat()
+            data = {
+                "time_sent": time_stamp,
+                "student_id": user_id,
+                "end_date": end_date,
+                "start_date": start_date,
+            }
+            response_data = requests.post(
+                API_URLS.get('client_activity_report'), data=data, headers=self.auth_token()).json()
+            for data_new in response_data.get('data'):
+                if int(data_new.get("ReservationNo")) == int(exam.reservation_no):
+                    data_new["StartDate"] = self.get_formated_exam_dates(data_new["StartDate"],user_id)
+                    data_new["EndDate"] = self.get_formated_exam_dates(data_new["EndDate"],user_id)
+                    return data_new
+            return None
+        except:
+            return None
+
     def get_student_sessions(self, course_id):
         """
         get student sessions.
@@ -370,6 +399,23 @@ class ProctoruAPI():
             "second_heading": second_heading,
         }
 
+    def get_formated_exam_dates(self, exam_date, user_id):
+        """
+        return heading for exam time
+        """
+        try:
+            pr_user = ProctoruUser.objects.get(student=user_id)
+        except ObjectDoesNotExist:
+            pass
+
+        exam_datetime_obj = dateutil.parser.parse(
+            exam_date)
+
+        date = "{0} {1}".format(
+            exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone
+        )
+        return date
+
     def return_context_render_shedule(
             self,
             avl_date_time_list, pr_user, time_details):
@@ -379,6 +425,7 @@ class ProctoruAPI():
         api_exam_start_time = time_details.get("api_exam_start_time")
         exam_start_date_time = time_details.get("exam_start_time")
         exam_end_date_time = time_details.get("exam_end_date_time")
+        staff_time_zone = time_details.get("staff_time_zone")
 
         str_exam_start_date = time_details.get('str_exam_start_date')
 
@@ -393,9 +440,9 @@ class ProctoruAPI():
             "%m/%d/%Y")
 
         first_date_available = "{0} {1}".format(exam_start_date_time.strftime(
-            "%A %B %dth %Y %I:%M %p"), pr_user.time_zone)
+            "%A %B %dth %Y %I:%M %p"), staff_time_zone)
         last_date_available = "{0} {1}".format(exam_end_date_time.strftime(
-            "%A %B %dth %Y %I:%M %p"), pr_user.time_zone)
+            "%A %B %dth %Y %I:%M %p"), staff_time_zone)
 
         date_time_obj_list = []
 

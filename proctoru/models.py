@@ -9,8 +9,8 @@ class ProctoruUser(models.Model):
     student = models.ForeignKey(User)
 
     phone_regex = RegexValidator(
-         regex=r'^\+?1?\d{9,15} |  \(\d{3}\)[-]\d{3}[-\.]??\d{4}$ | \d{3}[-]\d{3}[-\.]??\d{4}$',
-         message=_(u"Numéro de téléphone doit être entré dans le format: '+999999999'. Jusqu'à 15 chiffres autorisés."))
+        regex=r'^\+?1?\d{9,15} |  \(\d{3}\)[-]\d{3}[-\.]??\d{4}$ | \d{3}[-]\d{3}[-\.]??\d{4}$',
+        message=_(u"Num&eacute;ro de t&eacute;l&eacute;phone doit &ecirc;tre saisi dans le format: &apos;999999999&apos;. Jusqu&apos;&agrave; 15 chiffres autoris&eacute;s."))
 
     phone_number = models.CharField(
         max_length=100, validators=[phone_regex], blank=True)  # validators should be a list
@@ -41,10 +41,10 @@ class ProctorUExam(models.Model):
 
     user = models.ForeignKey(User)
 
-    start_date = models.DateTimeField(verbose_name=_(u"Start time",))
+    start_date = models.DateTimeField(verbose_name=_(u"heure de d&eacute;part",))
 
     actual_start_time = models.DateTimeField(
-        verbose_name=_(u"Actual start time",), blank=True, null=True)
+        verbose_name=_(u"Heure de d&eacute;but r&eacute;elle",), blank=True, null=True)
 
     is_completed = models.BooleanField(default=False, blank=True)
 
@@ -55,7 +55,7 @@ class ProctorUExam(models.Model):
     course_id = models.CharField(max_length=200)
 
     end_time = models.DateTimeField(
-        verbose_name=_(u"End time",), blank=True, null=True)
+        verbose_name=_(u"heure de fin",), blank=True, null=True)
 
     reservation_id = models.CharField(max_length=50)
 
