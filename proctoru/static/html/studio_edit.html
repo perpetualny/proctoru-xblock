@@ -18,9 +18,9 @@
                               <label for="" class="col-sm-12 control-label">{% trans "Description de l'examen(For Students)" %}<span class="color-red" id="exam-description-error" style="display:none;">{% trans "*" %}</span></label>
                                     <div class="col-sm-12">
                               {% if self.description %}
-                                    <textarea class="form-control" rows="5" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required>{{ self.description }}</textarea>
+                                    <textarea class="form-control" rows="2" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required>{{ self.description }}</textarea>
                               {% else %}
-                                    <textarea class="form-control" rows="5" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required></textarea>
+                                    <textarea class="form-control" rows="2" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required></textarea>
                               {% endif %}
                               </div>
                             </div>

@@ -17,6 +17,7 @@ class Migration(SchemaMigration):
             ('address', self.gf('django.db.models.fields.TextField')()),
             ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('country', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('state', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
         db.send_create_signal('proctoru', ['ProctoruUser'])
@@ -126,6 +127,7 @@ class Migration(SchemaMigration):
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'student': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'time_zone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }

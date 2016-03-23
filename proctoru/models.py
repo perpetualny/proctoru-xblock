@@ -23,6 +23,8 @@ class ProctoruUser(models.Model):
 
     country = models.CharField(max_length=50)
 
+    state = models.CharField(max_length=50)
+
     date_created = models.DateTimeField(
         auto_now=True, auto_now_add=False)
 

@@ -481,7 +481,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         if response_data.get('response_code') == 1:
             return {
                 'status': 'success',
-                'msg': 'Annul&eacute; avec succ&egrave;s!',
+                'msg': 'exam canceled',
             }
         else:
             return {
@@ -577,6 +577,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             'start_date': shedule_time,
             'takeitnow': 'N',
             'reservation_id': reservation_id,
+            'state': user_data.get('state', None),
         }
 
         if self.is_rescheduled:

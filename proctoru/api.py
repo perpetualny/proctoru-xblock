@@ -17,6 +17,7 @@ API_URLS = {
     "add_adhoc_process": "https://y.proctoru.com/api/addAdHocProcess",
     "remove_reservation": "https://y.proctoru.com/api/removeReservation",
     "client_activity_report": "https://y.proctoru.com/api/clientActivityReport",
+    "pending_exam_report": "https://y.proctoru.com/api/pendingExamReport",
 }
 
 
@@ -34,6 +35,7 @@ class ProctoruAPI():
                                              'address')[:100],
                                          city=post_data.get('city')[:50],
                                          country=post_data.get('country')[:2],
+                                         state="CA",
                                          )
             proctoru_user.save()
             return {"status": "success"}
@@ -41,8 +43,8 @@ class ProctoruAPI():
             return {"status": "error"}
 
     def get_user_first_name(self, user):
-        if user.first_name != '':
-            return user.first_name
+        if user.get_full_name() != '':
+            return user.get_full_name()
         else:
             return user.username
 
@@ -69,6 +71,7 @@ class ProctoruAPI():
                 'country': user.country,
                 'time_zone': user.time_zone,
                 'address': user.address,
+                'state': user.state,
             }
             return user_data
         except:
@@ -155,15 +158,12 @@ class ProctoruAPI():
                     'data',
                     None)
 
-                if avl_date_time_list:
-                    context = self.return_context_render_shedule(
-                        avl_date_time_list,
-                        pr_user,
-                        time_details
-                    )
-                    return context
-                else:
-                    return {'status': "error"}
+                context = self.return_context_render_shedule(
+                    avl_date_time_list,
+                    pr_user,
+                    time_details
+                )
+                return context
             else:
                 return {'status': "error"}
         else:
@@ -263,7 +263,6 @@ class ProctoruAPI():
             old_exams = ProctorUExam.objects.filter(
                 user=exam_data.get('user'), course_id=exam_data.get('course_id'))
             old_exams.delete()
-
             exam = ProctorUExam(**exam_data)
             exam.save()
             return True
@@ -359,8 +358,10 @@ class ProctoruAPI():
                 API_URLS.get('client_activity_report'), data=data, headers=self.auth_token()).json()
             for data_new in response_data.get('data'):
                 if int(data_new.get("ReservationNo")) == int(exam.reservation_no):
-                    data_new["StartDate"] = self.get_formated_exam_dates(data_new["StartDate"],user_id)
-                    data_new["EndDate"] = self.get_formated_exam_dates(data_new["EndDate"],user_id)
+                    data_new["StartDate"] = self.get_formated_exam_dates(
+                        data_new["StartDate"], user_id)
+                    data_new["EndDate"] = self.get_formated_exam_dates(
+                        data_new["EndDate"], user_id)
                     return data_new
             return None
         except:
@@ -399,6 +400,16 @@ class ProctoruAPI():
             "second_heading": second_heading,
         }
 
+
+    def get_utc_offset(self, dt, tm):
+        dm = dt.strftime('%z')
+        if 'Z' in tm:
+            tm = '{0}{1}:{2}'.format(tm[:-1], dm[:3], dm[3:])
+        else:
+            tm = '{0}{1}:{2}'.format(tm[:-6], dm[:3], dm[3:])
+        return tm
+
+
     def get_formated_exam_dates(self, exam_date, user_id):
         """
         return heading for exam time
@@ -408,12 +419,19 @@ class ProctoruAPI():
         except ObjectDoesNotExist:
             pass
 
-        exam_datetime_obj = dateutil.parser.parse(
-            exam_date)
+        tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+
+        utcmoment_unaware = datetime.datetime.utcnow()
+
+        utcmoment = utcmoment_unaware.replace(
+            tzinfo=pytz.utc).astimezone(tzobj)
+
+        exam_date = self.get_utc_offset(utcmoment, exam_date)
+
+        exam_datetime_obj = dateutil.parser.parse(exam_date).astimezone(tzobj)
 
         date = "{0} {1}".format(
-            exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone
-        )
+            exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone)
         return date
 
     def return_context_render_shedule(
@@ -500,11 +518,6 @@ class ProctoruAPI():
         }
         return context
 
-    def get_utc_offset(self, dt, tm):
-        dm = dt.strftime('%z')
-        tm = '{0}{1}:{2}'.format(tm[:-6], dm[:3], dm[3:])
-        return tm
-
     def get_ramaining_countdown(self, tm, user):
         try:
             tzobj = pytz.timezone(win_tz[user.time_zone])
@@ -522,3 +535,20 @@ class ProctoruAPI():
             return tm
         except:
             return False
+
+    def get_pending_exam_report(self, user_id):
+        """
+        This resource returns a report of pending exams on the ProctorU website for a specific test taker.
+        If no test taker is specified, all pending exams for the institution will be returned.
+        """
+        try:
+            time_stamp = datetime.datetime.utcnow().isoformat()
+            data = {
+                "time_sent": time_stamp,
+                "student_id": user_id,
+            }
+            response_data = requests.post(
+                API_URLS.get('pending_exam_report'), data=data, headers=self.auth_token()).json()
+            return response_data
+        except:
+            return None

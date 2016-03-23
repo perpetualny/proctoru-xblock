@@ -24,6 +24,8 @@
         <!--RHS-->
         <div class="col-md-6 rhs">
           <h4 class="results-heading">{% trans "les resultats" %}</h4>
+          <div class="box-wrapper result-box-no-data" style="display: none;">
+          </div>
           <div class="box-wrapper text-center" id="block-loader" style="display: none;">
               <img src="/xblock/resource/proctoru/public/images/loader.gif">
           </div>
@@ -41,17 +43,17 @@
             <h4 class="notes-heading">{% trans "Notes de la session:" %}</h4>
             <p class="session-notes">{{self.notes}}</p>
 
-            <div class="col-md-4">
+            <div id="chk-identity-marked" class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
               <h3 class="session-status-heading text-center">{% trans "Identit&eacute; v&eacute;rifi&eacute;e" %}</h3>
             </div>
 
-            <div class="col-md-4">
+            <div id="auth-marked" class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
               <h3 class="session-status-heading text-center">{% trans "Authentifi&eacute;" %}</h3>
             </div>
 
-            <div class="col-md-4">
+            <div id="exam-submit-marked" class="col-md-4">
               <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
               <h3 class="session-status-heading text-center">{% trans "Examen soumis" %}</h3>
             </div>

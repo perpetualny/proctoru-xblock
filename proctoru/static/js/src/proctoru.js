@@ -41,9 +41,16 @@ function ProctorUXBlockCreate(runtime, element) {
 
     var populateTimeZoneDropDown = function(timeZones) {
         $.each(timeZones, function(index, item) {
-            $('#time-zone').append(
-                $('<option></option>').val(item.Id).html(item.DisplayName)
-            );
+            if("Romance Standard Time" === item.Id) {
+                $('#time-zone').append(
+                    $('<option selected></option>').val(item.Id).html(item.DisplayName)
+                );
+            }
+            else {
+                $('#time-zone').append(
+                    $('<option></option>').val(item.Id).html(item.DisplayName)
+                );
+            }
         }); 
     }
 }
@@ -87,7 +94,7 @@ function ProctorUXBlockSchedule(runtime, element) {
                     location.reload();
                 }
                 else{
-                    alert(data.msg);
+                    alert('examen d\xE9j\xE0 pr\xE9vu');
                 }
             }
         });
@@ -193,7 +200,9 @@ function ProctorUXBlockArrived(runtime, element) {
             success: function(data,status){
                 if(data.status==='success'){
                     $.cookie("remaining_time",null)
-                    alert(data.msg);
+                    if(data.status=='success'){
+                        alert('examen annul\xE9 avec succ\xE8s');
+                    }
                     location.reload();
                 }else{
                     location.reload();
@@ -214,7 +223,7 @@ function ProctorUXBlockExamPassword(runtime, element) {
                 if(data.status==='success'){
                     location.reload();
                 }else{
-                    alert(data.msg);
+                    alert('Mot de passe incorrect');
                 }
             }
         });
@@ -234,7 +243,7 @@ function ProctorUXBlockExamEnabled(runtime, element) {
                 if(data.status==='success'){
                     location.reload();
                 }else{
-                    alert(data.msg);
+                    alert('Erreur de la base de donn\xE9es');
                 }
             }
         });
@@ -307,7 +316,7 @@ function initializeClock(id, endtime) {
 
   function updateClock() {
     var t = getTimeRemaining(endtime);
-    if(t.minutes <= 2 && t.hours == 0){
+    if(t.minutes <= 2 && t.hours <= 0 && t.days <=0){
         $(document).find('.exam-invisible').hide();
         $(document).find('.exam-visible').show();
     }
