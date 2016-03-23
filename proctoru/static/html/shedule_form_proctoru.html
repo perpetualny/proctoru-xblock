@@ -45,14 +45,17 @@
                     {% endif %}
                     {% for available_time in time_list %}
                         <li class="time-row">
-                            <div class="col-md-7">
-                                <h4 class="time-row-heading">{{available_time.time_utc}}</h4>
+
+                        <!--new code-->
+                            <div class="col-md-6 no-padding "><h4 class="time-row-heading">{{available_time.time_utc}}</h4></div>
+                            <div class="col-md-6 no-padding "> <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button></div>
+                       <!--end new code-->
+
+                            <div class="col-md-12 no-padding ">
                                 <p class="time-row-heading2">{{available_time.day_year}}</p>
                                 <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
                             </div>
-                            <div class="col-md-5">
-                                <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button>
-                            </div>
+
                         </li>
                     {% endfor %}
                     </ul>

@@ -33,7 +33,7 @@
                             <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
                             <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
                             <h5 class="box-content-text text-center"></h5>
-                            <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "Temps Restant" %}</button>
+                            <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "Garder" %}</button>
                         </div>
                     </section>
             </div>
@@ -45,13 +45,15 @@
                     <ul class="list-unstyled time-section">
                     {% for available_time in time_list %}
                         <li class="time-row {{available_time.data_value|get_ramaining_timestamp_status:self.runtime.user_id}}">
-                            <div class="col-md-7">
-                                <h4 class="time-row-heading">{{available_time.time_utc}}</h4>
+
+                        <!--new code-->
+                            <div class="col-md-6 no-padding "><h4 class="time-row-heading">{{available_time.time_utc}}</h4></div>
+                            <div class="col-md-6 no-padding "><button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button></div>
+                       <!--end new code-->
+
+                            <div class="col-md-12 no-padding">
                                 <p class="time-row-heading2">{{available_time.day_year}}</p>
                                 <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
-                            </div>
-                            <div class="col-md-5">
-                                <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button>
                             </div>
                         </li>
                     {% endfor %}

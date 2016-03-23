@@ -570,7 +570,12 @@ a:visited:focus {
 .content-wrapper.no-padding {
     padding: 0px;
 }
-
+.form-wrapper.proctoru ul.time-section li.time-row .no-padding{
+    padding:0px;
+}
+div.course-wrapper section.course-content .vert-mod > div ul{
+    padding-left: 0px;
+}
 .popup-wrapper.proctoru {
     margin: 0px auto;
     background-color: #e5e5e5;
