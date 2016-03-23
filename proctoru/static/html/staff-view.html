@@ -12,7 +12,7 @@
           {% for student in students %}
           <!--single row-->
            <div class="result-row grey-bg">
-           <label class="pull-left">{{student.user.username}}</label>
+           <label class="pull-left">{{student.user.profile.name}}</label>
            <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.username}}">{% trans "Obtenir les resultats" %}</button>
            </div>
           <!--end single row-->
