@@ -419,20 +419,20 @@ class ProctoruAPI():
         except ObjectDoesNotExist:
             pass
 
-        tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+        #tzobj = pytz.timezone(win_tz[pr_user.time_zone])
 
-        utcmoment_unaware = datetime.datetime.utcnow()
+        #utcmoment_unaware = datetime.datetime.utcnow()
 
-        utcmoment = utcmoment_unaware.replace(
-            tzinfo=pytz.utc).astimezone(tzobj)
+        #utcmoment = utcmoment_unaware.replace(
+        #    tzinfo=pytz.utc).astimezone(tzobj)
 
-        exam_date = self.get_utc_offset(utcmoment, exam_date)
+        #exam_date = self.get_utc_offset(utcmoment, exam_date)
 
-        exam_datetime_obj = dateutil.parser.parse(exam_date) #.astimezone(tzobj)
+        #exam_datetime_obj = dateutil.parser.parse(exam_date) #.astimezone(tzobj)
 
-        date = "{0} {1}".format(
-            exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone)
-        return date
+        #date = "{0} {1}".format(
+        #    exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone)
+        return exam_date
 
     def return_context_render_shedule(
             self,
