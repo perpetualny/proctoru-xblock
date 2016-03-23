@@ -428,7 +428,7 @@ class ProctoruAPI():
 
         exam_date = self.get_utc_offset(utcmoment, exam_date)
 
-        exam_datetime_obj = dateutil.parser.parse(exam_date).astimezone(tzobj)
+        exam_datetime_obj = dateutil.parser.parse(exam_date) #.astimezone(tzobj)
 
         date = "{0} {1}".format(
             exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone)
