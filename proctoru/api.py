@@ -43,8 +43,8 @@ class ProctoruAPI():
             return {"status": "error"}
 
     def get_user_first_name(self, user):
-        if user.get_full_name() != '':
-            return user.get_full_name()
+        if user.profile.name != '':
+            return user.profile.name
         else:
             return user.username
 
