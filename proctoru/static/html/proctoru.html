@@ -48,9 +48,9 @@
                             {% if timezones %}
                                 {% for timezone in timezones %}
                                     {% if timezone.Id == "Romance Standard Time" %}
-                                        <option val="{{ timezone.Id }}" selected>{{ timezone.DisplayName }}</option>
+                                        <option value="{{ timezone.Id }}" selected>{{ timezone.DisplayName }}</option>
                                     {% else %}
-                                        <option val="{{ timezone.Id }}">{{ timezone.DisplayName }}</option>
+                                        <option value="{{ timezone.Id }}">{{ timezone.DisplayName }}</option>
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
