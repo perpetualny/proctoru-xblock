@@ -1,7 +1,6 @@
 function ProctorUXBlockCreate(runtime, element) {
 
     $(element).ready(function() {
-        getAllTimeZones();
     });
 
     $(element).find('.schedule-exam').click(function(){
@@ -28,31 +27,7 @@ function ProctorUXBlockCreate(runtime, element) {
         } else {
             return false;
         }
-
     });
-
-    var getAllTimeZones = function(){
-        var getTimeZoneUrl = runtime.handlerUrl(element, 'get_time_zones')
-        $.post(getTimeZoneUrl, '{}', function(data) {
-            timeZones = data.data
-            populateTimeZoneDropDown(timeZones);
-        });
-    }
-
-    var populateTimeZoneDropDown = function(timeZones) {
-        $.each(timeZones, function(index, item) {
-            if("Romance Standard Time" === item.Id) {
-                $('#time-zone').append(
-                    $('<option selected></option>').val(item.Id).html(item.DisplayName)
-                );
-            }
-            else {
-                $('#time-zone').append(
-                    $('<option></option>').val(item.Id).html(item.DisplayName)
-                );
-            }
-        }); 
-    }
 }
 
 

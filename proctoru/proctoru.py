@@ -162,8 +162,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         else:
             return False
 
-    def get_course_key_string(self):
-        return self.location.course_key._to_string()
+    def get_block_id(self):
+        return self.url_name
 
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
@@ -253,12 +253,30 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 fragment.initialize_js('ProctorUXBlockSchedule')
                 return fragment
             elif self.is_exam_scheduled:
-                context.update({"exam":
-                                api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_course_key_string()), "self": self})
-                fragment.add_content(
-                    loader.render_template('static/html/exam_arrived_proctoru.html', context))
-                fragment.initialize_js('ProctorUXBlockArrived')
-                return fragment
+                exam_data = api_obj.get_pending_exam_report(
+                    self.runtime.user_id)
+                if len(exam_data) > 0:
+                    for exam in exam_data:
+                        start_date = exam.get('start_date')
+                        end_time = exam.get('end_time')
+                        exam_obj = api_obj.get_schedule_exam_arrived(
+                            self.runtime.user_id, self.get_block_id())
+                        exam_obj.start_date = dateutil.parser.parse(start_date)
+                        exam_obj.end_time = dateutil.parser.parse(end_time)
+                        exam.save()
+                        self.start_date = dateutil.parser.parse(start_date)
+                        context.update({"exam": exam_obj, "self": self})
+                        fragment.add_content(
+                            loader.render_template('static/html/exam_arrived_proctoru.html', context))
+                        fragment.initialize_js('ProctorUXBlockArrived')
+                        return fragment
+                else:
+                    context.update({"exam":
+                                    api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id()), "self": self})
+                    fragment.add_content(
+                        loader.render_template('static/html/exam_arrived_proctoru.html', context))
+                    fragment.initialize_js('ProctorUXBlockArrived')
+                    return fragment
             elif api_obj.is_user_created(self.runtime.user_id) and not self.is_exam_scheduled:
                 time_details = {
                     'exam_start_date_time': self.start_date,
@@ -293,7 +311,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 fragment.initialize_js('ProctorUXBlockSchedule')
                 return fragment
             else:
+                api_obj = ProctoruAPI()
+                timezones = api_obj.get_time_zones()
                 context.update({"self": self})
+                context.update({"timezones": timezones.get("data", None)})
                 fragment.add_content(
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
@@ -393,7 +414,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         api_obj = ProctoruAPI()
 
         students = api_obj.get_student_sessions(
-            self.get_course_key_string())
+            self.get_block_id())
 
         fragment = Fragment()
 
@@ -464,6 +485,11 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         Get available schedule
         """
         self.is_exam_start_clicked = True
+        api_obj = ProctoruAPI()
+        exam_data = api_obj.get_schedule_exam_arrived(
+            User.objects.get(pk=self.runtime.user_id), self.get_block_id())
+        print api_obj.begin_reservation(
+            self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
         return {
             'status': _('success')
         }
@@ -475,7 +501,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         api_obj = ProctoruAPI()
         response_data = api_obj.cancel_exam(
-            User.objects.get(pk=self.runtime.user_id), self.get_course_key_string())
+            User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         self.is_exam_canceled = True
         self.is_exam_scheduled = False
         if response_data.get('response_code') == 1:
@@ -499,7 +525,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             self.is_exam_unlocked = True
             api_obj = ProctoruAPI()
             exam_status = api_obj.start_exam(
-                User.objects.get(pk=self.runtime.user_id), self.get_course_key_string())
+                User.objects.get(pk=self.runtime.user_id), self.get_block_id())
             if exam_status:
                 return {
                     'status': _('success')
@@ -524,7 +550,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         self.is_exam_ended = True
         api_obj = ProctoruAPI()
         exam_status = api_obj.end_exam(
-            User.objects.get(pk=self.runtime.user_id), self.get_course_key_string())
+            User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         if exam_status:
             return {
                 'status': _('success')
@@ -543,7 +569,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         student_id = data.get("student_id")
         api_obj = ProctoruAPI()
         response_data = api_obj.get_student_activity(
-            student_id, self.get_course_key_string(), self.start_date, self.end_date)
+            student_id, self.get_block_id(), self.start_date, self.end_date)
         return response_data
 
     @XBlock.json_handler
@@ -582,7 +608,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
         if self.is_rescheduled:
             exam = api_obj.get_schedule_exam_arrived(
-                self.runtime.user_id, self.get_course_key_string())
+                self.runtime.user_id, self.get_block_id())
             if exam:
                 student_data['reservation_id'] = exam.reservation_id
                 student_data['reservation_no'] = exam.reservation_no
@@ -594,7 +620,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 "reservation_id": reservation_id,
                 "reservation_no": json_response.get('data').get('reservation_no'),
                 "user": User.objects.get(pk=int(user_data.get('id', None))),
-                "course_id": self.get_course_key_string(),
+                "block_id": self.get_block_id(),
                 "url": json_response.get('data').get('url'),
             }
             # when actule schedule done

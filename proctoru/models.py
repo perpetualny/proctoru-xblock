@@ -54,7 +54,7 @@ class ProctorUExam(models.Model):
 
     is_canceled = models.BooleanField(default=False, blank=True)
 
-    course_id = models.CharField(max_length=200)
+    block_id = models.CharField(max_length=200)
 
     end_time = models.DateTimeField(
         verbose_name=_(u"heure de fin",), blank=True, null=True)

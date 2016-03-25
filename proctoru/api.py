@@ -18,6 +18,7 @@ API_URLS = {
     "remove_reservation": "https://y.proctoru.com/api/removeReservation",
     "client_activity_report": "https://y.proctoru.com/api/clientActivityReport",
     "pending_exam_report": "https://y.proctoru.com/api/pendingExamReport",
+    "begin_reservation": "https://y.proctoru.com/api/beginReservation",
 }
 
 
@@ -98,8 +99,11 @@ class ProctoruAPI():
         data = {
             "time_sent": datetime.datetime.utcnow().isoformat()
         }
-        response = requests.get(
-            API_URLS.get('get_time_zone'), data=data, headers=self.auth_token())
+        try:
+            response = requests.get(
+                API_URLS.get('get_time_zone'), data=data, headers=self.auth_token())
+        except requests.exceptions.RequestException:
+            return None
         return response.json()
 
     def is_user_created(self, user_id):
@@ -261,7 +265,7 @@ class ProctoruAPI():
         try:
             # Delete all previous exams
             old_exams = ProctorUExam.objects.filter(
-                user=exam_data.get('user'), course_id=exam_data.get('course_id'))
+                user=exam_data.get('user'), block_id=exam_data.get('block_id'))
             old_exams.delete()
             exam = ProctorUExam(**exam_data)
             exam.save()
@@ -269,13 +273,13 @@ class ProctoruAPI():
         except:
             return False
 
-    def end_exam(self, student, course_id):
+    def end_exam(self, student, block_id):
         """
         end exam.
         """
         try:
             old_exam = ProctorUExam.objects.get(
-                user=student, course_id=course_id)
+                user=student, block_id=block_id)
             old_exam.is_completed = True
             old_exam.is_started = False
             old_exam.end_time = datetime.datetime.utcnow()
@@ -284,13 +288,13 @@ class ProctoruAPI():
         except:
             return False
 
-    def start_exam(self, student, course_id):
+    def start_exam(self, student, block_id):
         """
         end exam.
         """
         try:
             old_exam = ProctorUExam.objects.get(
-                user=student, course_id=course_id)
+                user=student, block_id=block_id)
             old_exam.is_completed = False
             old_exam.is_started = True
             old_exam.actual_start_time = datetime.datetime.utcnow()
@@ -299,30 +303,30 @@ class ProctoruAPI():
         except:
             return False
 
-    def get_schedule_exam_arrived(self, user, course_id):
+    def get_schedule_exam_arrived(self, user, block_id):
         """
         get schedule exam details.
 
         user = User object
-        course_id = Course number(string)
+        block_id = Block Id
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, course_id=course_id)
+            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
             return exam
         except:
             return None
 
-    def cancel_exam(self, user, course_id):
+    def cancel_exam(self, user, block_id):
         """
         cancel exam
 
         user = User object
-        course_id = Course number(string)
+        block_id = Block Id
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, course_id=course_id)
+            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -337,7 +341,7 @@ class ProctoruAPI():
         except:
             return None
 
-    def get_student_activity(self, user_id, course_key, start_date, end_date):
+    def get_student_activity(self, user_id, block_id, start_date, end_date):
         """
         This resource returns an activity report of reservations on the ProctorU website for a specified date range or test-taker.
         user = user id
@@ -346,7 +350,7 @@ class ProctoruAPI():
         """
         try:
             exam = ProctorUExam.objects.get(
-                user_id=user_id, course_id=course_key)
+                user_id=user_id, block_id=block_id)
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -367,14 +371,14 @@ class ProctoruAPI():
         except:
             return None
 
-    def get_student_sessions(self, course_id):
+    def get_student_sessions(self, block_id):
         """
         get student sessions.
 
-        course_id = Course number(string)
+        block_id = Block Id
 
         """
-        exam = ProctorUExam.objects.filter(course_id=course_id)
+        exam = ProctorUExam.objects.filter(block_id=block_id)
         return exam
 
     def get_formated_exam_start_date(self, exam_date, user_id):
@@ -400,7 +404,6 @@ class ProctoruAPI():
             "second_heading": second_heading,
         }
 
-
     def get_utc_offset(self, dt, tm):
         dm = dt.strftime('%z')
         if 'Z' in tm:
@@ -408,7 +411,6 @@ class ProctoruAPI():
         else:
             tm = '{0}{1}:{2}'.format(tm[:-6], dm[:3], dm[3:])
         return tm
-
 
     def get_formated_exam_dates(self, exam_date, user_id):
         """
@@ -423,15 +425,17 @@ class ProctoruAPI():
 
         #utcmoment_unaware = datetime.datetime.utcnow()
 
-        #utcmoment = utcmoment_unaware.replace(
+        # utcmoment = utcmoment_unaware.replace(
         #    tzinfo=pytz.utc).astimezone(tzobj)
 
         #exam_date = self.get_utc_offset(utcmoment, exam_date)
 
-        #exam_datetime_obj = dateutil.parser.parse(exam_date) #.astimezone(tzobj)
+        # exam_datetime_obj = dateutil.parser.parse(exam_date)
+        # #.astimezone(tzobj)
 
-        #date = "{0} {1}".format(
-        #    exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"), pr_user.time_zone)
+        # date = "{0} {1}".format(
+        # exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"),
+        # pr_user.time_zone)
         return exam_date
 
     def return_context_render_shedule(
@@ -549,6 +553,23 @@ class ProctoruAPI():
             }
             response_data = requests.post(
                 API_URLS.get('pending_exam_report'), data=data, headers=self.auth_token()).json()
-            return response_data
+            return response_data.get("data")
+        except:
+            return None
+
+    def begin_reservation(self, user_id, reservation_id, reservation_no):
+        """
+        This resource retrieves a URL for a student to begin taking an exam.
+        """
+        try:
+            time_stamp = datetime.datetime.utcnow().isoformat()
+            data = {
+                "time_sent": time_stamp,
+                "student_id": user_id,
+                "reservation_id": reservation_id,
+                "reservation_no": reservation_no,
+            }
+            return requests.post(
+                API_URLS.get('begin_reservation'), data=data, headers=self.auth_token()).json()
         except:
             return None

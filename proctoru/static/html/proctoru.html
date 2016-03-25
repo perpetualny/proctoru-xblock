@@ -45,6 +45,17 @@
                             <h4>{% trans "Fuseau horaire" %}</h4>
                             <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre fuseau horaire" %}</label>
                             <select class="form-control" id="time-zone" name="time_zone">
+                            {% if timezones %}
+                                {% for timezone in timezones %}
+                                    {% if timezone.Id == "Romance Standard Time" %}
+                                        <option val="{{ timezone.Id }}" selected>{{ timezone.DisplayName }}</option>
+                                    {% else %}
+                                        <option val="{{ timezone.Id }}">{{ timezone.DisplayName }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <option>{% trans "Fuseau horaire ne se trouve pas s&apos;il vous pla&icirc;t essayer &agrave; nouveau" %}</option>
+                            {% endif %}
                             </select>
                         </div>
                     </div>
