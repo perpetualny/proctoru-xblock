@@ -17,7 +17,7 @@ API_URLS = {
     "add_adhoc_process": "https://api.proctoru.com/api/addAdHocProcess",
     "remove_reservation": "https://api.proctoru.com/api/removeReservation",
     "client_activity_report": "https://api.proctoru.com/api/clientActivityReport",
-    "pending_exam_report": "https://api.proctoru.com/api/pendingExamReport",
+    "student_reservation_list": "https://api.proctoru.com/api/getStudentReservationList",
     "begin_reservation": "https://api.proctoru.com/api/beginReservation",
 }
 
@@ -27,17 +27,19 @@ class ProctoruAPI():
     def create_user(self, user_id, post_data):
         try:
             user = User.objects.get(pk=user_id)
-            proctoru_user = ProctoruUser(student=user,
-                                         phone_number=str(
-                                             post_data.get('phone'))[:15],
-                                         time_zone=post_data.get(
-                                             'time_zone')[:60],
-                                         address=post_data.get(
-                                             'address')[:100],
-                                         city=post_data.get('city')[:50],
-                                         country=post_data.get('country')[:2],
-                                         state="CA",
-                                         )
+            proctoru_user = ProctoruUser(
+                student=user,
+                phone_number=str(
+                    post_data.get('phone'))[:15],
+                time_zone=post_data.get(
+                    'time_zone')[:60],
+                address=post_data.get(
+                    'address')[:100],
+                city=post_data.get('city')[:50],
+                country=post_data.get('country')[:2],
+                state="CA",
+                time_zone_display_name=post_data.get('tz_disp_name')[:100]
+            )
             proctoru_user.save()
             return {"status": "success"}
         except:
@@ -394,10 +396,10 @@ class ProctoruAPI():
             exam_date)
 
         first_heading = "{0} {1}".format(
-            exam_datetime_obj.strftime("%I:%M %p"), pr_user.time_zone
+            exam_datetime_obj.strftime("%H:%M"), pr_user.time_zone_display_name
         )
 
-        second_heading = exam_datetime_obj.strftime("%A %B %dth, %Y")
+        second_heading = exam_datetime_obj.strftime("%m/%d/%Y")
 
         return {
             "first_heading": first_heading,
@@ -421,21 +423,13 @@ class ProctoruAPI():
         except ObjectDoesNotExist:
             pass
 
-        #tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+        tzobj = pytz.timezone(win_tz[pr_user.time_zone])
 
-        #utcmoment_unaware = datetime.datetime.utcnow()
+        exam_datetime_obj = dateutil.parser.parse(exam_date).astimezone(tzobj)
 
-        # utcmoment = utcmoment_unaware.replace(
-        #    tzinfo=pytz.utc).astimezone(tzobj)
-
-        #exam_date = self.get_utc_offset(utcmoment, exam_date)
-
-        # exam_datetime_obj = dateutil.parser.parse(exam_date)
-        # #.astimezone(tzobj)
-
-        # date = "{0} {1}".format(
-        # exam_datetime_obj.strftime("%A %B %dth, %Y %I:%M %p"),
-        # pr_user.time_zone)
+        exam_date = "{0} {1}".format(
+            exam_datetime_obj.strftime("%H:%M %m/%d/%Y"),
+            pr_user.time_zone_display_name)
         return exam_date
 
     def return_context_render_shedule(
@@ -447,7 +441,6 @@ class ProctoruAPI():
         api_exam_start_time = time_details.get("api_exam_start_time")
         exam_start_date_time = time_details.get("exam_start_time")
         exam_end_date_time = time_details.get("exam_end_date_time")
-        staff_time_zone = time_details.get("staff_time_zone")
 
         str_exam_start_date = time_details.get('str_exam_start_date')
 
@@ -460,11 +453,6 @@ class ProctoruAPI():
 
         str_exam_end_date = str_exam_end_date.astimezone(tzobj).strftime(
             "%m/%d/%Y")
-
-        first_date_available = "{0} {1}".format(exam_start_date_time.strftime(
-            "%A %B %dth %Y %I:%M %p"), staff_time_zone)
-        last_date_available = "{0} {1}".format(exam_end_date_time.strftime(
-            "%A %B %dth %Y %I:%M %p"), staff_time_zone)
 
         date_time_obj_list = []
 
@@ -492,16 +480,14 @@ class ProctoruAPI():
                 for available_time in time_list:
                     time_slot_info = {
                         'time_utc': "{0} {1}".format(available_time.strftime(
-                            "%I:%M %p"), pr_user.time_zone),
+                            "%H:%M"), pr_user.time_zone_display_name),
                         'day_year': available_time.strftime(
-                            "%A %B %dth, %Y"),
+                            "%m/%d/%Y"),
                         'data_value': available_time.isoformat()
                     }
                     available_times_for_day.append(time_slot_info)
                 context = {
                     'time_list': available_times_for_day,
-                    'first_date_available': first_date_available,
-                    'last_date_available': last_date_available,
                     'start_date': str_exam_start_date,
                     'end_date': str_exam_end_date,
                     'selected_date': api_exam_start_time.strftime(
@@ -512,8 +498,6 @@ class ProctoruAPI():
 
         context = {
             'time_list': [],
-            'first_date_available': first_date_available,
-            'last_date_available': last_date_available,
             'start_date': str_exam_start_date,
             'end_date': str_exam_end_date,
             'selected_date': api_exam_start_time.strftime(
@@ -540,7 +524,7 @@ class ProctoruAPI():
         except:
             return False
 
-    def get_pending_exam_report(self, user_id):
+    def get_student_reservation_list(self, user_id):
         """
         This resource returns a report of pending exams on the ProctorU website for a specific test taker.
         If no test taker is specified, all pending exams for the institution will be returned.
@@ -551,11 +535,16 @@ class ProctoruAPI():
                 "time_sent": time_stamp,
                 "student_id": user_id,
             }
+
             response_data = requests.post(
-                API_URLS.get('pending_exam_report'), data=data, headers=self.auth_token()).json()
-            return response_data.get("data")
+                API_URLS.get('student_reservation_list'), data=data, headers=self.auth_token()).json()
+
+            if response_data.get("data") != None:
+                return response_data.get("data")
+            else:
+                return []
         except:
-            return None
+            return []
 
     def begin_reservation(self, user_id, reservation_id, reservation_no):
         """

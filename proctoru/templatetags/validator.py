@@ -82,6 +82,14 @@ def filter_date_format(dt):
 
 
 @register.filter
-def format_date(tm):
-    tm = parser.parse(tm)
-    return tm.strftime("%I:%M %p %A %B %dth, %Y")
+def format_date(tm, user_id):
+    try:
+        user = ProctoruUser.objects.get(student=user_id)
+        tm = parser.parse(tm)
+        return "{0} {1} {2}".format(
+            tm.strftime("%H:%M"),
+            user.time_zone_display_name,
+            tm.strftime("%m/%d/%Y")
+        )
+    except:
+        return False

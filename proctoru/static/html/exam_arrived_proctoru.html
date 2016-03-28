@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <h3 class="form-title">{% trans "Heure de l&apos;examen" %}</h3>
-                <p class="schedule-text exam-time text-uppercase">{{self.exam_time|format_date}}</p>
+                <p class="schedule-text exam-time text-uppercase">{{self.exam_time|format_date:self.runtime.user_id}}</p>
             </div>
             <div class="col-sm-6">
                 <h3 class="form-title">{% trans "L&apos;examen commence dans:" %}</h3>

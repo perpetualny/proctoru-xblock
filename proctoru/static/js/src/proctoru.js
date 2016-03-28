@@ -9,6 +9,7 @@ function ProctorUXBlockCreate(runtime, element) {
         post_data = {
             'phone':$(element).find("#phone").val(),
             'time_zone':$(element).find("#time-zone option:selected").val(),
+            'tz_disp_name':$(element).find("#time-zone option:selected").text(),
             'address':$(element).find("#address").val(),
             'city':$(element).find("#city").val(),
             'country':$(element).find("#country option:selected").val(),

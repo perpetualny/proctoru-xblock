@@ -221,8 +221,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 time_details = api_obj.get_time_details_api(
                     time_details, self.exam_date)
 
-                time_details['staff_time_zone'] = self.time_zone
-
                 if time_details.get('status') == "examdatepass":
                     context.update({'self': self, 'status': "examdatepass"})
                     fragment.add_content(
@@ -253,19 +251,31 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 fragment.initialize_js('ProctorUXBlockSchedule')
                 return fragment
             elif self.is_exam_scheduled:
-                exam_data = api_obj.get_pending_exam_report(
+                exam_data = api_obj.get_student_reservation_list(
                     self.runtime.user_id)
                 if len(exam_data) > 0:
+                    exam_found = False
                     for exam in exam_data:
                         start_date = exam.get('start_date')
-                        end_time = exam.get('end_time')
                         exam_obj = api_obj.get_schedule_exam_arrived(
                             self.runtime.user_id, self.get_block_id())
-                        exam_obj.start_date = dateutil.parser.parse(start_date)
-                        exam_obj.end_time = dateutil.parser.parse(end_time)
-                        exam.save()
-                        self.start_date = dateutil.parser.parse(start_date)
-                        context.update({"exam": exam_obj, "self": self})
+                        if int(exam_obj.reservation_no) == int(exam.get('reservation_no')):
+                            exam_found = True
+                            exam_obj.start_date = dateutil.parser.parse(
+                                start_date)
+                            exam_obj.save()
+                            self.exam_date = start_date
+                            context.update({"exam": exam_obj, "self": self})
+                            fragment.add_content(
+                                loader.render_template('static/html/exam_arrived_proctoru.html', context))
+                            fragment.initialize_js('ProctorUXBlockArrived')
+                            return fragment
+                        else:
+                            exam_found = False
+
+                    if not exam_found:
+                        context.update({"exam":
+                                        api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id()), "self": self})
                         fragment.add_content(
                             loader.render_template('static/html/exam_arrived_proctoru.html', context))
                         fragment.initialize_js('ProctorUXBlockArrived')
@@ -285,8 +295,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
                 time_details = api_obj.get_time_details_api(
                     time_details, self.exam_date)
-
-                time_details['staff_time_zone'] = self.time_zone
 
                 if time_details.get('status') == "examdatepass":
                     context.update({'self': self, 'status': "examdatepass"})
