@@ -577,7 +577,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         student_id = data.get("student_id")
         api_obj = ProctoruAPI()
         response_data = api_obj.get_student_activity(
-            student_id, self.get_block_id(), self.start_date, self.end_date)
+            student_id, self.get_block_id(), self.start_date, self.end_date, self.time_zone)
         return response_data
 
     @XBlock.json_handler

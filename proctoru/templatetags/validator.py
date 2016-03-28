@@ -89,7 +89,7 @@ def format_date(tm, user_id):
         return "{0} {1} {2}".format(
             tm.strftime("%H:%M"),
             user.time_zone_display_name,
-            tm.strftime("%m/%d/%Y")
+            tm.strftime("%d/%m/%Y")
         )
     except:
         return False

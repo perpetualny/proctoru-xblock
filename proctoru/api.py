@@ -343,7 +343,7 @@ class ProctoruAPI():
         except:
             return None
 
-    def get_student_activity(self, user_id, block_id, start_date, end_date):
+    def get_student_activity(self, user_id, block_id, start_date, end_date, time_zone):
         """
         This resource returns an activity report of reservations on the ProctorU website for a specified date range or test-taker.
         user = user id
@@ -365,9 +365,9 @@ class ProctoruAPI():
             for data_new in response_data.get('data'):
                 if int(data_new.get("ReservationNo")) == int(exam.reservation_no):
                     data_new["StartDate"] = self.get_formated_exam_dates(
-                        data_new["StartDate"], user_id)
+                        data_new["StartDate"], time_zone)
                     data_new["EndDate"] = self.get_formated_exam_dates(
-                        data_new["EndDate"], user_id)
+                        data_new["EndDate"], time_zone)
                     return data_new
             return None
         except:
@@ -399,7 +399,7 @@ class ProctoruAPI():
             exam_datetime_obj.strftime("%H:%M"), pr_user.time_zone_display_name
         )
 
-        second_heading = exam_datetime_obj.strftime("%m/%d/%Y")
+        second_heading = exam_datetime_obj.strftime("%d/%m/%Y")
 
         return {
             "first_heading": first_heading,
@@ -414,22 +414,17 @@ class ProctoruAPI():
             tm = '{0}{1}:{2}'.format(tm[:-6], dm[:3], dm[3:])
         return tm
 
-    def get_formated_exam_dates(self, exam_date, user_id):
+    def get_formated_exam_dates(self, exam_date, time_zone):
         """
         return heading for exam time
         """
-        try:
-            pr_user = ProctoruUser.objects.get(student=user_id)
-        except ObjectDoesNotExist:
-            pass
-
-        tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+        tzobj = pytz.timezone(win_tz[time_zone])
 
         exam_datetime_obj = dateutil.parser.parse(exam_date).astimezone(tzobj)
 
         exam_date = "{0} {1}".format(
-            exam_datetime_obj.strftime("%H:%M %m/%d/%Y"),
-            pr_user.time_zone_display_name)
+            exam_datetime_obj.strftime("%H:%M %d/%m/%Y"),
+            time_zone)
         return exam_date
 
     def return_context_render_shedule(
@@ -447,6 +442,12 @@ class ProctoruAPI():
         str_exam_end_date = time_details.get('str_exam_end_date')
 
         tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+
+        first_available_date = str_exam_start_date.astimezone(tzobj).strftime(
+            "%d/%m/%Y")
+
+        final_available_date = str_exam_end_date.astimezone(tzobj).strftime(
+            "%d/%m/%Y")
 
         str_exam_start_date = str_exam_start_date.astimezone(tzobj).strftime(
             "%m/%d/%Y")
@@ -482,7 +483,7 @@ class ProctoruAPI():
                         'time_utc': "{0} {1}".format(available_time.strftime(
                             "%H:%M"), pr_user.time_zone_display_name),
                         'day_year': available_time.strftime(
-                            "%m/%d/%Y"),
+                            "%d/%m/%Y"),
                         'data_value': available_time.isoformat()
                     }
                     available_times_for_day.append(time_slot_info)
@@ -490,6 +491,8 @@ class ProctoruAPI():
                     'time_list': available_times_for_day,
                     'start_date': str_exam_start_date,
                     'end_date': str_exam_end_date,
+                    'first_available_date': first_available_date,
+                    'final_available_date': final_available_date,
                     'selected_date': api_exam_start_time.strftime(
                         "%m/%d/%Y"),
                     'status': 'available_list'
@@ -500,6 +503,8 @@ class ProctoruAPI():
             'time_list': [],
             'start_date': str_exam_start_date,
             'end_date': str_exam_end_date,
+            'first_available_date': first_available_date,
+            'final_available_date': final_available_date,
             'selected_date': api_exam_start_time.strftime(
                 "%m/%d/%Y"),
             'status': 'emptylist'
