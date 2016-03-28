@@ -13,6 +13,7 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(
                           default=1, max_length=200),
                       keep_default=False)
+        db.delete_column('proctoru_proctoruexam', 'course_id')
 
     def backwards(self, orm):
         # Deleting field 'ProctorUExam.block_id'
