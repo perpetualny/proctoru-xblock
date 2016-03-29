@@ -49,7 +49,15 @@ function ProctorUXBlockSchedule(runtime, element) {
                     });
                 },
                 minDate: $(element).find('#start-date').val(),
-                maxDate:  $(element).find('#end-date').val()
+                maxDate:  $(element).find('#end-date').val(),
+                monthNames: [ "janvier", "fevrier", "mars", "avril", "mai", "juin",
+		"juillet", "aout", "septembre", "octobre", "novembre", "decembre" ],
+         	monthNamesShort: [ "janv.", "fevr.", "mars", "avr.", "mai", "juin",
+		"juil.", "aout", "sept.", "oct.", "nov.", "dec." ],
+	        dayNames: [ "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" ],
+         	dayNamesShort: [ "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." ],
+	        dayNamesMin: [ "D","L","M","M","J","V","S" ],
+         	firstDay: 1
             }
         );
 
