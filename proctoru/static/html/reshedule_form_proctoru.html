@@ -20,14 +20,14 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
-            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez a Date..." %}</label>
+            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une date..." %}</label>
                 <div id="datepicker"></div>
                 <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                 <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
                 <input id="selected-date" type="hidden" name="selected-date" value="{{selected_date}}">
                                     <div class="clearfix">&nbsp;</div>
                     <section class="box-wrapper">
-                        <h3 class="box-heading">{% trans "Temps de se l'examen" %}</h3>
+                        <h3 class="box-heading">{% trans "Horaire de l'examen" %}</h3>
                         <div class="box-content text-center">
                             <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
                             <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
@@ -45,8 +45,8 @@
                     {% if status == "emptylist" %}
                     <li class="time-row">
                         <div class="col-md-8">
-                            <h4 class="time-row-heading">{% trans "Aucun horaire d'examen disponibles" %}</h4>
-                            <p class="time-row-heading2">{% trans "S'il vous pla&Icirc;t essayer une autre date" %}</p>
+                            <h4 class="time-row-heading">{% trans "Aucun horaire d'examen disponible" %}</h4>
+                            <p class="time-row-heading2">{% trans "Veuillez essayer une autre date" %}</p>
                         </div>
                     </li>
                     {% endif %}

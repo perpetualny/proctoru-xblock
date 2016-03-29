@@ -3,10 +3,8 @@
 """
 import datetime
 import pkg_resources
-import logging
 import random
 import pytz
-import time
 import dateutil.parser
 
 from django.contrib.auth.models import User
@@ -26,7 +24,6 @@ from .models import ProctoruUser
 from .timezonemap import win_tz
 
 # Please start and end the path with a trailing slash
-log = logging.getLogger(__name__)
 loader = ResourceLoader(__name__)
 
 
@@ -467,20 +464,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         return api_obj.create_user(self.runtime.user_id, data)
 
     @XBlock.json_handler
-    def shedule_page_handler(self, data=None, suffix=None):
-        """
-        Return html for shedule page
-        """
-        api_obj = ProctoruAPI()
-        context = api_obj.render_shedule_ui(self.runtime.user_id)
-
-        html = loader.render_template(
-            'static/html/shedule_form_proctoru.html', context)
-        return {
-            'html': html,
-        }
-
-    @XBlock.json_handler
     def get_available_schedule(self, data=None, suffix=None):
         """
         Get available schedule
@@ -618,7 +601,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             'country': user_data.get('country', "US")[:2],
             'phone1': str(user_data.get('phone_number', None))[:15],
             'time_zone_id': user_data.get('time_zone', None)[:60],
-            'description': "{0} {1} - {2} \n {3}".format(self.location.course_key.course, self.location.course_key.run, self.display_name, self.description)[:255],
+            'description': u"{0} {1} - {2} \n {3}".format(
+                self.location.course_key.course,
+                self.location.course_key.run,
+                self.display_name,
+                self.description
+            )[:255],
             'notes': 'Password is - {0}\nExam Notes - {1}'.format(self.password, self.notes),
             'duration': self.duration,
             'start_date': shedule_time,
@@ -673,21 +661,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         self.is_rescheduled = False
         return {"message": _('success')}
-
-    @staticmethod
-    def is_exam_available(self):
-        try:
-            utcmoment_unaware = datetime.datetime.utcnow()
-            utcmoment = utcmoment_unaware.replace(tzinfo=pytz.utc)
-            d1_ts = time.mktime(self.timetuple())
-            d2_ts = time.mktime(utcmoment.timetuple())
-            rem_minutes = int(d1_ts-d2_ts) / 60
-            if rem_minutes >= 2:
-                return True
-            else:
-                return False
-        except:
-            return False
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
