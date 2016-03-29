@@ -21,6 +21,7 @@ from xblockutils.resources import ResourceLoader
 from xblockutils2.studio_editable import StudioContainerXBlockMixin
 
 from .api import ProctoruAPI
+from .models import ProctoruUser
 
 from .timezonemap import win_tz
 
@@ -264,7 +265,18 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             exam_obj.start_date = dateutil.parser.parse(
                                 start_date)
                             exam_obj.save()
-                            self.exam_date = start_date
+
+                            pr_user = ProctoruUser.objects.get(student=self.runtime.user_id)
+
+                            start_date = dateutil.parser.parse(
+                                start_date)
+
+                            start_date = start_date.replace(tzinfo=pytz.utc)
+                            tzobj = pytz.timezone(win_tz[pr_user.time_zone])
+                            start_date = start_date.astimezone(tzobj)
+
+                            self.exam_time = start_date.isoformat()
+
                             context.update({"exam": exam_obj, "self": self})
                             fragment.add_content(
                                 loader.render_template('static/html/exam_arrived_proctoru.html', context))
