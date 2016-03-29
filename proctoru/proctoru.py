@@ -601,7 +601,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             'country': user_data.get('country', "US")[:2],
             'phone1': str(user_data.get('phone_number', None))[:15],
             'time_zone_id': user_data.get('time_zone', None)[:60],
-            'description': "{0} {1} - {2} \n {3}".format(self.location.course_key.course, self.location.course_key.run, self.display_name, self.description)[:255],
+            'description': u"{0} {1} - {2} \n {3}".format(
+                self.location.course_key.course,
+                self.location.course_key.run,
+                self.display_name,
+                self.description
+            )[:255],
             'notes': 'Password is - {0}\nExam Notes - {1}'.format(self.password, self.notes),
             'duration': self.duration,
             'start_date': shedule_time,
