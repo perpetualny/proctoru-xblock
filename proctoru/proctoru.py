@@ -3,7 +3,6 @@
 """
 import datetime
 import pkg_resources
-import logging
 import random
 import pytz
 import dateutil.parser
@@ -25,7 +24,6 @@ from .models import ProctoruUser
 from .timezonemap import win_tz
 
 # Please start and end the path with a trailing slash
-log = logging.getLogger(__name__)
 loader = ResourceLoader(__name__)
 
 

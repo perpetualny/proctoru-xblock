@@ -1,5 +1,6 @@
 import datetime
 import dateutil.parser
+import logging
 import pytz
 import random
 import requests
@@ -10,6 +11,7 @@ from .models import ProctoruUser, ProctorUAuthToken, ProctorUExam
 
 from .timezonemap import win_tz
 
+logger = logging.getLogger(__name__)
 
 API_URLS = {
     "get_time_zone": "https://api.proctoru.com/api/getTimeZoneList",
@@ -42,7 +44,8 @@ class ProctoruAPI():
             )
             proctoru_user.save()
             return {"status": "success"}
-        except:
+        except Exception as e:
+            logger.exception(e)
             return {"status": "error"}
 
     def get_user_first_name(self, user):
@@ -77,7 +80,8 @@ class ProctoruAPI():
                 'state': user.state,
             }
             return user_data
-        except:
+        except Exception as e:
+            logger.exception(e)
             return None
 
     def auth_token(self):
@@ -105,11 +109,7 @@ class ProctoruAPI():
         return response.json()
 
     def is_user_created(self, user_id):
-        try:
-            ProctoruUser.objects.get(student=user_id)
-            return True
-        except:
-            return False
+        return ProctoruUser.objects.filter(student=user_id).exists()
 
     def get_schedule_info_avl_timeslist(self, data=None):
         """
@@ -268,7 +268,8 @@ class ProctoruAPI():
             exam = ProctorUExam(**exam_data)
             exam.save()
             return True
-        except:
+        except Exception as e:
+            logger.exception(e)
             return False
 
     def end_exam(self, student, block_id):
@@ -283,7 +284,8 @@ class ProctoruAPI():
             old_exam.end_time = datetime.datetime.utcnow()
             old_exam.save()
             return True
-        except:
+        except Exception as e:
+            logger.exception(e)
             return False
 
     def start_exam(self, student, block_id):
@@ -298,7 +300,8 @@ class ProctoruAPI():
             old_exam.actual_start_time = datetime.datetime.utcnow()
             old_exam.save()
             return True
-        except:
+        except Exception as e:
+            logger.exception(e)
             return False
 
     def get_schedule_exam_arrived(self, user, block_id):
@@ -312,7 +315,8 @@ class ProctoruAPI():
         try:
             exam = ProctorUExam.objects.get(user=user, block_id=block_id)
             return exam
-        except:
+        except Exception as e:
+            logger.exception(e)
             return None
 
     def cancel_exam(self, user, block_id):
@@ -336,7 +340,8 @@ class ProctoruAPI():
             exam.is_canceled = True
             exam.save()
             return response_data
-        except:
+        except Exception as e:
+            logger.exception(e)
             return None
 
     def get_student_activity(self, user_id, block_id, start_date, end_date, time_zone):
@@ -366,7 +371,8 @@ class ProctoruAPI():
                         data_new["EndDate"], time_zone)
                     return data_new
             return None
-        except:
+        except Exception as e:
+            logger.exception(e)
             return None
 
     def get_student_sessions(self, block_id):
@@ -513,7 +519,8 @@ class ProctoruAPI():
             dt = dateutil.parser.parse(tm).astimezone(tzobj)
             tm = self.get_utc_offset(dt, tm)
             return tm
-        except:
+        except Exception as e:
+            logger.exception(e)
             return False
 
     def getexamtime_staff(self, tm, timezone):
@@ -522,7 +529,8 @@ class ProctoruAPI():
             dt = dateutil.parser.parse(tm).astimezone(tzobj)
             tm = self.get_utc_offset(dt, tm)
             return tm
-        except:
+        except Exception as e:
+            logger.exception(e)
             return False
 
     def get_student_reservation_list(self, user_id):
@@ -544,7 +552,8 @@ class ProctoruAPI():
                 return response_data.get("data")
             else:
                 return []
-        except:
+        except Exception as e:
+            logger.exception(e)
             return []
 
     def begin_reservation(self, user_id, reservation_id, reservation_no):
@@ -561,5 +570,6 @@ class ProctoruAPI():
             }
             return requests.post(
                 API_URLS.get('begin_reservation'), data=data, headers=self.auth_token()).json()
-        except:
+        except Exception as e:
+            logger.exception(e)
             return None
