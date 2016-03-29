@@ -8,16 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'ProctorUExam.block_id'
-        db.add_column('proctoru_proctoruexam', 'block_id',
-                      self.gf('django.db.models.fields.CharField')(
-                          default=1, max_length=200),
-                      keep_default=False)
-        db.delete_column('proctoru_proctoruexam', 'course_id')
+        db.rename_column('proctoru_proctoruexam', 'course_id', 'block_id')
 
     def backwards(self, orm):
-        # Deleting field 'ProctorUExam.block_id'
-        db.delete_column('proctoru_proctoruexam', 'block_id')
+        db.rename_column('proctoru_proctoruexam', 'block_id', 'course_id')
 
     models = {
         'auth.group': {
@@ -86,7 +80,6 @@ class Migration(SchemaMigration):
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'state': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'student': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'time_zone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }

@@ -8,55 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'ProctoruUser'
-        db.create_table('proctoru_proctoruuser', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('phone_number', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('time_zone', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('address', self.gf('django.db.models.fields.TextField')()),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('country', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal('proctoru', ['ProctoruUser'])
-
-        # Adding model 'ProctorUAuthToken'
-        db.create_table('proctoru_proctoruauthtoken', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('token', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('enabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('proctoru', ['ProctorUAuthToken'])
-
-        # Adding model 'ProctorUExam'
-        db.create_table('proctoru_proctoruexam', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('start_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('actual_start_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('is_completed', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('is_started', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('is_canceled', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('course_id', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('end_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('reservation_id', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('reservation_no', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('url', self.gf('django.db.models.fields.TextField')()),
-        ))
-        db.send_create_signal('proctoru', ['ProctorUExam'])
+        # Adding field 'ProctoruUser.state'
+        db.add_column('proctoru_proctoruuser', 'state',
+                      self.gf('django.db.models.fields.CharField')(default='CA', max_length=50),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'ProctoruUser'
-        db.delete_table('proctoru_proctoruuser')
-
-        # Deleting model 'ProctorUAuthToken'
-        db.delete_table('proctoru_proctoruauthtoken')
-
-        # Deleting model 'ProctorUExam'
-        db.delete_table('proctoru_proctoruexam')
+        # Deleting field 'ProctoruUser.state'
+        db.delete_column('proctoru_proctoruuser', 'state')
 
 
     models = {
@@ -106,7 +66,7 @@ class Migration(SchemaMigration):
         'proctoru.proctoruexam': {
             'Meta': {'object_name': 'ProctorUExam'},
             'actual_start_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'course_id': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'block_id': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'end_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_canceled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -126,8 +86,10 @@ class Migration(SchemaMigration):
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'student': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'time_zone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'time_zone': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'time_zone_display_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
 
