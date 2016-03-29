@@ -466,20 +466,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         return api_obj.create_user(self.runtime.user_id, data)
 
     @XBlock.json_handler
-    def shedule_page_handler(self, data=None, suffix=None):
-        """
-        Return html for shedule page
-        """
-        api_obj = ProctoruAPI()
-        context = api_obj.render_shedule_ui(self.runtime.user_id)
-
-        html = loader.render_template(
-            'static/html/shedule_form_proctoru.html', context)
-        return {
-            'html': html,
-        }
-
-    @XBlock.json_handler
     def get_available_schedule(self, data=None, suffix=None):
         """
         Get available schedule
