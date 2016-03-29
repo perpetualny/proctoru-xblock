@@ -266,7 +266,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                 start_date)
                             exam_obj.save()
 
-                            pr_user = ProctoruUser.objects.get(student=self.runtime.user_id)
+                            pr_user = ProctoruUser.objects.get(
+                                student=self.runtime.user_id)
 
                             start_date = dateutil.parser.parse(
                                 start_date)
@@ -508,7 +509,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         api_obj = ProctoruAPI()
         exam_data = api_obj.get_schedule_exam_arrived(
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
-        print api_obj.begin_reservation(
+        api_obj.begin_reservation(
             self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
         return {
             'status': _('success')
