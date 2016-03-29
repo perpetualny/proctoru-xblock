@@ -254,6 +254,12 @@ class ProctoruAPI():
         data = student_data
         response = requests.post(
             API_URLS.get('add_adhoc_process'), data=data, headers=self.auth_token())
+        if response.status_code >= 400:
+            raise ValueError(u"Received error code {} from {} with data={}".format(
+                response.status_code,
+                API_URLS.get('add_adhoc_process'),
+                data,
+            ))
         return response.json()
 
     def set_exam_schedule_arrived(self, exam_data):
