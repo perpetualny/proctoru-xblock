@@ -84,15 +84,11 @@ class ProctoruAPI():
         """
         This will return the auth token from model
         """
-        try:
-            token = ProctorUAuthToken.objects.filter(enabled=True)[0]
+        token = ProctorUAuthToken.objects.filter(enabled=True)[0]
 
-            return {
-                "Authorization-Token": token.token,
-            }
-        except:
-            return {
-                "error": "not found", }
+        return {
+            "Authorization-Token": token.token,
+        }
 
     def get_time_zones(self):
         """

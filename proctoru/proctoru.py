@@ -176,7 +176,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             fragment = Fragment(
                 self._render_template('static/html/studio.html'))
             fragment.add_css(
-                self.resource_string('static/css/proctoru.css'))
+                self.resource_string('public/css/proctoru.css'))
             return fragment
         elif self._user_is_staff():
             return self.staff_view()
@@ -184,9 +184,9 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             api_obj = ProctoruAPI()
             fragment = Fragment()
             context = {}
-            fragment.add_css(loader.load_unicode('static/css/proctoru.css'))
+            fragment.add_css(loader.load_unicode('public/css/proctoru.css'))
             fragment.add_css(
-                loader.load_unicode('static/css/custom_bootstrap.css'))
+                loader.load_unicode('public/css/custom_bootstrap.css'))
             fragment.add_javascript(
                 loader.load_unicode('static/js/src/proctoru.js'))
             if self.is_exam_ended:
@@ -367,8 +367,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                                     {'time_zone_list': time_zone_list,
                                                      'self': self}))
         fragment.add_css(
-            self.resource_string('static/css/custom_bootstrap.css'))
-        fragment.add_css(self.resource_string('static/css/proctoru.css'))
+            self.resource_string('public/css/custom_bootstrap.css'))
+        fragment.add_css(self.resource_string('public/css/proctoru.css'))
         fragment.add_javascript(
             self.resource_string("static/js/src/studio_edit.js"))
         fragment.initialize_js('ProctoruStudio')
@@ -443,8 +443,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                                     {'self': self,
                                                      'students': students, }))
         fragment.add_css(
-            self.resource_string('static/css/custom_bootstrap.css'))
-        fragment.add_css(self.resource_string('static/css/proctoru.css'))
+            self.resource_string('public/css/custom_bootstrap.css'))
+        fragment.add_css(self.resource_string('public/css/proctoru.css'))
         fragment.add_javascript(
             self.resource_string("static/js/src/lms_view.js"))
         fragment.initialize_js('ProctoruStaffBlock')
