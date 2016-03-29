@@ -6,7 +6,6 @@ import pkg_resources
 import logging
 import random
 import pytz
-import time
 import dateutil.parser
 
 from django.contrib.auth.models import User
@@ -673,21 +672,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         self.is_rescheduled = False
         return {"message": _('success')}
-
-    @staticmethod
-    def is_exam_available(self):
-        try:
-            utcmoment_unaware = datetime.datetime.utcnow()
-            utcmoment = utcmoment_unaware.replace(tzinfo=pytz.utc)
-            d1_ts = time.mktime(self.timetuple())
-            d2_ts = time.mktime(utcmoment.timetuple())
-            rem_minutes = int(d1_ts-d2_ts) / 60
-            if rem_minutes >= 2:
-                return True
-            else:
-                return False
-        except:
-            return False
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
