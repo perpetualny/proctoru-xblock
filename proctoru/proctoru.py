@@ -8,6 +8,7 @@ import pytz
 import dateutil.parser
 
 from django.contrib.auth.models import User
+from django.template.loader import add_to_builtins
 from django.template import Context, Template
 from django.utils.translation import ugettext_lazy, ugettext as _
 from student.models import CourseEnrollment
@@ -25,6 +26,10 @@ from .timezonemap import win_tz
 
 # Please start and end the path with a trailing slash
 loader = ResourceLoader(__name__)
+
+# Add "validator" to templatetags loaded by default. We should probably remove
+# that line and include "validator" manually in templates that need it.
+add_to_builtins('proctoru.templatetags.validator')
 
 
 class AttrDict(dict):

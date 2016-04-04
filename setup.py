@@ -23,7 +23,7 @@ def package_data(pkg, roots):
 setup(
     name='proctoru-xblock',
     version='0.1',
-    description='ProctorU is an online proctoring company that allows a candidate to take their exam from home',   
+    description='ProctorU is an online proctoring company that allows a candidate to take their exam from home',
     packages=[
         'proctoru',
     ],
@@ -32,7 +32,7 @@ setup(
     ],
     entry_points={
         'xblock.v1': [
-            'proctoru = proctoru:ProctorUXBlock',
+            'proctoru = proctoru.proctoru:ProctorUXBlock',
         ]
     },
     package_data=package_data("proctoru", ["static", "public"]),
