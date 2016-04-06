@@ -148,15 +148,17 @@ function ProctorUXBlockArrived(runtime, element) {
         window.open("http://www.proctoru.com/testitout/index_fr.php", "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
     });
 
-    $(element).find(".start-exam-btn").click(function(){
-        exam_url = $("#exam-url").val();
-        window.open(exam_url, "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+    $(element).find(".start-exam-btn").click(function(){       
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'start_exam'),
             data: JSON.stringify({"start_exam": true}),
             success: function(data,status){
                 if(data.status==='success'){
+                    window.open(data.reservation_data.url, "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+                    location.reload();
+                }else{
+                    alert("Please reschedule exam!");
                     location.reload();
                 }
             }

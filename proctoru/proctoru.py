@@ -488,15 +488,27 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         Get available schedule
         """
-        self.is_exam_start_clicked = True
         api_obj = ProctoruAPI()
         exam_data = api_obj.get_schedule_exam_arrived(
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
-        api_obj.begin_reservation(
+        reservation_data = api_obj.begin_reservation(
             self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
-        return {
-            'status': _('success')
-        }
+        if reservation_data.get('data'):
+            if exam_data:
+                exam_data.url = reservation_data.get('data').get('url')
+                exam_data.save()
+            self.is_exam_start_clicked = True
+            return {
+                'status': _('success'),
+                'reservation_data': reservation_data.get('data')
+            }
+        else:
+            self.is_exam_start_clicked = False
+            self.is_rescheduled = False
+            self.is_exam_scheduled = False
+            return {
+                'status': _('error')
+            }
 
     @XBlock.json_handler
     def cancel_exam(self, data=None, suffix=None):

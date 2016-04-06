@@ -133,7 +133,6 @@ class ProctoruAPI():
             pr_user = ProctoruUser.objects.get(student=user_id)
         except ObjectDoesNotExist:
             return {"status": "error"}
-
         api_exam_start_time = time_details.get("api_exam_start_time")
 
         offset_time = self.get_ramaining_countdown(
