@@ -267,7 +267,7 @@ function remainingExamTime() {
         catch(e){
             console.log(e);
         }
-        $(document).find(".end-exam-btn").trigger("click");
+        alert("Votre temps est ecoule ! Soumettez vos reponses immediatement avant la fermeture de la session.")
         document.getElementById('countdown').innerHTML = "Completed";
         $(document).find(".rm-label").hide()
         $.cookie("remaining_time",null)
