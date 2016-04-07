@@ -570,12 +570,15 @@ a:visited:focus {
 .content-wrapper.no-padding {
     padding: 0px;
 }
-.form-wrapper.proctoru ul.time-section li.time-row .no-padding{
-    padding:0px;
+
+.form-wrapper.proctoru ul.time-section li.time-row .no-padding {
+    padding: 0px;
 }
-div.course-wrapper section.course-content .vert-mod > div ul{
+
+div.course-wrapper section.course-content .vert-mod > div ul {
     padding-left: 0px;
 }
+
 .popup-wrapper.proctoru {
     margin: 0px auto;
     background-color: #e5e5e5;
@@ -926,4 +929,33 @@ div.course-wrapper section.course-content .vert-mod > div ul{
     border-bottom: 0;
     box-shadow: none;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* exam password page style */
+
+.proctoru .password-reset .form-control {
+    height: auto;
+}
+
+.proctoru .password-reset .exam-password-wrapper {
+    margin: 4px auto 38px auto;
+    float:none;
+}
+.proctoru .password-reset .button-align{
+    margin-bottom: 7px
+}
+.proctoru .password-reset button.btn-info{
+    padding: 8px 12px;
+}
+.proctoru .password-reset button.btn{
+    margin-left:10px;
+    margin-right: 10px;
+}
+.content-wrapper.proctoru h3.form-title.exam-pw-heading{
+    margin-top:0px;
+}
+/* end exam password page style */
 /*-----------*/

@@ -212,6 +212,31 @@ function ProctorUXBlockExamPassword(runtime, element) {
             }
         });
     });
+
+    $(element).find(".cancel-exam-btn").click(function(){
+        $.ajax({
+            type: "POST",
+            url: runtime.handlerUrl(element, 'cancel_exam'),
+            data: JSON.stringify({"cancel_exam": true}),
+            success: function(data,status){
+                if(data.status==='success'){
+                    $.cookie("remaining_time",null)
+                    if(data.status=='success'){
+                        alert('examen annul\xE9 avec succ\xE8s');
+                    }
+                    location.reload();
+                }else{
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    $(element).find("#reconnect-proctor").click(function(){
+        var proctor_tab_url = $(element).find("#proctor-tab-url").val();
+        window.open(proctor_tab_url, "_blank");
+    });
+
 }
 
 var countdownTimer = null;

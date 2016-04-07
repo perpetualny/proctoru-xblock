@@ -205,7 +205,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 fragment.add_frags_resources(child_frags)
                 return fragment
             elif self.is_exam_start_clicked:
-                context.update({"self": self})
+                context.update({
+                    "self": self,
+                    "exam": api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id())
+                })
                 fragment.add_content(
                     loader.render_template('static/html/exam_password.html', context))
                 fragment.initialize_js('ProctorUXBlockExamPassword')
@@ -508,6 +511,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         self.is_exam_canceled = True
         self.is_exam_scheduled = False
+        self.is_exam_start_clicked = False
         if response_data.get('response_code') == 1:
             return {
                 'status': 'success',
