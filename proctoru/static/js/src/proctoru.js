@@ -145,7 +145,7 @@ function ProctorUXBlockArrived(runtime, element) {
     });
 
     $(element).find(".check-equipmnt-btn").click(function(){
-        window.open("http://www.proctoru.com/testitout/index_fr.php", "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+        window.open("http://www.proctoru.com/testitout/index_fr.php", '_blank');
     });
 
     $(element).find(".start-exam-btn").click(function(){       
@@ -155,7 +155,7 @@ function ProctorUXBlockArrived(runtime, element) {
             data: JSON.stringify({"start_exam": true}),
             success: function(data,status){
                 if(data.status==='success'){
-                    window.open(data.reservation_data.url, "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+                    window.open(data.reservation_data.url, '_blank');
                     location.reload();
                 }else{
                     alert("Please reschedule exam!");
