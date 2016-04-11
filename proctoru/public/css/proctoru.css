@@ -570,12 +570,15 @@ a:visited:focus {
 .content-wrapper.no-padding {
     padding: 0px;
 }
-.form-wrapper.proctoru ul.time-section li.time-row .no-padding{
-    padding:0px;
+
+.form-wrapper.proctoru ul.time-section li.time-row .no-padding {
+    padding: 0px;
 }
-div.course-wrapper section.course-content .vert-mod > div ul{
+
+div.course-wrapper section.course-content .vert-mod > div ul {
     padding-left: 0px;
 }
+
 .popup-wrapper.proctoru {
     margin: 0px auto;
     background-color: #e5e5e5;
@@ -926,4 +929,40 @@ div.course-wrapper section.course-content .vert-mod > div ul{
     border-bottom: 0;
     box-shadow: none;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* exam password page style */
+
+.proctoru .password-reset .form-control {
+    height: auto;
+}
+
+.proctoru .password-reset .exam-password-wrapper {
+    margin: 4px auto 38px auto;
+    float:none;
+}
+.proctoru .password-reset .button-align{
+    margin-bottom: 7px
+}
+.proctoru .password-reset button.btn-info{
+    padding: 8px 12px;
+}
+.proctoru .password-reset button.btn{
+    margin-left:10px;
+    margin-right: 10px;
+}
+.content-wrapper.proctoru h3.form-title.exam-pw-heading{
+    margin-top:0px;
+}
+.ui-button-icon-only.ui-dialog-titlebar-close .ui-button-icon-primary.ui-icon.ui-icon-closethick{
+    background-image: url("/static/css/vendor/ui-lightness/images/ui-icons_ef8c08_256x240.png");
+    background-position: -95px -128px;
+    left:0;
+    top:0;
+    margin:0;
+}
+/* end exam password page style */
 /*-----------*/
