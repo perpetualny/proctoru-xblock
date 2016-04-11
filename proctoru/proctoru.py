@@ -234,7 +234,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     context.update({
                         'exam_time_heading': exam_time_heading,
                     })
-
+                    context.update({"proctoru_user": api_obj.get_proctoru_user(
+                                                     self.runtime.user_id)})
+                    timezones = api_obj.get_time_zones()
+                    context.update({"time_zone_list": timezones.get("data", None)})
                     status = context.get('status')
                     if status == "error":
                         fragment.add_content(
@@ -276,6 +279,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             self.exam_time = start_date.isoformat()
 
                             context.update({"exam": exam_obj, "self": self})
+                            context.update({"proctoru_user": api_obj.get_proctoru_user(
+                                                     self.runtime.user_id)})
+                            timezones = api_obj.get_time_zones()
+                            context.update({"time_zone_list": timezones.get("data", None)})
                             fragment.add_content(
                                 loader.render_template('static/html/exam_arrived_proctoru.html', context))
                             fragment.initialize_js('ProctorUXBlockArrived')
@@ -284,6 +291,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             exam_found = False
 
                     if not exam_found:
+                        context.update({"proctoru_user": api_obj.get_proctoru_user(
+                                                     self.runtime.user_id)})
+                        timezones = api_obj.get_time_zones()
+                        context.update({"time_zone_list": timezones.get("data", None)})
                         context.update({"exam":
                                         api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id()), "self": self})
                         fragment.add_content(
@@ -314,7 +325,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     context = api_obj.render_shedule_ui(
                         self.runtime.user_id, time_details, self.duration)
                     context.update({'self': self})
-
+                    context.update({"proctoru_user": api_obj.get_proctoru_user(
+                                                     self.runtime.user_id)})
+                    timezones = api_obj.get_time_zones()
+                    context.update({"time_zone_list": timezones.get("data", None)})
                     status = context.get('status')
                     if status == "error":
                         fragment.add_content(
@@ -661,6 +675,28 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         self.is_rescheduled = False
         return {"message": _('success')}
+
+    @XBlock.json_handler
+    def edit_proctoru_account(self, data=None, suffix=""):
+        api_obj = ProctoruAPI()
+        proctoru_user = api_obj.update_proctoru_account(
+                       self.runtime.user_id,data)
+        student_data = {
+            'student_id': proctoru_user.student.id,
+            'first_name' : proctoru_user.student.first_name,
+            'last_name' : proctoru_user.student.last_name,
+            'time_sent': datetime.datetime.utcnow().isoformat(),
+            'time_zone_id': proctoru_user.time_zone,
+            'address1': proctoru_user.address,
+            'city': proctoru_user.city,
+            'country': proctoru_user.country,
+            'state' : proctoru_user.state,
+            'phone1': proctoru_user.phone_number
+        }
+
+        api_obj.edit_proctoru_user(student_data)
+        return {"status": "success"}
+
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

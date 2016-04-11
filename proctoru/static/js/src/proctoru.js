@@ -15,7 +15,6 @@ function ProctorUXBlockCreate(runtime, element) {
             'country':$(element).find("#country option:selected").val(),
         }
 
-
         var validator = createAccountFormValidation(post_data)
 
         if (validator == true){
@@ -35,6 +34,10 @@ function ProctorUXBlockCreate(runtime, element) {
 function ProctorUXBlockSchedule(runtime, element) {
 
     $(element).ready(function(){
+
+        var cr = $(document).find("#proctoru-country").val();
+        $(document).find("#country").val(cr);
+
         $(element).find("#datepicker" ).datepicker({
                 onSelect: function(dateText) {
                     $.ajax({
@@ -90,6 +93,36 @@ function ProctorUXBlockSchedule(runtime, element) {
             location.reload();
         });
     });
+
+    $(document).find('.edit-proctoru-account').click(function(){
+        var edit_account_url = runtime.handlerUrl(element, 'edit_proctoru_account')
+
+        post_data = {
+            'phone':$(element).find("#phone").val(),
+            'time_zone':$(element).find("#time-zone option:selected").val(),
+            'tz_disp_name':$(element).find("#time-zone option:selected").text(),
+            'address':$(element).find("#address").val(),
+            'city':$(element).find("#city").val(),
+            'country':$(element).find("#country option:selected").val(),
+        }
+        var validator = createAccountFormValidation(post_data)
+        if (validator){
+            $.post(edit_account_url, JSON.stringify(post_data) , function(data,status) {
+                if(data.status==="success"){
+                    // render to schedule page
+                    $("#user-info-modal").hide();
+                }
+            });
+        }
+    });
+
+    $(element).find(".close-modal").click(function(){
+        $('#user-info-modal').hide();
+    });
+
+    $(element).find('.modify-user-string').click(function(){
+        $('#user-info-modal').show();
+    });
 }
 
 var createAccountFormValidation = function(data){
@@ -139,6 +172,9 @@ var createAccountFormValidation = function(data){
 function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
+        var cr = $(document).find("#proctoru-country").val();
+        $(document).find("#country").val(cr);
+
         dt = $(element).find("#rem_time").val();
         var deadline = new Date(dt);
         initializeClock('clockdiv', deadline);
@@ -193,6 +229,37 @@ function ProctorUXBlockArrived(runtime, element) {
                 }
             }
         });
+    });
+
+    $(document).find('.edit-proctoru-account').click(function(){
+        var edit_account_url = runtime.handlerUrl(element, 'edit_proctoru_account')
+
+        post_data = {
+            'phone':$(element).find("#phone").val(),
+            'time_zone':$(element).find("#time-zone option:selected").val(),
+            'tz_disp_name':$(element).find("#time-zone option:selected").text(),
+            'address':$(element).find("#address").val(),
+            'city':$(element).find("#city").val(),
+            'country':$(element).find("#country option:selected").val(),
+        }
+
+        var validator = createAccountFormValidation(post_data)
+        if (validator){
+            $.post(edit_account_url, JSON.stringify(post_data) , function(data,status) {
+                if(data.status==="success"){
+                    // render to schedule page
+                    $("#user-info-modal").hide();
+                }
+            });
+        }
+    });
+
+    $(element).find(".close-modal").click(function(){
+        $('#user-info-modal').hide();
+    });
+
+    $(element).find('.modify-user-string').click(function(){
+        $('#user-info-modal').show();
     });
 }
 
