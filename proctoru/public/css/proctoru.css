@@ -136,7 +136,7 @@ body {
 }
 
 .inside-wrapper {
-    padding: 30px 30px 0px 25px;
+    padding: 30px 30px 30px 25px;
 }
 
 .form-wrapper.proctoru.user-info-form .border-bottom {
@@ -811,7 +811,7 @@ div.course-wrapper section.course-content .vert-mod > div ul {
     pointer-events: auto;
 }
 
-.modalDialog > div {
+.modalDialog > div,.modalDialog > div.modelbody{
     width: 485px;
     position: relative;
     margin: 10% auto;
@@ -821,6 +821,38 @@ div.course-wrapper section.course-content .vert-mod > div ul {
     background: -moz-linear-gradient(#fff, #999);
     background: -webkit-linear-gradient(#fff, #999);
     background: -o-linear-gradient(#fff, #999);
+}
+
+#user-info-modal.modalDialog > div.modelbody{
+width:500px;
+min-height: 586px;
+margin: 2% auto;
+
+background: -moz-linear-gradient(transparent, transparent);
+background: -webkit-linear-gradient(transparent, transparent);
+background: -o-linear-gradient(transparent, transparent);
+background: #f4f4f4;
+}
+
+.modalDialog h4.modeltitle{
+    font-size: 24px;
+    margin-top:30px;
+    padding-bottom:20px;
+    margin-bottom: 30px;
+    border-bottom:1px solid #ccc;
+}
+
+#user-info-modal.modalDialog button{
+padding:8px 30px;
+margin-top:30px;
+margin-left:10px;
+margin-right: 10px;
+}
+
+#user-info-modal.modalDialog  .proctoru .btn-info:hover,button:hover:not(:disabled){
+outline: none;
+box-shadow: none;
+background-image: none;
 }
 
 .close {
@@ -849,9 +881,11 @@ div.course-wrapper section.course-content .vert-mod > div ul {
 
 /*start of css code for style issue fixes*/
 
-.proctoru .modify-user-string {
+.proctoru p.modify-user-string {
     font-size: 12px;
     cursor: pointer;
+    margin-top:26px;
+    margin-bottom: 0px !important;
 }
 
 .proctoru .margin-top10 {
@@ -965,4 +999,11 @@ div.course-wrapper section.course-content .vert-mod > div ul {
     margin:0;
 }
 /* end exam password page style */
+/*-----------*/
+#user-info-modal label.input-error{
+    font-weight: normal;
+    font-size: 10px;
+    color:#ff0000;
+    display: inline-block;
+}
 /*-----------*/

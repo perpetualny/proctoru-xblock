@@ -21,6 +21,7 @@ API_URLS = {
     "client_activity_report": "https://api.proctoru.com/api/clientActivityReport",
     "student_reservation_list": "https://api.proctoru.com/api/getStudentReservationList",
     "begin_reservation": "https://api.proctoru.com/api/beginReservation",
+    "edit_student": "https://api.proctoru.com/api/editStudent",
 }
 
 
@@ -575,6 +576,45 @@ class ProctoruAPI():
             }
             return requests.post(
                 API_URLS.get('begin_reservation'), data=data, headers=self.auth_token()).json()
+        except Exception as e:
+            logger.exception(e)
+            return None
+
+    def get_proctoru_user(self, user_id):
+        try:
+            user = ProctoruUser.objects.get(student=user_id)
+            return user
+        except Exception as e:
+            logger.exception(e)
+            return None
+
+    def update_proctoru_account(self, user_id, user_data):
+        if user_data:
+            try:
+                user = ProctoruUser.objects.get(student=user_id)
+                user.phone_number = str(
+                        user_data.get('phone'))[:15]
+                user.time_zone = str(user_data.get(
+                        'time_zone')[:60])
+                user.address = user_data.get(
+                        'address')[:100]
+                user.city = user_data.get('city')[:50]
+                user.country = user_data.get('country')[:2]
+                user.time_zone_display_name = user_data.get('tz_disp_name')[:100]
+
+                user.save()
+                return user
+            except Exception as e:
+                logger.exception(e)
+
+        return None
+
+    def edit_proctoru_user(self, student_data):
+        try:
+            response = requests.post(API_URLS.get('edit_student'),
+                              data=student_data,
+                              headers=self.auth_token())
+            return True
         except Exception as e:
             logger.exception(e)
             return None
