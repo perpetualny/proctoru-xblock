@@ -957,5 +957,12 @@ div.course-wrapper section.course-content .vert-mod > div ul {
 .content-wrapper.proctoru h3.form-title.exam-pw-heading{
     margin-top:0px;
 }
+.ui-button-icon-only.ui-dialog-titlebar-close .ui-button-icon-primary.ui-icon.ui-icon-closethick{
+    background-image: url("/static/css/vendor/ui-lightness/images/ui-icons_ef8c08_256x240.png");
+    background-position: -95px -128px;
+    left:0;
+    top:0;
+    margin:0;
+}
 /* end exam password page style */
 /*-----------*/

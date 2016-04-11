@@ -197,6 +197,48 @@ function ProctorUXBlockArrived(runtime, element) {
 }
 
 function ProctorUXBlockExamPassword(runtime, element) {
+
+    $(document).ready(function(){
+        $(document).find( "#dialog" ).dialog({
+            autoOpen: false,
+            width: 400,
+            height: 200,
+            minWidth: 400,
+            minHeight: 200,
+            modal: true,
+            buttons: [
+                {
+                  text: "Non",
+                  click: function() {
+                    $( this ).dialog( "close" );
+                  }
+                },
+                {
+                  text: "Oui",
+                  click: function() {
+                    $.ajax({
+                        type: "POST",
+                        url: runtime.handlerUrl(element, 'cancel_exam'),
+                        data: JSON.stringify({"cancel_exam": true}),
+                        success: function(data,status){
+                            if(data.status==='success'){
+                                $.cookie("remaining_time",null)
+                                if(data.status=='success'){
+                                    alert('examen annul\xE9 avec succ\xE8s');
+                                }
+                                location.reload();
+                            }
+                            else{
+                                location.reload();
+                            }
+                        }
+                    });
+                  }
+                }
+            ]
+        });
+    });
+
     $(element).find(".unlock-exam-btn").click(function(){
         exam_password = $(element).find('#exam-password').val();
         $.ajax({
@@ -214,22 +256,7 @@ function ProctorUXBlockExamPassword(runtime, element) {
     });
 
     $(element).find(".cancel-exam-btn").click(function(){
-        $.ajax({
-            type: "POST",
-            url: runtime.handlerUrl(element, 'cancel_exam'),
-            data: JSON.stringify({"cancel_exam": true}),
-            success: function(data,status){
-                if(data.status==='success'){
-                    $.cookie("remaining_time",null)
-                    if(data.status=='success'){
-                        alert('examen annul\xE9 avec succ\xE8s');
-                    }
-                    location.reload();
-                }else{
-                    location.reload();
-                }
-            }
-        });
+        $(document).find( "#dialog" ).dialog( "open" );
     });
 
     $(element).find("#reconnect-proctor").click(function(){
