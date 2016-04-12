@@ -385,8 +385,22 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     exam_time_heading = api_obj.get_formated_exam_start_date(
                         self.exam_time, self.runtime.user_id)
 
+                    old_exam_time = dateutil.parser.parse(self.exam_time)
+
+                    exam_start_date_time = time_details.get('str_exam_start_date')
+
+                    exam_end_date_time = time_details.get('exam_end_date_time')
+
+                    allowed_keep_old_exam = False
+
+                    if exam_start_date_time <= old_exam_time <= exam_end_date_time:
+                        allowed_keep_old_exam = True
+                    else:
+                        allowed_keep_old_exam = False
+
                     context.update({
                         'exam_time_heading': exam_time_heading,
+                        'allowed_keep_old_exam': allowed_keep_old_exam,
                     })
                     context.update({"proctoru_user": api_obj.get_proctoru_user(
                                                      self.runtime.user_id)})
