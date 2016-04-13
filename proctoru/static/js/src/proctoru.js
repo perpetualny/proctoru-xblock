@@ -34,7 +34,7 @@ function ProctorUXBlockCreate(runtime, element) {
 function ProctorUXBlockSchedule(runtime, element) {
 
     $(element).ready(function(){
-
+        $('#user-info-modal').hide();
         var cr = $(document).find("#proctoru-country").val();
         $(document).find("#country").val(cr);
 
@@ -172,6 +172,7 @@ var createAccountFormValidation = function(data){
 function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
+        $('#user-info-modal').hide();
         var cr = $(document).find("#proctoru-country").val();
         $(document).find("#country").val(cr);
 

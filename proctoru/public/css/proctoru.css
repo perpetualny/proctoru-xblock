@@ -847,6 +847,7 @@ padding:8px 30px;
 margin-top:30px;
 margin-left:10px;
 margin-right: 10px;
+border:1px solid #ccc !important;
 }
 
 #user-info-modal.modalDialog  .proctoru .btn-info:hover,button:hover:not(:disabled){
@@ -881,7 +882,7 @@ background-image: none;
 
 /*start of css code for style issue fixes*/
 
-.proctoru p.modify-user-string {
+.proctoru a.modify-user-string {
     font-size: 12px;
     cursor: pointer;
     margin-top:26px;
