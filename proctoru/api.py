@@ -14,13 +14,13 @@ from .timezonemap import win_tz
 logger = logging.getLogger(__name__)
 
 API_URLS = {
-    "get_time_zone": "https://y.proctoru.com/api/getTimeZoneList",
-    "get_sche_info_avl_time_list": "https://y.proctoru.com/api/getScheduleInfoAvailableTimesList",
-    "add_adhoc_process": "https://y.proctoru.com/api/addAdHocProcess",
-    "remove_reservation": "https://y.proctoru.com/api/removeReservation",
-    "client_activity_report": "https://y.proctoru.com/api/clientActivityReport",
-    "student_reservation_list": "https://y.proctoru.com/api/getStudentReservationList",
-    "begin_reservation": "https://y.proctoru.com/api/beginReservation",
+    "get_time_zone": "https://api.proctoru.com/api/getTimeZoneList",
+    "get_sche_info_avl_time_list": "https://api.proctoru.com/api/getScheduleInfoAvailableTimesList",
+    "add_adhoc_process": "https://api.proctoru.com/api/addAdHocProcess",
+    "remove_reservation": "https://api.proctoru.com/api/removeReservation",
+    "client_activity_report": "https://api.proctoru.com/api/clientActivityReport",
+    "student_reservation_list": "https://api.proctoru.com/api/getStudentReservationList",
+    "begin_reservation": "https://api.proctoru.com/api/beginReservation",
 }
 
 
