@@ -439,8 +439,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                 start_date)
                             exam_obj.save()
 
-                            pr_user = ProctoruUser.objects.get(
-                                student=self.runtime.user_id)
+                            pr_user = ProctoruUser.objects.filter(
+                                student=self.runtime.user_id)[0]
 
                             start_date = dateutil.parser.parse(
                                 start_date)
