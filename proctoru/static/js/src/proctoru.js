@@ -15,7 +15,6 @@ function ProctorUXBlockCreate(runtime, element) {
             'country':$(element).find("#country option:selected").val(),
         }
 
-
         var validator = createAccountFormValidation(post_data)
 
         if (validator == true){
@@ -35,6 +34,10 @@ function ProctorUXBlockCreate(runtime, element) {
 function ProctorUXBlockSchedule(runtime, element) {
 
     $(element).ready(function(){
+        $('#user-info-modal').hide();
+        var cr = $(document).find("#proctoru-country").val();
+        $(document).find("#country").val(cr);
+
         $(element).find("#datepicker" ).datepicker({
                 onSelect: function(dateText) {
                     $.ajax({
@@ -90,6 +93,36 @@ function ProctorUXBlockSchedule(runtime, element) {
             location.reload();
         });
     });
+
+    $(document).find('.edit-proctoru-account').click(function(){
+        var edit_account_url = runtime.handlerUrl(element, 'edit_proctoru_account')
+
+        post_data = {
+            'phone':$(element).find("#phone").val(),
+            'time_zone':$(element).find("#time-zone option:selected").val(),
+            'tz_disp_name':$(element).find("#time-zone option:selected").text(),
+            'address':$(element).find("#address").val(),
+            'city':$(element).find("#city").val(),
+            'country':$(element).find("#country option:selected").val(),
+        }
+        var validator = createAccountFormValidation(post_data)
+        if (validator){
+            $.post(edit_account_url, JSON.stringify(post_data) , function(data,status) {
+                if(data.status==="success"){
+                    // render to schedule page
+                    $("#user-info-modal").hide();
+                }
+            });
+        }
+    });
+
+    $(element).find(".close-modal").click(function(){
+        $('#user-info-modal').hide();
+    });
+
+    $(element).find('.modify-user-string').click(function(){
+        $('#user-info-modal').show();
+    });
 }
 
 var createAccountFormValidation = function(data){
@@ -139,24 +172,30 @@ var createAccountFormValidation = function(data){
 function ProctorUXBlockArrived(runtime, element) {
 
     $(element).ready(function(){
+        $('#user-info-modal').hide();
+        var cr = $(document).find("#proctoru-country").val();
+        $(document).find("#country").val(cr);
+
         dt = $(element).find("#rem_time").val();
         var deadline = new Date(dt);
         initializeClock('clockdiv', deadline);
     });
 
     $(element).find(".check-equipmnt-btn").click(function(){
-        window.open("http://www.proctoru.com/testitout/index_fr.php", "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+        window.open("http://www.proctoru.com/testitout/index_fr.php", '_blank');
     });
 
-    $(element).find(".start-exam-btn").click(function(){
-        exam_url = $("#exam-url").val();
-        window.open(exam_url, "ProctorU Equipment Test Window", "toolbar=yes, scrollbars=yes, resizable=yes, width=1100, height=500px");
+    $(element).find(".start-exam-btn").click(function(){       
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'start_exam'),
             data: JSON.stringify({"start_exam": true}),
             success: function(data,status){
                 if(data.status==='success'){
+                    window.open(data.reservation_data.url, '_blank');
+                    location.reload();
+                }else{
+                    alert("Please reschedule exam!");
                     location.reload();
                 }
             }
@@ -194,9 +233,82 @@ function ProctorUXBlockArrived(runtime, element) {
             }
         });
     });
+
+    $(document).find('.edit-proctoru-account').click(function(){
+        var edit_account_url = runtime.handlerUrl(element, 'edit_proctoru_account')
+
+        post_data = {
+            'phone':$(element).find("#phone").val(),
+            'time_zone':$(element).find("#time-zone option:selected").val(),
+            'tz_disp_name':$(element).find("#time-zone option:selected").text(),
+            'address':$(element).find("#address").val(),
+            'city':$(element).find("#city").val(),
+            'country':$(element).find("#country option:selected").val(),
+        }
+
+        var validator = createAccountFormValidation(post_data)
+        if (validator){
+            $.post(edit_account_url, JSON.stringify(post_data) , function(data,status) {
+                if(data.status==="success"){
+                    // render to schedule page
+                    $("#user-info-modal").hide();
+                }
+            });
+        }
+    });
+
+    $(element).find(".close-modal").click(function(){
+        $('#user-info-modal').hide();
+    });
+
+    $(element).find('.modify-user-string').click(function(){
+        $('#user-info-modal').show();
+    });
 }
 
 function ProctorUXBlockExamPassword(runtime, element) {
+
+    $(document).ready(function(){
+        $(document).find( "#dialog" ).dialog({
+            autoOpen: false,
+            width: 400,
+            height: 200,
+            minWidth: 400,
+            minHeight: 200,
+            modal: true,
+            buttons: [
+                {
+                  text: "Non",
+                  click: function() {
+                    $( this ).dialog( "close" );
+                  }
+                },
+                {
+                  text: "Oui",
+                  click: function() {
+                    $.ajax({
+                        type: "POST",
+                        url: runtime.handlerUrl(element, 'cancel_exam'),
+                        data: JSON.stringify({"cancel_exam": true}),
+                        success: function(data,status){
+                            if(data.status==='success'){
+                                $.cookie("remaining_time",null)
+                                if(data.status=='success'){
+                                    alert('examen annul\xE9 avec succ\xE8s');
+                                }
+                                location.reload();
+                            }
+                            else{
+                                location.reload();
+                            }
+                        }
+                    });
+                  }
+                }
+            ]
+        });
+    });
+
     $(element).find(".unlock-exam-btn").click(function(){
         exam_password = $(element).find('#exam-password').val();
         $.ajax({
@@ -212,6 +324,16 @@ function ProctorUXBlockExamPassword(runtime, element) {
             }
         });
     });
+
+    $(element).find(".cancel-exam-btn").click(function(){
+        $(document).find( "#dialog" ).dialog( "open" );
+    });
+
+    $(element).find("#reconnect-proctor").click(function(){
+        var proctor_tab_url = $(element).find("#proctor-tab-url").val();
+        window.open(proctor_tab_url, "_blank");
+    });
+
 }
 
 var countdownTimer = null;
@@ -265,7 +387,7 @@ function remainingExamTime() {
         catch(e){
             console.log(e);
         }
-        $(document).find(".end-exam-btn").trigger("click");
+        alert("Votre temps est ecoule ! Soumettez vos reponses immediatement avant la fermeture de la session.")
         document.getElementById('countdown').innerHTML = "Completed";
         $(document).find(".rm-label").hide()
         $.cookie("remaining_time",null)

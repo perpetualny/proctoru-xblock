@@ -136,7 +136,7 @@ body {
 }
 
 .inside-wrapper {
-    padding: 30px 30px 0px 25px;
+    padding: 30px 30px 30px 25px;
 }
 
 .form-wrapper.proctoru.user-info-form .border-bottom {
@@ -570,12 +570,15 @@ a:visited:focus {
 .content-wrapper.no-padding {
     padding: 0px;
 }
-.form-wrapper.proctoru ul.time-section li.time-row .no-padding{
-    padding:0px;
+
+.form-wrapper.proctoru ul.time-section li.time-row .no-padding {
+    padding: 0px;
 }
-div.course-wrapper section.course-content .vert-mod > div ul{
+
+div.course-wrapper section.course-content .vert-mod > div ul {
     padding-left: 0px;
 }
+
 .popup-wrapper.proctoru {
     margin: 0px auto;
     background-color: #e5e5e5;
@@ -808,7 +811,7 @@ div.course-wrapper section.course-content .vert-mod > div ul{
     pointer-events: auto;
 }
 
-.modalDialog > div {
+.modalDialog > div,.modalDialog > div.modelbody{
     width: 485px;
     position: relative;
     margin: 10% auto;
@@ -818,6 +821,39 @@ div.course-wrapper section.course-content .vert-mod > div ul{
     background: -moz-linear-gradient(#fff, #999);
     background: -webkit-linear-gradient(#fff, #999);
     background: -o-linear-gradient(#fff, #999);
+}
+
+#user-info-modal.modalDialog > div.modelbody{
+width:500px;
+min-height: 586px;
+margin: 2% auto;
+
+background: -moz-linear-gradient(transparent, transparent);
+background: -webkit-linear-gradient(transparent, transparent);
+background: -o-linear-gradient(transparent, transparent);
+background: #f4f4f4;
+}
+
+.modalDialog h4.modeltitle{
+    font-size: 24px;
+    margin-top:30px;
+    padding-bottom:20px;
+    margin-bottom: 30px;
+    border-bottom:1px solid #ccc;
+}
+
+#user-info-modal.modalDialog button{
+padding:8px 30px;
+margin-top:30px;
+margin-left:10px;
+margin-right: 10px;
+border:1px solid #ccc !important;
+}
+
+#user-info-modal.modalDialog  .proctoru .btn-info:hover,button:hover:not(:disabled){
+outline: none;
+box-shadow: none;
+background-image: none;
 }
 
 .close {
@@ -846,9 +882,11 @@ div.course-wrapper section.course-content .vert-mod > div ul{
 
 /*start of css code for style issue fixes*/
 
-.proctoru .modify-user-string {
+.proctoru a.modify-user-string {
     font-size: 12px;
     cursor: pointer;
+    margin-top:26px;
+    margin-bottom: 0px !important;
 }
 
 .proctoru .margin-top10 {
@@ -925,5 +963,48 @@ div.course-wrapper section.course-content .vert-mod > div ul{
     border: 1px solid #dcdddd;
     border-bottom: 0;
     box-shadow: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* exam password page style */
+
+.proctoru .password-reset .form-control {
+    height: auto;
+}
+
+.proctoru .password-reset .exam-password-wrapper {
+    margin: 4px auto 38px auto;
+    float:none;
+}
+.proctoru .password-reset .button-align{
+    margin-bottom: 7px
+}
+.proctoru .password-reset button.btn-info{
+    padding: 8px 12px;
+}
+.proctoru .password-reset button.btn{
+    margin-left:10px;
+    margin-right: 10px;
+}
+.content-wrapper.proctoru h3.form-title.exam-pw-heading{
+    margin-top:0px;
+}
+.ui-button-icon-only.ui-dialog-titlebar-close .ui-button-icon-primary.ui-icon.ui-icon-closethick{
+    background-image: url("/static/css/vendor/ui-lightness/images/ui-icons_ef8c08_256x240.png");
+    background-position: -95px -128px;
+    left:0;
+    top:0;
+    margin:0;
+}
+/* end exam password page style */
+/*-----------*/
+#user-info-modal label.input-error{
+    font-weight: normal;
+    font-size: 10px;
+    color:#ff0000;
+    display: inline-block;
 }
 /*-----------*/

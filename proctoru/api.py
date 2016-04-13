@@ -21,6 +21,7 @@ API_URLS = {
     "client_activity_report": "https://api.proctoru.com/api/clientActivityReport",
     "student_reservation_list": "https://api.proctoru.com/api/getStudentReservationList",
     "begin_reservation": "https://api.proctoru.com/api/beginReservation",
+    "edit_student": "https://api.proctoru.com/api/editStudent",
 }
 
 
@@ -29,6 +30,7 @@ class ProctoruAPI():
     def create_user(self, user_id, post_data):
         try:
             user = User.objects.get(pk=user_id)
+            ProctoruUser.objects.filter(student=user).delete()
             proctoru_user = ProctoruUser(
                 student=user,
                 phone_number=str(
@@ -62,7 +64,7 @@ class ProctoruAPI():
 
     def get_user(self, user_id):
         try:
-            user = ProctoruUser.objects.get(student=user_id)
+            user = ProctoruUser.objects.filter(student=user_id)[0]
             user_data = {
                 'username': user.student.username,
                 'first_name': self.get_user_first_name(user.student),
@@ -130,10 +132,9 @@ class ProctoruAPI():
         Render shedule ui.
         """
         try:
-            pr_user = ProctoruUser.objects.get(student=user_id)
+            pr_user = ProctoruUser.objects.filter(student=user_id)[0]
         except ObjectDoesNotExist:
             return {"status": "error"}
-
         api_exam_start_time = time_details.get("api_exam_start_time")
 
         offset_time = self.get_ramaining_countdown(
@@ -283,8 +284,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.get(
-                user=student, block_id=block_id)
+            old_exam = ProctorUExam.objects.filter(
+                user=student, block_id=block_id)[0]
             old_exam.is_completed = True
             old_exam.is_started = False
             old_exam.end_time = datetime.datetime.utcnow()
@@ -299,8 +300,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.get(
-                user=student, block_id=block_id)
+            old_exam = ProctorUExam.objects.filter(
+                user=student, block_id=block_id)[0]
             old_exam.is_completed = False
             old_exam.is_started = True
             old_exam.actual_start_time = datetime.datetime.utcnow()
@@ -319,7 +320,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
+            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
             return exam
         except Exception as e:
             logger.exception(e)
@@ -334,7 +335,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
+            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -358,8 +359,8 @@ class ProctoruAPI():
         end_date =  exam end date
         """
         try:
-            exam = ProctorUExam.objects.get(
-                user_id=user_id, block_id=block_id)
+            exam = ProctorUExam.objects.filter(
+                user_id=user_id, block_id=block_id)[0]
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -576,6 +577,45 @@ class ProctoruAPI():
             }
             return requests.post(
                 API_URLS.get('begin_reservation'), data=data, headers=self.auth_token()).json()
+        except Exception as e:
+            logger.exception(e)
+            return None
+
+    def get_proctoru_user(self, user_id):
+        try:
+            user = ProctoruUser.objects.get(student=user_id)
+            return user
+        except Exception as e:
+            logger.exception(e)
+            return None
+
+    def update_proctoru_account(self, user_id, user_data):
+        if user_data:
+            try:
+                user = ProctoruUser.objects.get(student=user_id)
+                user.phone_number = str(
+                        user_data.get('phone'))[:15]
+                user.time_zone = str(user_data.get(
+                        'time_zone')[:60])
+                user.address = user_data.get(
+                        'address')[:100]
+                user.city = user_data.get('city')[:50]
+                user.country = user_data.get('country')[:2]
+                user.time_zone_display_name = user_data.get('tz_disp_name')[:100]
+
+                user.save()
+                return user
+            except Exception as e:
+                logger.exception(e)
+
+        return None
+
+    def edit_proctoru_user(self, student_data):
+        try:
+            response = requests.post(API_URLS.get('edit_student'),
+                              data=student_data,
+                              headers=self.auth_token())
+            return True
         except Exception as e:
             logger.exception(e)
             return None
