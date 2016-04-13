@@ -284,8 +284,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.get(
-                user=student, block_id=block_id)
+            old_exam = ProctorUExam.objects.filter(
+                user=student, block_id=block_id)[0]
             old_exam.is_completed = True
             old_exam.is_started = False
             old_exam.end_time = datetime.datetime.utcnow()
@@ -300,8 +300,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.get(
-                user=student, block_id=block_id)
+            old_exam = ProctorUExam.objects.filter(
+                user=student, block_id=block_id)[0]
             old_exam.is_completed = False
             old_exam.is_started = True
             old_exam.actual_start_time = datetime.datetime.utcnow()
@@ -320,7 +320,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
+            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
             return exam
         except Exception as e:
             logger.exception(e)
@@ -335,7 +335,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
+            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -359,8 +359,8 @@ class ProctoruAPI():
         end_date =  exam end date
         """
         try:
-            exam = ProctorUExam.objects.get(
-                user_id=user_id, block_id=block_id)
+            exam = ProctorUExam.objects.filter(
+                user_id=user_id, block_id=block_id)[0]
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
