@@ -38,6 +38,12 @@ function ProctorUXBlockSchedule(runtime, element) {
         var cr = $(document).find("#proctoru-country").val();
         $(document).find("#country").val(cr);
 
+        phone_number = $(element).find("#phone").val();
+        address = $(element).find("#address").val();
+        city = $(element).find("#city").val();
+        time_zone = $(element).find("#time-zone").val();
+        country = $(element).find("#country option:selected").val();
+
         $(element).find("#datepicker" ).datepicker({
                 onSelect: function(dateText) {
                     $.ajax({
@@ -118,6 +124,11 @@ function ProctorUXBlockSchedule(runtime, element) {
 
     $(element).find(".close-modal").click(function(){
         $('#user-info-modal').hide();
+        $(element).find("#phone").val(phone_number);
+        $(element).find("#address").val(address);
+        $(element).find("#country").val(city);
+        $(element).find("#time-zone").val(time_zone);
+        $(element).find("#country").val(country);
     });
 
     $(element).find('.modify-user-string').click(function(){
@@ -175,6 +186,12 @@ function ProctorUXBlockArrived(runtime, element) {
         $('#user-info-modal').hide();
         var cr = $(document).find("#proctoru-country").val();
         $(document).find("#country").val(cr);
+
+        phone_number = $(element).find("#phone").val();
+        address = $(element).find("#address").val();
+        city = $(element).find("#country").val();
+        time_zone = $(element).find("#time-zone").val();
+        country = $(element).find("#country option:selected").val();
 
         dt = $(element).find("#rem_time").val();
         var deadline = new Date(dt);
@@ -260,6 +277,11 @@ function ProctorUXBlockArrived(runtime, element) {
 
     $(element).find(".close-modal").click(function(){
         $('#user-info-modal').hide();
+        $(element).find("#phone").val(phone_number);
+        $(element).find("#address").val(address);
+        $(element).find("#country").val(city);
+        $(element).find("#time-zone").val(time_zone);
+        $(element).find("#country").val(country);
     });
 
     $(element).find('.modify-user-string').click(function(){
