@@ -185,7 +185,8 @@ function ProctorUXBlockArrived(runtime, element) {
         window.open("http://www.proctoru.com/testitout/index_fr.php", '_blank');
     });
 
-    $(element).find(".start-exam-btn").click(function(){       
+    $(element).find(".start-exam-btn").click(function(){
+        $.ajaxSetup({async: false});
         $.ajax({
             type: "POST",
             url: runtime.handlerUrl(element, 'start_exam'),
