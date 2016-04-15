@@ -25,20 +25,23 @@
                 <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                 <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
                 <input id="selected-date" type="hidden" name="selected-date" value="{{selected_date}}">
-                                    <div class="clearfix">&nbsp;</div>
-                    <section class="box-wrapper">
-                        <h3 class="box-heading">{% trans "Horaire de l'examen" %}</h3>
-                        <div class="box-content text-center">
-                            <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
-                            <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
-                            <h5 class="box-content-text text-center">{{self.exam_time|get_ramaining_timestamp:self.runtime.user_id}}</h5>
-                            {% if allowed_keep_old_exam %}
-                            <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "Garder" %}</button>
-                            {% else %}
-                            <h5 class="box-content-text text-center">{% trans "Disponible temps d&apos;examen est modifi&eacute;e s&apos;il vous pla&icirc;t s&eacute;lectionner &agrave; nouveau." %}</h5>
-                            {% endif %}
-                        </div>
-                    </section>
+                    <div class="clearfix">&nbsp;</div>
+                    {% if self.student_time_zone == self.student_old_time_zone %}
+                        <section class="box-wrapper">
+                            <h3 class="box-heading">{% trans "Horaire de l'examen" %}</h3>
+                            <div class="box-content text-center" id="div-keep-time">
+                                <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
+                                <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
+                                <h5 class="box-content-text text-center">{{self.exam_time|get_ramaining_timestamp:self.runtime.user_id}}</h5>
+                                {% if allowed_keep_old_exam %}
+                                <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "Garder" %}</button>
+                                {% else %}
+                                <h5 class="box-content-text text-center">{% trans "Disponible temps d&apos;examen est modifi&eacute;e s&apos;il vous pla&icirc;t s&eacute;lectionner &agrave; nouveau." %}</h5>
+                                {% endif %}
+                            </div>
+                        </section>
+                    {% endif %}
+
             </div>
             <!--end LHS-->
             <!--RHS-->
