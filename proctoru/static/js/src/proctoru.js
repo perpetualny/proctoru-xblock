@@ -117,6 +117,7 @@ function ProctorUXBlockSchedule(runtime, element) {
                 if(data.status==="success"){
                     // render to schedule page
                     $("#user-info-modal").hide();
+                    location.reload();
                 }
             });
         }
@@ -270,6 +271,7 @@ function ProctorUXBlockArrived(runtime, element) {
                 if(data.status==="success"){
                     // render to schedule page
                     $("#user-info-modal").hide();
+                    location.reload();
                 }
             });
         }

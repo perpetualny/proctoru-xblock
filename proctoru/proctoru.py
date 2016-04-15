@@ -136,6 +136,15 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                        help=ugettext_lazy("Time zone of the instructor")
                        )
 
+    student_time_zone = String(display_name=ugettext_lazy("Time Zone"),
+                       default="",
+                       scope=Scope.user_state
+                       )
+    student_old_time_zone = String(display_name=ugettext_lazy("Time Zone"),
+                       default="",
+                       scope=Scope.user_state
+                       )
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -755,6 +764,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         Create ProcorU account
         """
         api_obj = ProctoruAPI()
+        self.student_old_time_zone = data.get("time_zone")
+        self.student_time_zone = data.get("time_zone")
         return api_obj.create_user(self.runtime.user_id, data)
 
     @XBlock.json_handler
@@ -772,6 +783,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         Get available schedule
         """
+        self.student_old_time_zone = self.student_time_zone
         self.is_rescheduled = True
         return {
             'status': _('success')
@@ -972,7 +984,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
     @XBlock.json_handler
     def edit_proctoru_account(self, data=None, suffix=""):
         api_obj = ProctoruAPI()
-        proctoru_user = api_obj.update_proctoru_account(
+
+        new_time_zone = data.get("time_zone", None)
+        self.student_time_zone = new_time_zone
+        proctoru_user, self.student_old_time_zone = api_obj.update_proctoru_account(
                        self.runtime.user_id,data)
         student_data = {
             'student_id': proctoru_user.student.id,
@@ -988,6 +1003,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         }
 
         api_obj.edit_proctoru_user(student_data)
+
         return {"status": "success"}
 
 

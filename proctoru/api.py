@@ -593,6 +593,9 @@ class ProctoruAPI():
         if user_data:
             try:
                 user = ProctoruUser.objects.get(student=user_id)
+
+                timezone = user.time_zone
+
                 user.phone_number = str(
                         user_data.get('phone'))[:15]
                 user.time_zone = str(user_data.get(
@@ -604,7 +607,7 @@ class ProctoruAPI():
                 user.time_zone_display_name = user_data.get('tz_disp_name')[:100]
 
                 user.save()
-                return user
+                return user,timezone
             except Exception as e:
                 logger.exception(e)
 
