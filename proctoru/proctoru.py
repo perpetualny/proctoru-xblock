@@ -56,7 +56,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                         )
 
     end_date = String(display_name=ugettext_lazy("Exam End Date"),
-                      default="2016-03-20T00:27:12.311587+00:00",
+                      default="2016-03-15T00:27:12.311587+00:00",
                       scope=Scope.settings,
                       help=ugettext_lazy("This will be the exam end date.")
                       )
@@ -137,13 +137,13 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                        )
 
     student_time_zone = String(display_name=ugettext_lazy("Time Zone"),
-                       default="",
-                       scope=Scope.user_state
-                       )
+                               default="",
+                               scope=Scope.user_state
+                               )
     student_old_time_zone = String(display_name=ugettext_lazy("Time Zone"),
-                       default="",
-                       scope=Scope.user_state
-                       )
+                                   default="",
+                                   scope=Scope.user_state
+                                   )
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -242,9 +242,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             current_time = pytz.utc.localize(
                                 datetime.datetime.utcnow()).astimezone(tzobj)
 
-                            remaining_time = (start_date-current_time).seconds//3600
+                            diff = start_date-current_time
 
-                            if remaining_time >= 15:
+                            remaining_time = (
+                                diff.days * 24 * 60) + (diff.seconds/60)
+
+                            if remaining_time <= -15:
                                 # if examtime pass away
                                 self.exam_time = ""
                                 self.is_exam_scheduled = False
@@ -290,7 +293,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                 })
                                 fragment.add_content(
                                     loader.render_template('static/html/exam_password.html', context))
-                                fragment.initialize_js('ProctorUXBlockExamPassword')
+                                fragment.initialize_js(
+                                    'ProctorUXBlockExamPassword')
                                 return fragment
                         else:
                             # if reservatin id not found schedule page
@@ -396,7 +400,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
                     old_exam_time = dateutil.parser.parse(self.exam_time)
 
-                    exam_start_date_time = time_details.get('str_exam_start_date')
+                    exam_start_date_time = time_details.get(
+                        'str_exam_start_date')
 
                     exam_end_date_time = time_details.get('exam_end_date_time')
 
@@ -412,9 +417,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                         'allowed_keep_old_exam': allowed_keep_old_exam,
                     })
                     context.update({"proctoru_user": api_obj.get_proctoru_user(
-                                                     self.runtime.user_id)})
+                        self.runtime.user_id)})
                     timezones = api_obj.get_time_zones()
-                    context.update({"time_zone_list": timezones.get("data", None)})
+                    context.update(
+                        {"time_zone_list": timezones.get("data", None)})
                     status = context.get('status')
                     if status == "error":
                         fragment.add_content(
@@ -432,7 +438,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 exam_data = api_obj.get_student_reservation_list(
                     self.runtime.user_id)
                 context.update({"proctoru_user": api_obj.get_proctoru_user(
-                                                     self.runtime.user_id)})
+                    self.runtime.user_id)})
                 timezones = api_obj.get_time_zones()
                 context.update({"time_zone_list": timezones.get("data", None)})
                 if len(exam_data) > 0:
@@ -461,9 +467,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             current_time = pytz.utc.localize(
                                 datetime.datetime.utcnow()).astimezone(tzobj)
 
-                            remaining_time = (start_date-current_time).seconds//3600
+                            diff = start_date-current_time
 
-                            if remaining_time >= 15:
+                            remaining_time = (
+                                diff.days * 24 * 60) + (diff.seconds/60)
+
+                            if remaining_time <= -15:
                                 # if examtime pass away
                                 self.exam_time = ""
                                 self.is_exam_scheduled = False
@@ -615,9 +624,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                         self.runtime.user_id, time_details, self.duration)
                     context.update({'self': self})
                     context.update({"proctoru_user": api_obj.get_proctoru_user(
-                                                     self.runtime.user_id)})
+                        self.runtime.user_id)})
                     timezones = api_obj.get_time_zones()
-                    context.update({"time_zone_list": timezones.get("data", None)})
+                    context.update(
+                        {"time_zone_list": timezones.get("data", None)})
                     status = context.get('status')
                     if status == "error":
                         fragment.add_content(
@@ -988,24 +998,23 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         new_time_zone = data.get("time_zone", None)
         self.student_time_zone = new_time_zone
         proctoru_user, self.student_old_time_zone = api_obj.update_proctoru_account(
-                       self.runtime.user_id,data)
+            self.runtime.user_id, data)
         student_data = {
             'student_id': proctoru_user.student.id,
-            'first_name' : proctoru_user.student.first_name,
-            'last_name' : proctoru_user.student.last_name,
+            'first_name': proctoru_user.student.first_name,
+            'last_name': proctoru_user.student.last_name,
             'time_sent': datetime.datetime.utcnow().isoformat(),
             'time_zone_id': proctoru_user.time_zone,
             'address1': proctoru_user.address,
             'city': proctoru_user.city,
             'country': proctoru_user.country,
-            'state' : proctoru_user.state,
+            'state': proctoru_user.state,
             'phone1': proctoru_user.phone_number
         }
 
         api_obj.edit_proctoru_user(student_data)
 
         return {"status": "success"}
-
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

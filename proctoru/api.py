@@ -597,17 +597,18 @@ class ProctoruAPI():
                 timezone = user.time_zone
 
                 user.phone_number = str(
-                        user_data.get('phone'))[:15]
+                    user_data.get('phone'))[:15]
                 user.time_zone = str(user_data.get(
-                        'time_zone')[:60])
+                    'time_zone')[:60])
                 user.address = user_data.get(
-                        'address')[:100]
+                    'address')[:100]
                 user.city = user_data.get('city')[:50]
                 user.country = user_data.get('country')[:2]
-                user.time_zone_display_name = user_data.get('tz_disp_name')[:100]
+                user.time_zone_display_name = user_data.get(
+                    'tz_disp_name')[:100]
 
                 user.save()
-                return user,timezone
+                return user, timezone
             except Exception as e:
                 logger.exception(e)
 
@@ -616,8 +617,8 @@ class ProctoruAPI():
     def edit_proctoru_user(self, student_data):
         try:
             response = requests.post(API_URLS.get('edit_student'),
-                              data=student_data,
-                              headers=self.auth_token())
+                                     data=student_data,
+                                     headers=self.auth_token())
             return True
         except Exception as e:
             logger.exception(e)
