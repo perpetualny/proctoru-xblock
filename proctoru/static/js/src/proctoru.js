@@ -387,8 +387,7 @@ function ProctorUXBlockExamEnabled(runtime, element) {
         }else if($.cookie("remaining_time")>0){
             countdownTimer = setInterval('remainingExamTime()', 1000);
         }else{
-            $(document).find(".end-exam-btn").trigger("click");
-            console.log("Completed");
+            alert("Votre temps est termine.");
         }
     });
 }
