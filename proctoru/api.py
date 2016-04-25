@@ -64,7 +64,7 @@ class ProctoruAPI():
 
     def get_user(self, user_id):
         try:
-            user = ProctoruUser.objects.filter(student=user_id)[0]
+            user = ProctoruUser.objects.get(student=user_id)
             user_data = {
                 'username': user.student.username,
                 'first_name': self.get_user_first_name(user.student),
@@ -90,7 +90,7 @@ class ProctoruAPI():
         """
         This will return the auth token from model
         """
-        token = ProctorUAuthToken.objects.filter(enabled=True)[0]
+        token = ProctorUAuthToken.objects.get(enabled=True)
 
         return {
             "Authorization-Token": token.token,
@@ -132,7 +132,7 @@ class ProctoruAPI():
         Render shedule ui.
         """
         try:
-            pr_user = ProctoruUser.objects.filter(student=user_id)[0]
+            pr_user = ProctoruUser.objects.get(student=user_id)
         except ObjectDoesNotExist:
             return {"status": "error"}
         api_exam_start_time = time_details.get("api_exam_start_time")
@@ -284,8 +284,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.filter(
-                user=student, block_id=block_id)[0]
+            old_exam = ProctorUExam.objects.get(
+                user=student, block_id=block_id)
             old_exam.is_completed = True
             old_exam.is_started = False
             old_exam.end_time = datetime.datetime.utcnow()
@@ -300,8 +300,8 @@ class ProctoruAPI():
         end exam.
         """
         try:
-            old_exam = ProctorUExam.objects.filter(
-                user=student, block_id=block_id)[0]
+            old_exam = ProctorUExam.objects.get(
+                user=student, block_id=block_id)
             old_exam.is_completed = False
             old_exam.is_started = True
             old_exam.actual_start_time = datetime.datetime.utcnow()
@@ -320,7 +320,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
+            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
             return exam
         except Exception as e:
             logger.exception(e)
@@ -335,7 +335,7 @@ class ProctoruAPI():
 
         """
         try:
-            exam = ProctorUExam.objects.filter(user=user, block_id=block_id)[0]
+            exam = ProctorUExam.objects.get(user=user, block_id=block_id)
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
@@ -359,8 +359,8 @@ class ProctoruAPI():
         end_date =  exam end date
         """
         try:
-            exam = ProctorUExam.objects.filter(
-                user_id=user_id, block_id=block_id)[0]
+            exam = ProctorUExam.objects.get(
+                user_id=user_id, block_id=block_id)
             time_stamp = datetime.datetime.utcnow().isoformat()
             data = {
                 "time_sent": time_stamp,
