@@ -58,7 +58,7 @@ class ProctorUExam(models.Model):
 
     is_canceled = models.BooleanField(default=False, blank=True)
 
-    block_id = models.CharField(max_length=200, unique=True)
+    block_id = models.CharField(max_length=200)
 
     end_time = models.DateTimeField(
         verbose_name=_(u"heure de fin",), blank=True, null=True)
@@ -68,3 +68,6 @@ class ProctorUExam(models.Model):
     reservation_no = models.CharField(max_length=200)
 
     url = models.TextField()
+
+    class Meta:
+        unique_together = ('user', 'block_id',)
