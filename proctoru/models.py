@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class ProctoruUser(models.Model):
 
-    student = models.ForeignKey(User)
+    student = models.ForeignKey(User, unique=True)
 
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15} |  \(\d{3}\)[-]\d{3}[-\.]??\d{4}$ | \d{3}[-]\d{3}[-\.]??\d{4}$',
@@ -46,7 +46,8 @@ class ProctorUExam(models.Model):
 
     user = models.ForeignKey(User)
 
-    start_date = models.DateTimeField(verbose_name=_(u"heure de d&eacute;part",))
+    start_date = models.DateTimeField(
+        verbose_name=_(u"heure de d&eacute;part",))
 
     actual_start_time = models.DateTimeField(
         verbose_name=_(u"Heure de d&eacute;but r&eacute;elle",), blank=True, null=True)
@@ -57,7 +58,7 @@ class ProctorUExam(models.Model):
 
     is_canceled = models.BooleanField(default=False, blank=True)
 
-    block_id = models.CharField(max_length=200)
+    block_id = models.CharField(max_length=200, unique=True)
 
     end_time = models.DateTimeField(
         verbose_name=_(u"heure de fin",), blank=True, null=True)
