@@ -748,7 +748,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         reservation_data = api_obj.begin_reservation(
             self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
-        if reservation_data.get('data'):
+        if reservation_data.get('response_code') == 2:
+            return {
+                'status': _('error'),
+                'msg': _('Please wait for a moment and try again.'),
+            }
+        elif reservation_data.get('data'):
             if exam_data:
                 exam_data.url = reservation_data.get('data').get('url')
                 exam_data.save()
@@ -758,9 +763,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 'reservation_data': reservation_data.get('data')
             }
         else:
-            self.is_exam_start_clicked = False
-            self.is_rescheduled = False
-            self.is_exam_scheduled = False
             return {
                 'status': _('error')
             }
