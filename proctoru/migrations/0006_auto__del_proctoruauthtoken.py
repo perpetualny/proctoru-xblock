@@ -8,19 +8,19 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding unique constraint on 'ProctoruUser', fields ['student']
-        db.create_unique('proctoru_proctoruuser', ['student_id'])
-
-        # Adding unique constraint on 'ProctorUExam', fields ['block_id']
-        db.create_unique('proctoru_proctoruexam', ['block_id'])
+        # Deleting model 'ProctorUAuthToken'
+        db.delete_table('proctoru_proctoruauthtoken')
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'ProctorUExam', fields ['block_id']
-        db.delete_unique('proctoru_proctoruexam', ['block_id'])
-
-        # Removing unique constraint on 'ProctoruUser', fields ['student']
-        db.delete_unique('proctoru_proctoruuser', ['student_id'])
+        # Adding model 'ProctorUAuthToken'
+        db.create_table('proctoru_proctoruauthtoken', (
+            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('token', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('enabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        ))
+        db.send_create_signal('proctoru', ['ProctorUAuthToken'])
 
 
     models = {
@@ -60,17 +60,10 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'proctoru.proctoruauthtoken': {
-            'Meta': {'object_name': 'ProctorUAuthToken'},
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'token': ('django.db.models.fields.CharField', [], {'max_length': '200'})
-        },
         'proctoru.proctoruexam': {
-            'Meta': {'object_name': 'ProctorUExam'},
+            'Meta': {'unique_together': "(('user', 'block_id'),)", 'object_name': 'ProctorUExam'},
             'actual_start_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'block_id': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '200'}),
+            'block_id': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'end_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_canceled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),

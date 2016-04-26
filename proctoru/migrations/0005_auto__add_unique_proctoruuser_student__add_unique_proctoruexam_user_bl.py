@@ -8,8 +8,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Removing unique constraint on 'ProctorUExam', fields ['block_id']
-        db.delete_unique('proctoru_proctoruexam', ['block_id'])
+        # Adding unique constraint on 'ProctoruUser', fields ['student']
+        db.create_unique('proctoru_proctoruuser', ['student_id'])
 
         # Adding unique constraint on 'ProctorUExam', fields ['user', 'block_id']
         db.create_unique('proctoru_proctoruexam', ['user_id', 'block_id'])
@@ -19,8 +19,8 @@ class Migration(SchemaMigration):
         # Removing unique constraint on 'ProctorUExam', fields ['user', 'block_id']
         db.delete_unique('proctoru_proctoruexam', ['user_id', 'block_id'])
 
-        # Adding unique constraint on 'ProctorUExam', fields ['block_id']
-        db.create_unique('proctoru_proctoruexam', ['block_id'])
+        # Removing unique constraint on 'ProctoruUser', fields ['student']
+        db.delete_unique('proctoru_proctoruuser', ['student_id'])
 
 
     models = {
