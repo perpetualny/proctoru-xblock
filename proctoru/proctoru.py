@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ProctorU is an online proctoring company that allows a candidate to take their exam from home
 """
@@ -748,7 +749,30 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         reservation_data = api_obj.begin_reservation(
             self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
-        if reservation_data.get('data'):
+        if reservation_data.get('response_code') == 2:
+            if len(reservation_data.get('message')) > 28:
+                if reservation_data.get('message')[:28] == 'Reservation is in the future':
+                    return {
+                        'status': _('error'),
+                        'msg': _("S'il vous plaît attendre le moment et essayez de nouveau."),
+                    }
+                else:
+                    self.is_exam_start_clicked = False
+                    self.is_rescheduled = False
+                    self.is_exam_scheduled = False
+                    return {
+                        'status': _('error'),
+                        'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
+                    }
+            else:
+                self.is_exam_start_clicked = False
+                self.is_rescheduled = False
+                self.is_exam_scheduled = False
+                return {
+                    'status': _('error'),
+                    'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
+                }
+        elif reservation_data.get('data'):
             if exam_data:
                 exam_data.url = reservation_data.get('data').get('url')
                 exam_data.save()
@@ -758,9 +782,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 'reservation_data': reservation_data.get('data')
             }
         else:
-            self.is_exam_start_clicked = False
-            self.is_rescheduled = False
-            self.is_exam_scheduled = False
             return {
                 'status': _('error')
             }

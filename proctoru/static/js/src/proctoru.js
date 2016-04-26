@@ -214,7 +214,7 @@ function ProctorUXBlockArrived(runtime, element) {
                     window.open(data.reservation_data.url, '_blank');
                     location.reload();
                 }else{
-                    alert("Please reschedule exam!");
+                    alert(data.msg);
                     location.reload();
                 }
             }
