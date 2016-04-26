@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import dateutil.parser
 import logging

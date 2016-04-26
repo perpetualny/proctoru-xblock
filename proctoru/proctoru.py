@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ProctorU is an online proctoring company that allows a candidate to take their exam from home
 """
@@ -753,7 +754,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 if reservation_data.get('message')[:28] == 'Reservation is in the future':
                     return {
                         'status': _('error'),
-                        'msg': _('Please wait for a moment and try again.'),
+                        'msg': _("S'il vous plaît attendre le moment et essayez de nouveau."),
                     }
                 else:
                     self.is_exam_start_clicked = False
@@ -761,7 +762,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     self.is_exam_scheduled = False
                     return {
                         'status': _('error'),
-                        'msg': _('Please reschedule appointment'),
+                        'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
                     }
             else:
                 self.is_exam_start_clicked = False
@@ -769,7 +770,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 self.is_exam_scheduled = False
                 return {
                     'status': _('error'),
-                    'msg': _('Please reschedule appointment'),
+                    'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
                 }
         elif reservation_data.get('data'):
             if exam_data:
