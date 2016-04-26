@@ -1,27 +1,31 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 import dateutil.parser
 import logging
 import pytz
 import random
 import requests
+
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import ProctoruUser, ProctorUAuthToken, ProctorUExam
+from .models import ProctoruUser, ProctorUExam
 
 from .timezonemap import win_tz
 
 logger = logging.getLogger(__name__)
 
 API_URLS = {
-    "get_time_zone": "https://api.proctoru.com/api/getTimeZoneList",
-    "get_sche_info_avl_time_list": "https://api.proctoru.com/api/getScheduleInfoAvailableTimesList",
-    "add_adhoc_process": "https://api.proctoru.com/api/addAdHocProcess",
-    "remove_reservation": "https://api.proctoru.com/api/removeReservation",
-    "client_activity_report": "https://api.proctoru.com/api/clientActivityReport",
-    "student_reservation_list": "https://api.proctoru.com/api/getStudentReservationList",
-    "begin_reservation": "https://api.proctoru.com/api/beginReservation",
-    "edit_student": "https://api.proctoru.com/api/editStudent",
+    "get_time_zone": "https://%s/api/getTimeZoneList",
+    "get_sche_info_avl_time_list": "https://%s/api/getScheduleInfoAvailableTimesList",
+    "add_adhoc_process": "https://%s/api/addAdHocProcess",
+    "remove_reservation": "https://%s/api/removeReservation",
+    "client_activity_report": "https://%s/api/clientActivityReport",
+    "student_reservation_list": "https://%s/api/getStudentReservationList",
+    "begin_reservation": "https://%s/api/beginReservation",
+    "edit_student": "https://%s/api/editStudent",
 }
 
 
@@ -88,13 +92,14 @@ class ProctoruAPI():
 
     def auth_token(self):
         """
-        This will return the auth token from model
+        This will return the auth token from settings
         """
-        token = ProctorUAuthToken.objects.get(enabled=True)
-
         return {
-            "Authorization-Token": token.token,
+            "Authorization-Token": settings.PROCTORU_TOKEN,
         }
+
+    def get_endpoint(self, endpoint):
+        return API_URLS[endpoint] % settings.PROCTORU_API
 
     def get_time_zones(self):
         """
@@ -105,7 +110,7 @@ class ProctoruAPI():
         }
         try:
             response = requests.get(
-                API_URLS.get('get_time_zone'), data=data, headers=self.auth_token())
+                self.get_endpoint('get_time_zone'), data=data, headers=self.auth_token())
         except requests.exceptions.RequestException:
             return None
         return response.json()
@@ -118,7 +123,7 @@ class ProctoruAPI():
         Get getscheduleavailabletimeslist.
         """
         response = requests.get(
-            API_URLS.get('get_sche_info_avl_time_list'),
+            self.get_endpoint('get_sche_info_avl_time_list'),
             data=data,
             headers=self.auth_token()
         )
@@ -254,11 +259,11 @@ class ProctoruAPI():
         """
         data = student_data
         response = requests.post(
-            API_URLS.get('add_adhoc_process'), data=data, headers=self.auth_token())
+            self.get_endpoint('add_adhoc_process'), data=data, headers=self.auth_token())
         if response.status_code >= 400:
             raise ValueError(u"Received error code {} from {} with data={}".format(
                 response.status_code,
-                API_URLS.get('add_adhoc_process'),
+                self.get_endpoint('add_adhoc_process'),
                 data,
             ))
         return response.json()
@@ -343,7 +348,7 @@ class ProctoruAPI():
                 "reservation_no": exam.reservation_no,
             }
             response_data = requests.post(
-                API_URLS.get('remove_reservation'), data=data, headers=self.auth_token()).json()
+                self.get_endpoint('remove_reservation'), data=data, headers=self.auth_token()).json()
             exam.is_canceled = True
             exam.save()
             return response_data
@@ -369,7 +374,7 @@ class ProctoruAPI():
                 "start_date": start_date,
             }
             response_data = requests.post(
-                API_URLS.get('client_activity_report'), data=data, headers=self.auth_token()).json()
+                self.get_endpoint('client_activity_report'), data=data, headers=self.auth_token()).json()
             for data_new in response_data.get('data'):
                 if int(data_new.get("ReservationNo")) == int(exam.reservation_no):
                     data_new["StartDate"] = self.get_formated_exam_dates(
@@ -553,7 +558,7 @@ class ProctoruAPI():
             }
 
             response_data = requests.post(
-                API_URLS.get('student_reservation_list'), data=data, headers=self.auth_token()).json()
+                self.get_endpoint('student_reservation_list'), data=data, headers=self.auth_token()).json()
 
             if response_data.get("data") != None:
                 return response_data.get("data")
@@ -576,7 +581,7 @@ class ProctoruAPI():
                 "reservation_no": reservation_no,
             }
             return requests.post(
-                API_URLS.get('begin_reservation'), data=data, headers=self.auth_token()).json()
+                self.get_endpoint('begin_reservation'), data=data, headers=self.auth_token()).json()
         except Exception as e:
             logger.exception(e)
             return None
@@ -616,7 +621,7 @@ class ProctoruAPI():
 
     def edit_proctoru_user(self, student_data):
         try:
-            response = requests.post(API_URLS.get('edit_student'),
+            response = requests.post(self.get_endpoint('edit_student'),
                                      data=student_data,
                                      headers=self.auth_token())
             return True

@@ -32,16 +32,6 @@ class ProctoruUser(models.Model):
         auto_now=True, auto_now_add=False)
 
 
-class ProctorUAuthToken(models.Model):
-
-    token = models.CharField(max_length=200)
-
-    date_created = models.DateTimeField(
-        auto_now=True, auto_now_add=False)
-
-    enabled = models.BooleanField(default=True)
-
-
 class ProctorUExam(models.Model):
 
     user = models.ForeignKey(User)
