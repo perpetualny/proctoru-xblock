@@ -754,7 +754,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 if reservation_data.get('message')[:28] == 'Reservation is in the future':
                     return {
                         'status': _('error'),
-                        'msg': _("S'il vous plaît attendre le moment et essayez de nouveau."),
+                        'msg': _(u"S'il vous plaît attendre le moment et essayez de nouveau."),
                     }
                 else:
                     self.is_exam_start_clicked = False
@@ -762,7 +762,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     self.is_exam_scheduled = False
                     return {
                         'status': _('error'),
-                        'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
+                        'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
                     }
             else:
                 self.is_exam_start_clicked = False
@@ -770,7 +770,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 self.is_exam_scheduled = False
                 return {
                     'status': _('error'),
-                    'msg': _("S'il vous plaît Replanifiez Rendez-vous"),
+                    'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
                 }
         elif reservation_data.get('data'):
             if exam_data:
