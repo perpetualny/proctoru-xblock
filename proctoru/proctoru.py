@@ -749,10 +749,28 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         reservation_data = api_obj.begin_reservation(
             self.runtime.user_id, exam_data.reservation_id, exam_data.reservation_no)
         if reservation_data.get('response_code') == 2:
-            return {
-                'status': _('error'),
-                'msg': _('Please wait for a moment and try again.'),
-            }
+            if len(reservation_data.get('message')) > 28:
+                if reservation_data.get('message')[:28] == 'Reservation is in the future':
+                    return {
+                        'status': _('error'),
+                        'msg': _('Please wait for a moment and try again.'),
+                    }
+                else:
+                    self.is_exam_start_clicked = False
+                    self.is_rescheduled = False
+                    self.is_exam_scheduled = False
+                    return {
+                        'status': _('error'),
+                        'msg': _('Please reschedule appointment'),
+                    }
+            else:
+                self.is_exam_start_clicked = False
+                self.is_rescheduled = False
+                self.is_exam_scheduled = False
+                return {
+                    'status': _('error'),
+                    'msg': _('Please reschedule appointment'),
+                }
         elif reservation_data.get('data'):
             if exam_data:
                 exam_data.url = reservation_data.get('data').get('url')
