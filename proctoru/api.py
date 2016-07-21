@@ -222,11 +222,10 @@ class ProctoruAPI():
                 try:
                     dt = datetime.datetime.strptime(
                         '{0} 00:00'.format(user_selected_date), '%m/%d/%Y %H:%M')
+                    api_exam_start_time = dt.replace(tzinfo=pytz.utc)
                 except ValueError:
                     # #3067: Stored value is malformed, this will prevent crash.
                     api_exam_start_time = exam_start_date_time
-
-                api_exam_start_time = dt.replace(tzinfo=pytz.utc)
 
                 if api_exam_start_time < current_date:
                     api_exam_start_time = current_date
