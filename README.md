@@ -6,8 +6,7 @@ ProctorU XBlock Installation Guide:
 2. Change directory to where you have cloned ProctorU XBlock.
 3. To install requirements for ProctorU XBlock. Do not upgrade dependencies this will break the installation
 		
-		pip install --no-deps xBlock/	
-		pip install -r --no-deps xBlock/requirements.txt
+		pip install -r --no-deps requirements.txt
 
 4. Open “ lms/envs/common.py “, " cms/env/common.py " and put “proctoru” in installed apps.
 5. Run migrations for proctorU XBlock:
