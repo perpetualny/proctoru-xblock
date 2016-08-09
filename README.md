@@ -4,7 +4,7 @@ ProctorU XBlock Installation Guide:
 
 1. Clone xblock repo from https://github.com/ProctorU/xBlock.git to x block directory.
 2. Change directory to where you have cloned ProctorU XBlock.
-3. To install requirements for ProctorU XBlock.
+3. To install requirements for ProctorU XBlock. Do not upgrade dependencies this will break the installation
 		
 		pip install --no-deps xBlock/	
 		pip install -r --no-deps xBlock/requirements.txt
