@@ -26,6 +26,7 @@ setup(
     description='ProctorU is an online proctoring company that allows a candidate to take their exam from home',
     packages=[
         'proctoru',
+	'proctoru.templatetags',
     ],
     install_requires=[
         'XBlock',
