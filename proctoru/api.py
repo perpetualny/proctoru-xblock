@@ -31,6 +31,11 @@ API_URLS = {
 class ProctoruAPI():
 
     def create_user(self, user_id, post_data):
+        """
+        Create User Method is used to create a ProctorU user account.
+        input params: user id, request data.
+        output params: dictionary with success/error status.
+        """
         try:
             user = User.objects.get(pk=user_id)
             ProctoruUser.objects.filter(student=user).delete()
@@ -54,18 +59,35 @@ class ProctoruAPI():
             return {"status": "error"}
 
     def get_user_first_name(self, user):
+        """
+        Function get_user_first_name returns the firstname of the user. If user 
+        don't have first name it returns username.
+        imput params: user object
+        output params: users first name or username
+        """
         if user.profile.name != '':
             return user.profile.name
         else:
             return user.username
 
     def get_user_last_name(self, user):
+        """
+        Function get_user_last_name returns the last name of the user. If user 
+        don't have last name, it returns a random string.
+        imput params: user object
+        output params: users last name or random string.
+        """
         if user.last_name != '':
             return user.first_name
         else:
             return ''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(8))
 
     def get_user(self, user_id):
+        """
+        Functions get_user returns the proctorU user information.
+        input params: user id
+        output params: dictionary of user data or None object.
+        """
         try:
             user = ProctoruUser.objects.get(student=user_id)
             user_data = {
@@ -92,17 +114,25 @@ class ProctoruAPI():
     def auth_token(self):
         """
         This will return the auth token from settings
+        output params: Authorization token.     
         """
         return {
             "Authorization-Token": settings.PROCTORU_TOKEN,
         }
 
     def get_endpoint(self, endpoint):
+        """
+        Function get_endpoint returns with PROCTORU_API ProctorU usrls end point
+        embedded in it.
+        input param: endpoint
+        output param: URL with auth token.
+        """
         return API_URLS[endpoint] % settings.PROCTORU_API
 
     def get_time_zones(self):
         """
         Get time zones by calling getTimeZoneList of ProctorU.
+        output params: JSON of timezones.
         """
         data = {
             "time_sent": datetime.datetime.utcnow().isoformat()
@@ -115,11 +145,28 @@ class ProctoruAPI():
         return response.json()
 
     def is_user_created(self, user_id):
+        """
+        Function is_user_created Check if the user exists already.
+        input params : user_id
+        output params : Boolean
+        """
         return ProctoruUser.objects.filter(student=user_id).exists()
 
     def get_schedule_info_avl_timeslist(self, data=None):
         """
-        Get getscheduleavailabletimeslist.
+        Function get_schedule_info_avl_timeslist calls 
+        getScheduleInfoAvailableTimesList API of proctorU.
+
+        input params : data = {
+                "time_sent": ,
+                'duration':,
+                'time_zone':_,
+                'start_date': ,
+                'takeitnow': ,
+                'isadhoc': ,
+            }
+
+        output params: JSON of available time list.
         """
         response = requests.get(
             self.get_endpoint('get_sche_info_avl_time_list'),
@@ -133,7 +180,9 @@ class ProctoruAPI():
 
     def render_shedule_ui(self, user_id, time_details, duration):
         """
-        Render shedule ui.
+        This function renders Schedule Exam UI.
+        input params: user_id, time_datails, duration
+        output params: Context
         """
         try:
             pr_user = ProctoruUser.objects.get(student=user_id)
@@ -178,9 +227,10 @@ class ProctoruAPI():
 
     def get_time_list_for_specific_date(self, selected_date, available_time_list):
         """
-        Return list of available time for a specific date.
-
-        format.
+        Function get_time_list_for_specific_date returns list of available time 
+        for a specific date.
+        input params:  selected_date, available_time_list
+        output params: List of avalilable time for particular selected date.
         """
         time_list = [available_time for available_time in available_time_list if available_time.date(
         ) == selected_date.date()]
@@ -189,7 +239,9 @@ class ProctoruAPI():
 
     def get_time_details_api(self, time_details, user_selected_date=None, user_id=None):
         """
-        Returns the time details required for apis
+        Function get_time_details_api Returns the time details required for apis.
+        input params: time_details, user_selected_date, user_id
+        output params: JSON of time details.
         """
 
         exam_start_date_time = time_details.get('exam_start_date_time')
@@ -257,7 +309,9 @@ class ProctoruAPI():
 
     def add_adhoc_process(self, student_data):
         """
-        AddAdHocProcess.
+        Function add_adhoc_process calls AddAdHocProcess API od proctorU.
+        input param: student data
+        output param: JSON of AddAdHocProcess response.
         """
         data = student_data
         response = requests.post(
@@ -272,7 +326,9 @@ class ProctoruAPI():
 
     def set_exam_schedule_arrived(self, exam_data):
         """
-        Schedule exam.
+        Function set_exam_schedule_arrived saves exam to ProctorUExam.
+        imput param: exam_data
+        output param: boolean
         """
         try:
             # Delete all previous exams
@@ -288,7 +344,10 @@ class ProctoruAPI():
 
     def end_exam(self, student, block_id):
         """
-        end exam.
+        Function end_exam sets is_started flag false and saves exam to 
+        ProctorUExam.
+        imput param: student, block_id
+        output param: boolean
         """
         try:
             old_exam = ProctorUExam.objects.get(
@@ -304,7 +363,10 @@ class ProctoruAPI():
 
     def start_exam(self, student, block_id):
         """
-        end exam.
+        Function start_exam sets is_started flag True and saves exam to
+        ProctorUExam.
+        imput param: student, block_id
+        output param: boolean
         """
         try:
             old_exam = ProctorUExam.objects.get(
@@ -320,11 +382,9 @@ class ProctoruAPI():
 
     def get_schedule_exam_arrived(self, user, block_id):
         """
-        get schedule exam details.
-
-        user = User object
-        block_id = Block Id
-
+        Function get_schedule_exam_arrived return ProctorUExam object
+        imput param: student, block_id
+        output param: boolean
         """
         try:
             exam = ProctorUExam.objects.get(user=user, block_id=block_id)
@@ -335,11 +395,10 @@ class ProctoruAPI():
 
     def cancel_exam(self, user, block_id):
         """
-        cancel exam
-
-        user = User object
-        block_id = Block Id
-
+        Function cancel_exam calls removeReservation API of proctorU and sets 
+        is_canceled flag to true.
+        imput param: user object, block_id
+        output param: JSON response of removeReservation API
         """
         try:
             exam = ProctorUExam.objects.get(user=user, block_id=block_id)
@@ -360,10 +419,11 @@ class ProctoruAPI():
 
     def get_student_activity(self, user_id, block_id, start_date, end_date, time_zone):
         """
-        This resource returns an activity report of reservations on the ProctorU website for a specified date range or test-taker.
-        user = user id
-        start_date =  exam start date
-        end_date =  exam end date
+        Function get_student_activity calls clientActivityReport API and 
+        returns an activity report of reservations on the ProctorU
+        website for a specified date range or test-taker.
+        input params: user_id, block_id, start_date, end_date, time_zone
+        output params: JSON respomse of clientActivityReport
         """
         try:
             exam = ProctorUExam.objects.get(
@@ -377,7 +437,7 @@ class ProctoruAPI():
             }
             response_data = requests.post(
                 self.get_endpoint('client_activity_report'), data=data, headers=self.auth_token()).json()
-            for data_new in response_data.get('data'):
+            for data_new in response_data.get('data', []):
                 if int(data_new.get("ReservationNo")) == int(exam.reservation_no):
                     data_new["StartDate"] = self.get_formated_exam_dates(
                         data_new["StartDate"], time_zone)
@@ -391,9 +451,9 @@ class ProctoruAPI():
 
     def get_student_sessions(self, block_id):
         """
-        get student sessions.
-
-        block_id = Block Id
+        Function get_student_sessions exam object exam query set for the block
+        input param: block id
+        output param: Queryset of exams. 
 
         """
         exam = ProctorUExam.objects.filter(block_id=block_id)
@@ -401,7 +461,9 @@ class ProctoruAPI():
 
     def get_formated_exam_start_date(self, exam_date, user_id):
         """
-        return heading for exam time
+        Function get_formated_exam_start_date returns formated date .
+        input params: exam date, user_id
+        output params: Dictioanry of date times.
         """
         try:
             pr_user = ProctoruUser.objects.get(student=user_id)
@@ -423,6 +485,11 @@ class ProctoruAPI():
         }
 
     def get_utc_offset(self, dt, tm):
+        """
+        Function get_utc_offset adds offset value to utc formatted datetime.
+        input params: datetime object, time as string
+        output params: time as string with utc offset
+        """
         dm = dt.strftime('%z')
         if 'Z' in tm:
             tm = '{0}{1}:{2}'.format(tm[:-1], dm[:3], dm[3:])
@@ -447,7 +514,10 @@ class ProctoruAPI():
             self,
             avl_date_time_list, pr_user, time_details):
         """
-        return context for shedule ui
+        Function return_context_render_shedule context dictionary of exam 
+        timing and dates for schedule exam page.
+        input params: avl_date_time_list, pr_user, time_details
+        output params: Context dictionary.
         """
         api_exam_start_time = time_details.get("api_exam_start_time")
         exam_start_date_time = time_details.get("exam_start_time")
@@ -528,6 +598,11 @@ class ProctoruAPI():
         return context
 
     def get_ramaining_countdown(self, tm, user):
+        """
+        Function get_ramaining_countdown returns reamaining time for the exam
+        input params: datetime object, user object
+        output params: datetime object.
+        """
         try:
             tzobj = pytz.timezone(win_tz[user.time_zone])
             dt = dateutil.parser.parse(tm).astimezone(tzobj)
@@ -538,6 +613,11 @@ class ProctoruAPI():
             return False
 
     def getexamtime_staff(self, tm, timezone):
+        """
+        Function get_ramaining_countdown returns reamaining time for the exam
+        input params: datetime object, timezone object
+        output params: datetime object.
+        """
         try:
             tzobj = timezone
             dt = dateutil.parser.parse(tm).astimezone(tzobj)
@@ -549,8 +629,11 @@ class ProctoruAPI():
 
     def get_student_reservation_list(self, user_id):
         """
-        This resource returns a report of pending exams on the ProctorU website for a specific test taker.
-        If no test taker is specified, all pending exams for the institution will be returned.
+        Function get_student_reservation_list returns a report of pending exams 
+        on the ProctorU website for a specific test taker. If no test taker is 
+        specified, all pending exams for the institution will be returned.
+        input params: user_id
+        output_params: JSON response of studentReservationList API
         """
         try:
             time_stamp = datetime.datetime.utcnow().isoformat()
@@ -572,7 +655,11 @@ class ProctoruAPI():
 
     def begin_reservation(self, user_id, reservation_id, reservation_no):
         """
-        This resource retrieves a URL for a student to begin taking an exam.
+        This Function calls beginReservation API of ProctorU.
+        input data: user_id, reservation_id, reservation_no.
+        output data: JSON response of beginReservation API.
+        input data: user_id, reservation_id, reservation_no
+        output_data: JSON response of beginReservation API.
         """
         try:
             time_stamp = datetime.datetime.utcnow().isoformat()
@@ -589,6 +676,12 @@ class ProctoruAPI():
             return None
 
     def get_proctoru_user(self, user_id):
+        """
+        This Function returns user ProctorU user object.
+        
+        input data: user_id
+        output_data:  ProctorU user object.
+        """
         try:
             user = ProctoruUser.objects.get(student=user_id)
             return user
@@ -597,6 +690,12 @@ class ProctoruAPI():
             return None
 
     def update_proctoru_account(self, user_id, user_data):
+        """
+        This Function updates user ProctorU user object.
+        
+        input data: user_id, user data.
+        output_data:  ProctorU user object, time zone.
+        """
         if user_data:
             try:
                 user = ProctoruUser.objects.get(student=user_id)
@@ -622,6 +721,13 @@ class ProctoruAPI():
         return None
 
     def edit_proctoru_user(self, student_data):
+        """
+        This Function calls editStudent API of proctorU to update student
+        information.
+        
+        input data: student data.
+        output_data:  Boolean.
+        """
         try:
             response = requests.post(self.get_endpoint('edit_student'),
                                      data=student_data,

@@ -152,6 +152,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         return data.decode("utf8")
 
     def _is_studio(self):
+        """
+        This Function checks if call is from CMS or LMS and returns boolean 
+        True if call is from studio.
+        """
         studio = False
         try:
             studio = self.runtime.is_author_mode
@@ -160,9 +164,17 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         return studio
 
     def _user_is_staff(self):
+        """
+        This Function checks if user is staff and returns boolean 
+        True if user is staff.
+        """
         return getattr(self.runtime, 'user_is_staff', False)
 
     def _allowed_verified(self):
+        """
+        This Function checks if user is staff and returns boolean 
+        True if user is staff.
+        """
         course_enrollment = CourseEnrollment.objects.get(
             course_id=self.location.course_key, user=self.runtime.user_id)
         if course_enrollment.mode == 'verified':
@@ -171,6 +183,9 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             return False
 
     def get_block_id(self):
+        """
+        Thsi function returns the block id.
+        """
         return self.url_name
 
     # TO-DO: change this view to display your data your own way.
@@ -672,7 +687,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         return {'status': 'success'}
 
     def author_edit_view(self, context):
-        """We override this view from StudioContainerXBlockMixin to allow
+        """This Function is overriddedn from StudioContainerXBlockMixin to allow
         the addition of children blocks."""
         fragment = Fragment()
         self.render_children(context, fragment, can_reorder=True, can_add=True)
@@ -878,7 +893,10 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             random.choice('0123456789ABCDEF') for i in range(40))
 
         shedule_time = data.get('shedule_time', None)
-
+        try:
+            notes =  'Password is - {0}\nExam Notes - {1}'.format(self.password, self.notes)
+        except:
+            notes = 'Password is - '+self.password.encode('utf-8')+' - '+(self.notes).encode('utf-8')
         student_data = {
             'time_sent': datetime.datetime.utcnow().isoformat(),
             'student_id': str(user_data.get('id', None))[:50],
@@ -896,7 +914,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 self.display_name,
                 self.description
             )[:255],
-            'notes': 'Password is - {0}\nExam Notes - {1}'.format(self.password, self.notes),
+            'notes': notes,
             'duration': self.duration,
             'start_date': shedule_time,
             'takeitnow': 'N',
