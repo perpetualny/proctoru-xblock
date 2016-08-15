@@ -1,6 +1,17 @@
 ProctorU xBlock
 ===============
 
+1. [About](https://github.com/perpetualny/proctoru-xblock#open-edx)
+	1. [Open edX](https://github.com/perpetualny/proctoru-xblock#open-edx)
+	2. [ProctorU](https://github.com/perpetualny/proctoru-xblock#proctoru)
+	3. [ProctorU xBlock](https://github.com/perpetualny/proctoru-xblock#proctoru)
+2. [Architecture](https://github.com/perpetualny/proctoru-xblock#architecture)
+3. [Todo](https://github.com/perpetualny/proctoru-xblock#to-do)
+4. [Pre-Installation Requirements](https://github.com/perpetualny/proctoru-xblock#pre-installation-requirements)
+5. [Installation](https://github.com/perpetualny/proctoru-xblock#installation)
+6. [License](https://github.com/perpetualny/proctoru-xblock#license)
+
+
 Open edX
 --------
 [Open edX](http://open.edx.org) is an open-source learning management system  that powers hundereds of MOOC platforms including [edX.org](https://edx.org) and  [FunMOOC](https://www.fun-mooc.fr/), catering to tens of millions of online learners globally Learn more about Open edX and its components on the [Open edX website](https://open.edx.org/about-open-edx)
@@ -39,8 +50,8 @@ Pre-Installation Requirements
 
 
 
-Installation Guide
-------------------
+Installation
+-------------
 
 1. Clone xblock repo from https://github.com/perpetualny/proctoru-xblock.git to xBlock directory.
 2. Change directory to where you have cloned ProctorU XBlock.
