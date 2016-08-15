@@ -27,6 +27,8 @@ This software is an xBlock (extension to Open edX courseware) that enables proct
 
 It can be used to schedule a proctoring session for exams within an Open edX course.  Follow the below instructions to install the xBlock on an Open edX instance.You will need to register your institution with ProctorU to get an authentication token.
 
+![](http://i.imgur.com/rCTCfju.png)
+
 ![](http://i.imgur.com/Tr5Nlq4.jpg)
 
 To view more screens, click _[here](https://projects.invisionapp.com/share/V76EZPRNU#/screens)_
