@@ -20,21 +20,31 @@ It can be used to schedule a proctoring session for exams within an Open edX cou
 
 To view more screens, click _[here](https://projects.invisionapp.com/share/V76EZPRNU#/screens)_
 
+
 Architecture
 -----------------
 
+
 To Do
 -------
+	[ ] English language support
+	[ ] Minor bug-fixes
 
-Pre Installation Requirements
+Pre-Installation Requirements
 --------------------------------------
+	1. Open edX Dogwood release
+	2. ProctorU Authentication Token
+	3. Django ( > v1.8 )
+
+
+
 
 Installation Guide
 ------------------
 
-1. Clone xblock repo from https://github.com/ProctorU/xBlock.git to x block directory.
+1. Clone xblock repo from https://github.com/perpetualny/proctoru-xblock.git to xBlock directory.
 2. Change directory to where you have cloned ProctorU XBlock.
-3. To install requirements for ProctorU XBlock. Do not upgrade dependencies this will break the installation
+3. To install requirements for ProctorU XBlock. **Do not upgrade dependencies** this will break the Open edX installation
 
         pip install -r --no-deps requirements.txt
 
@@ -54,6 +64,9 @@ Installation Guide
 
 
 
-The xBlock was developed by [ Perpetual Learning ](http://learning.perpetualny.com/) in collaboration with [ FunMOOC](https://www.fun-mooc.fr/) and [ ProctorU ](http://www.proctoru.com/). For more information contact [info@perpetualny.com](mailto:info@perpetualny.com)
-
+License
+-------
 This xblock is open sourced under AGPL v3 license, check the [LICENSE](https://github.com/perpetualny/proctoru-xblock/blob/master/LICENSE) file for detailed information.
+
+
+The xBlock was developed by [ Perpetual Learning ](http://learning.perpetualny.com/) in collaboration with [ FunMOOC](https://www.fun-mooc.fr/) and [ ProctorU ](http://www.proctoru.com/). For more information contact [info@perpetualny.com](mailto:info@perpetualny.com)
