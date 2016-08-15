@@ -13,11 +13,11 @@ ProctorU XBlock Installation Guide:
 		
     	python manage.py lms migrate proctoru --settings=aws
 
+6. Add "PROCTORU_TOKEN" and "PROCTORU_API" in both lms and cms `envs/common.py` file and restart edxapp
 
-6. To add authentication token for ProctorU.
+		PROCTORU_TOKEN = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+		PROCTORU_API = "x.proctoru.com"
 		
-		a. Login to admin panel of lms.
-		b. Click Open ProctorUAuthToken.
-		c. Click on Add new ProctorUAuthToken.
-		d. Add a token 6647b4ba-5da5-44a1-bc8e-ead386a66215
-		e. save the token
+7. Restart edxapp
+
+		sudo /edx/bin/supervisorctl restart all
