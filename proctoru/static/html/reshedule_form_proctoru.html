@@ -1,0 +1,381 @@
+{% load i18n %}
+{% load proctoru_validator %}
+<div class="content-wrapper proctoru">
+ <h2>{{self.display_name}}</h2>
+ <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>
+    <div class="form-wrapper proctoru">
+        <h3 class="form-title display-inline-block pull-left">{% trans "Modifier l'horaire de l'examen" %}</h3>
+         <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modifiez vos informations personnelles" %}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="border-bottom">&nbsp;</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="form-title">{% trans "L'examen est disponible du ..." %}</h3>
+                <label class="exam-schedule-timings">{{first_available_date}} {% trans "au" %} {{final_available_date}}</label>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row min-height-calendar">
+            <!--LHS-->
+            <div class="col-sm-5">
+            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une date..." %}</label>
+                <div id="datepicker"></div>
+                <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
+                <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
+                <input id="selected-date" type="hidden" name="selected-date" value="{{selected_date}}">
+                    <div class="clearfix">&nbsp;</div>
+                    {% if self.student_time_zone == self.student_old_time_zone %}
+                        <section class="box-wrapper">
+                            <h3 class="box-heading">{% trans "Horaire de l'examen" %}</h3>
+                            <div class="box-content text-center" id="div-keep-time">
+                                <h3 class="box-content-heading text-center">{{exam_time_heading.first_heading}}</h3>
+                                <p class="box-content-heading2 text-center">{{exam_time_heading.second_heading}}</p>
+                                <h5 class="box-content-text text-center">{{self.exam_time|get_ramaining_timestamp:self.runtime.user_id}}</h5>
+                                {% if allowed_keep_old_exam %}
+                                <button type="button" class="btn btn-grey keep-time" id="btn-keep-time">{% trans "Garder" %}</button>
+                                {% else %}
+                                <h5 class="box-content-text text-center">{% trans "Disponible temps d&apos;examen est modifi&eacute;e s&apos;il vous pla&icirc;t s&eacute;lectionner &agrave; nouveau." %}</h5>
+                                {% endif %}
+                            </div>
+                        </section>
+                    {% endif %}
+
+            </div>
+            <!--end LHS-->
+            <!--RHS-->
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une heure" %}</label>
+                    <ul class="list-unstyled time-section">
+                    {% if status == "emptylist" %}
+                    <li class="time-row">
+                        <div class="col-md-8">
+                            <h4 class="time-row-heading">{% trans "Aucun horaire d'examen disponible" %}</h4>
+                            <p class="time-row-heading2">{% trans "Veuillez essayer une autre date" %}</p>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% for available_time in time_list %}
+                        <li class="time-row {{available_time.data_value|get_ramaining_timestamp_status:self.runtime.user_id}}">
+
+                        <!--new code-->
+                            <div class="col-md-6 no-padding "><h4 class="time-row-heading">{{available_time.time_utc}}</h4></div>
+                            <div class="col-md-6 no-padding "><button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button></div>
+                       <!--end new code-->
+
+                            <div class="col-md-12 no-padding">
+                                <p class="time-row-heading2">{{available_time.day_year}}</p>
+                                <p class="time-row-text">{{available_time.data_value|get_ramaining_timestamp:self.runtime.user_id}}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!--end RHS-->
+        </div>
+    </div>
+         <!--Start user information modal -->
+        <div id="user-info-modal" class="modalDialog">
+            <div class="modelbody">
+                <!-- <a href="#close" title="Close" class="close">X</a> -->
+                <h4 class="modeltitle">{% trans "Modifiez vos informations " %}<span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span></h4>
+                  <div class="col-md-12">
+                    <div class="proctoru form form-horizontal">
+                       <div class="form-group">
+                           <label>{% trans "Num&eacute;ro de t&eacute;l&eacute;phone" %}</label>
+                           <label class="input-error" id="phone-error-message" style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre num&eacute;ro de t&eacute;l&eacute;phone valide" %}</label>
+                           <input type="text" id="phone" class="form-control" value="{{ proctoru_user.phone_number }}" placeholder="{% trans '06 00 00 00 or +336 00 00 00' %}"/>
+                       </div>
+                       <div class="form-group">
+                           <label>{% trans "Adresse" %}</label>
+                           <label class="input-error" id="address-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre adresse" %}</label>
+                           <input type="text" id="address" class="form-control"  value="{{ proctoru_user.address }}" placeholder="{% trans 'Appartement 123 Cit&eacute; des bosquets 10 rue de la Libert&eacute;' %}"/>
+                       </div>
+                       <div class="form-group">
+                           <label>{% trans "Ville" %}</label>
+                           <label class="input-error" id="city-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre ville" %}</label>
+                           <input type="text" id="city" class="form-control" value="{{ proctoru_user.city }}" placeholder="{% trans "Paris" %}"/>
+                       </div>
+                       <div class="form-group">
+                           <label>{% trans "Fuseau horaire" %}</label>
+                           <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre fuseau horaire" %}</label>
+                           <select class="form-control" id="time-zone">
+                            {% for time_zone in time_zone_list %}
+                                {% if proctoru_user.time_zone == time_zone.Id %}
+                                    <option value="{{ time_zone.Id }}" selected>{{ time_zone.DisplayName }}</option>
+                                {% else %}
+                                    <option value="{{ time_zone.Id }}">{{ time_zone.DisplayName }}</option>
+                                {% endif %}
+                            {% endfor %}
+                           </select>
+                       </div>
+                       <div class="form-group">
+                           <label>{% trans "Pays" %}</label>
+                           <label class="input-error" id="country-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre pays" %}</label>
+                           <input type="hidden" id="proctoru-country" value="{{ proctoru_user.country }}" />
+                           <select class="form-control" id="country">
+                               <option value="AF">Afghanistan</option>
+                                <option value="AL">Albania</option>
+                                <option value="DZ">Algeria</option>
+                                <option value="AS">American Samoa</option>
+                                <option value="AD">Andorra</option>
+                                <option value="AG">Angola</option>
+                                <option value="AI">Anguilla</option>
+                                <option value="AG">Antigua &amp; Barbuda</option>
+                                <option value="AR">Argentina</option>
+                                <option value="AA">Armenia</option>
+                                <option value="AW">Aruba</option>
+                                <option value="AU">Australia</option>
+                                <option value="AT">Austria</option>
+                                <option value="AZ">Azerbaijan</option>
+                                <option value="BS">Bahamas</option>
+                                <option value="BH">Bahrain</option>
+                                <option value="BD">Bangladesh</option>
+                                <option value="BB">Barbados</option>
+                                <option value="BY">Belarus</option>
+                                <option value="BE">Belgium</option>
+                                <option value="BZ">Belize</option>
+                                <option value="BJ">Benin</option>
+                                <option value="BM">Bermuda</option>
+                                <option value="BT">Bhutan</option>
+                                <option value="BO">Bolivia</option>
+                                <option value="BL">Bonaire</option>
+                                <option value="BA">Bosnia &amp; Herzegovina</option>
+                                <option value="BW">Botswana</option>
+                                <option value="BR">Brazil</option>
+                                <option value="BC">British Indian Ocean Ter</option>
+                                <option value="BN">Brunei</option>
+                                <option value="BG">Bulgaria</option>
+                                <option value="BF">Burkina Faso</option>
+                                <option value="BI">Burundi</option>
+                                <option value="KH">Cambodia</option>
+                                <option value="CM">Cameroon</option>
+                                <option value="CA">Canada</option>
+                                <option value="IC">Canary Islands</option>
+                                <option value="CV">Cape Verde</option>
+                                <option value="KY">Cayman Islands</option>
+                                <option value="CF">Central African Republic</option>
+                                <option value="TD">Chad</option>
+                                <option value="CD">Channel Islands</option>
+                                <option value="CL">Chile</option>
+                                <option value="CN">China</option>
+                                <option value="CX">Christmas Island</option>
+                                <option value="CS">Cocos Island</option>
+                                <option value="CO">Colombia</option>
+                                <option value="CC">Comoros</option>
+                                <option value="CG">Congo</option>
+                                <option value="CK">Cook Islands</option>
+                                <option value="CR">Costa Rica</option>
+                                <option value="CI">Cote D'Ivoire</option>
+                                <option value="HR">Croatia</option>
+                                <option value="CU">Cuba</option>
+                                <option value="CB">Curacao</option>
+                                <option value="CY">Cyprus</option>
+                                <option value="CZ">Czech Republic</option>
+                                <option value="DK">Denmark</option>
+                                <option value="DJ">Djibouti</option>
+                                <option value="DM">Dominica</option>
+                                <option value="DO">Dominican Republic</option>
+                                <option value="TM">East Timor</option>
+                                <option value="EC">Ecuador</option>
+                                <option value="EG">Egypt</option>
+                                <option value="SV">El Salvador</option>
+                                <option value="GQ">Equatorial Guinea</option>
+                                <option value="ER">Eritrea</option>
+                                <option value="EE">Estonia</option>
+                                <option value="ET">Ethiopia</option>
+                                <option value="FA">Falkland Islands</option>
+                                <option value="FO">Faroe Islands</option>
+                                <option value="FJ">Fiji</option>
+                                <option value="FI">Finland</option>
+                                <option value="FR">France</option>
+                                <option value="GF">French Guiana</option>
+                                <option value="PF">French Polynesia</option>
+                                <option value="FS">French Southern Ter</option>
+                                <option value="GA">Gabon</option>
+                                <option value="GM">Gambia</option>
+                                <option value="GE">Georgia</option>
+                                <option value="DE">Germany</option>
+                                <option value="GH">Ghana</option>
+                                <option value="GI">Gibraltar</option>
+                                <option value="GB">Great Britain</option>
+                                <option value="GR">Greece</option>
+                                <option value="GL">Greenland</option>
+                                <option value="GD">Grenada</option>
+                                <option value="GP">Guadeloupe</option>
+                                <option value="GU">Guam</option>
+                                <option value="GT">Guatemala</option>
+                                <option value="GN">Guinea</option>
+                                <option value="GY">Guyana</option>
+                                <option value="HT">Haiti</option>
+                                <option value="HW">Hawaii</option>
+                                <option value="HN">Honduras</option>
+                                <option value="HK">Hong Kong</option>
+                                <option value="HU">Hungary</option>
+                                <option value="IS">Iceland</option>
+                                <option value="IN">India</option>
+                                <option value="ID">Indonesia</option>
+                                <option value="IA">Iran</option>
+                                <option value="IQ">Iraq</option>
+                                <option value="IR">Ireland</option>
+                                <option value="IM">Isle of Man</option>
+                                <option value="IL">Israel</option>
+                                <option value="IT">Italy</option>
+                                <option value="JM">Jamaica</option>
+                                <option value="JP">Japan</option>
+                                <option value="JO">Jordan</option>
+                                <option value="KZ">Kazakhstan</option>
+                                <option value="KE">Kenya</option>
+                                <option value="KI">Kiribati</option>
+                                <option value="NK">Korea North</option>
+                                <option value="KS">Korea South</option>
+                                <option value="KW">Kuwait</option>
+                                <option value="KG">Kyrgyzstan</option>
+                                <option value="LA">Laos</option>
+                                <option value="LV">Latvia</option>
+                                <option value="LB">Lebanon</option>
+                                <option value="LS">Lesotho</option>
+                                <option value="LR">Liberia</option>
+                                <option value="LY">Libya</option>
+                                <option value="LI">Liechtenstein</option>
+                                <option value="LT">Lithuania</option>
+                                <option value="LU">Luxembourg</option>
+                                <option value="MO">Macau</option>
+                                <option value="MK">Macedonia</option>
+                                <option value="MG">Madagascar</option>
+                                <option value="MY">Malaysia</option>
+                                <option value="MW">Malawi</option>
+                                <option value="MV">Maldives</option>
+                                <option value="ML">Mali</option>
+                                <option value="MT">Malta</option>
+                                <option value="MH">Marshall Islands</option>
+                                <option value="MQ">Martinique</option>
+                                <option value="MR">Mauritania</option>
+                                <option value="MU">Mauritius</option>
+                                <option value="ME">Mayotte</option>
+                                <option value="MX">Mexico</option>
+                                <option value="MI">Midway Islands</option>
+                                <option value="MD">Moldova</option>
+                                <option value="MC">Monaco</option>
+                                <option value="MN">Mongolia</option>
+                                <option value="MS">Montserrat</option>
+                                <option value="MA">Morocco</option>
+                                <option value="MZ">Mozambique</option>
+                                <option value="MM">Myanmar</option>
+                                <option value="NA">Nambia</option>
+                                <option value="NU">Nauru</option>
+                                <option value="NP">Nepal</option>
+                                <option value="AN">Netherland Antilles</option>
+                                <option value="NL">Netherlands (Holland, Europe)</option>
+                                <option value="NV">Nevis</option>
+                                <option value="NC">New Caledonia</option>
+                                <option value="NZ">New Zealand</option>
+                                <option value="NI">Nicaragua</option>
+                                <option value="NE">Niger</option>
+                                <option value="NG">Nigeria</option>
+                                <option value="NW">Niue</option>
+                                <option value="NF">Norfolk Island</option>
+                                <option value="NO">Norway</option>
+                                <option value="OM">Oman</option>
+                                <option value="PK">Pakistan</option>
+                                <option value="PW">Palau Island</option>
+                                <option value="PS">Palestine</option>
+                                <option value="PA">Panama</option>
+                                <option value="PG">Papua New Guinea</option>
+                                <option value="PY">Paraguay</option>
+                                <option value="PE">Peru</option>
+                                <option value="PH">Philippines</option>
+                                <option value="PO">Pitcairn Island</option>
+                                <option value="PL">Poland</option>
+                                <option value="PT">Portugal</option>
+                                <option value="PR">Puerto Rico</option>
+                                <option value="QA">Qatar</option>
+                                <option value="ME">Republic of Montenegro</option>
+                                <option value="RS">Republic of Serbia</option>
+                                <option value="RE">Reunion</option>
+                                <option value="RO">Romania</option>
+                                <option value="RU">Russia</option>
+                                <option value="RW">Rwanda</option>
+                                <option value="NT">St Barthelemy</option>
+                                <option value="EU">St Eustatius</option>
+                                <option value="HE">St Helena</option>
+                                <option value="KN">St Kitts-Nevis</option>
+                                <option value="LC">St Lucia</option>
+                                <option value="MB">St Maarten</option>
+                                <option value="PM">St Pierre &amp; Miquelon</option>
+                                <option value="VC">St Vincent &amp; Grenadines</option>
+                                <option value="SP">Saipan</option>
+                                <option value="SO">Samoa</option>
+                                <option value="AS">Samoa American</option>
+                                <option value="SM">San Marino</option>
+                                <option value="ST">Sao Tome &amp; Principe</option>
+                                <option value="SA">Saudi Arabia</option>
+                                <option value="SN">Senegal</option>
+                                <option value="RS">Serbia</option>
+                                <option value="SC">Seychelles</option>
+                                <option value="SL">Sierra Leone</option>
+                                <option value="SG">Singapore</option>
+                                <option value="SK">Slovakia</option>
+                                <option value="SI">Slovenia</option>
+                                <option value="SB">Solomon Islands</option>
+                                <option value="OI">Somalia</option>
+                                <option value="ZA">South Africa</option>
+                                <option value="ES">Spain</option>
+                                <option value="LK">Sri Lanka</option>
+                                <option value="SD">Sudan</option>
+                                <option value="SR">Suriname</option>
+                                <option value="SZ">Swaziland</option>
+                                <option value="SE">Sweden</option>
+                                <option value="CH">Switzerland</option>
+                                <option value="SY">Syria</option>
+                                <option value="TA">Tahiti</option>
+                                <option value="TW">Taiwan</option>
+                                <option value="TJ">Tajikistan</option>
+                                <option value="TZ">Tanzania</option>
+                                <option value="TH">Thailand</option>
+                                <option value="TG">Togo</option>
+                                <option value="TK">Tokelau</option>
+                                <option value="TO">Tonga</option>
+                                <option value="TT">Trinidad &amp; Tobago</option>
+                                <option value="TN">Tunisia</option>
+                                <option value="TR">Turkey</option>
+                                <option value="TU">Turkmenistan</option>
+                                <option value="TC">Turks &amp; Caicos Is</option>
+                                <option value="TV">Tuvalu</option>
+                                <option value="UG">Uganda</option>
+                                <option value="UA">Ukraine</option>
+                                <option value="AE">United Arab Emirates</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="US">United States of America</option>
+                                <option value="UY">Uruguay</option>
+                                <option value="UZ">Uzbekistan</option>
+                                <option value="VU">Vanuatu</option>
+                                <option value="VS">Vatican City State</option>
+                                <option value="VE">Venezuela</option>
+                                <option value="VN">Vietnam</option>
+                                <option value="VB">Virgin Islands (Brit)</option>
+                                <option value="VA">Virgin Islands (USA)</option>
+                                <option value="WK">Wake Island</option>
+                                <option value="WF">Wallis &amp; Futana Is</option>
+                                <option value="YE">Yemen</option>
+                                <option value="ZR">Zaire</option>
+                                <option value="ZM">Zambia</option>
+                                <option value="ZW">Zimbabwe</option>
+                           </select>
+                       </div>     
+                    </div>
+                  </div>  
+
+                  <p class="text-center">
+                   <button class="btn btn-info edit-proctoru-account">{% trans "Sauvegarder" %}</button>
+                   <button class="btn btn-default close-modal" data-dismiss="modal"><a href="#close">{% trans "Annuler" %}</a></button>
+                  </p> 
+            <div>
+       </div>
+    <!--End user information modal -->
+    <!--end form-wrapper-->
+</div>

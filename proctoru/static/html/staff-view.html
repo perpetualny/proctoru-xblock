@@ -1,0 +1,72 @@
+{% load i18n %}
+{% load proctoru_validator %}
+<div class="content-wrapper proctoru">
+        
+    <!---->
+    <div class="proctoring-results proctoru">
+      <h1 class="result-heading">{% trans "R&eacute;sultat d'examen pour" %} "{{self.display_name}}"</h1>
+      <div class="row">
+
+        <!--LHS-->
+        <div class="col-md-6 lhs">
+          <h4 class="results-heading">{% trans "Etudiants" %}</h4>
+          {% for student in students %}
+          <!--single row-->
+           <div class="result-row grey-bg">
+           <label class="pull-left">{{student.user.profile.name}}</label>
+           <button class="btn btn-info pull-right get-result" data-pk="{{student.user.id}}" start-date="{{student.actual_start_time}}" end-date="{{student.end_time}}" student-name="{{student.user.username}}">{% trans "Obtenir les resultats" %}</button>
+           </div>
+          <!--end single row-->
+          {% endfor %}
+
+        </div>
+        <!--end LHS-->
+
+        <!--RHS-->
+        <div class="col-md-6 rhs">
+          <h4 class="results-heading">{% trans "les resultats" %}</h4>
+          <div class="box-wrapper result-box-no-data" style="display: none;">
+          </div>
+          <div class="box-wrapper text-center" id="block-loader" style="display: none;">
+              <img src="/xblock/resource/proctoru/public/images/loader.gif">
+          </div>
+          <div class="box-wrapper result-box" style="display: none">
+            <h2 class="results-heading student-name"></h2>
+
+            <p class="single-row"><label><strong>{% trans "Planifi&eacute;:" %}</strong></label>
+            <label class="start-date"></label>
+            </p>
+
+            <p class="single-row"><label><strong>{% trans "Compl&eacute;t&eacute;:" %}</strong></label>
+            <label class="completd-date"></label>
+            </p>
+            
+            <h4 class="notes-heading">{% trans "Notes de la session:" %}</h4>
+            <p class="session-notes">{{self.notes}}</p>
+
+            <div id="chk-identity-marked" class="col-md-4">
+              <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
+              <h3 class="session-status-heading text-center">{% trans "Identit&eacute; v&eacute;rifi&eacute;e" %}</h3>
+            </div>
+
+            <div id="auth-marked" class="col-md-4">
+              <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
+              <h3 class="session-status-heading text-center">{% trans "Authentifi&eacute;" %}</h3>
+            </div>
+
+            <div id="exam-submit-marked" class="col-md-4">
+              <img src="/xblock/resource/proctoru/public/images/checked.png" class="checked"/>
+              <h3 class="session-status-heading text-center">{% trans "Examen soumis" %}</h3>
+            </div>
+
+          </div><!--end box-wrapper-->
+
+        </div>
+        <!--end RHS-->
+
+      </div><!--end row-->
+    </div>
+    <!---->
+    
+    <!--end form-wrapper-->
+</div>

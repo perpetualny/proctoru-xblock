@@ -1,0 +1,162 @@
+{% load i18n l10n %}
+{% load proctoru_validator %}
+<div class="content-wrapper no-padding">
+        <div class="popup-wrapper proctoru">
+            <!--white wrapper-->
+                <div class="popup-wraper-white">
+                    <!--popup-form-->
+                    <div class="popup-form">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                              <label for="" class="col-sm-12 control-label">{% trans "Nom de l'examen" %}<span class="color-red" id="exam-name-error" style="display:none;">{% trans "*" %}</span></label>
+                              <div class="col-sm-5">
+                               <input type="text" class="form-control" id="exam-name" placeholder="Final Exam" value="{{ self.display_name }}" required>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="" class="col-sm-12 control-label">{% trans "Description de l'examen(For Students)" %}<span class="color-red" id="exam-description-error" style="display:none;">{% trans "*" %}</span></label>
+                                    <div class="col-sm-12">
+                              {% if self.description %}
+                                    <textarea class="form-control" rows="2" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required>{{ self.description }}</textarea>
+                              {% else %}
+                                    <textarea class="form-control" rows="2" id="exam-description" placeholder="This exam will be proctored using ProctorU..." value="" required></textarea>
+                              {% endif %}
+                              </div>
+                            </div>
+
+
+                          <div class="row"><!--start row-->
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label text-left">{% trans "Dur&eacute;e de l'examen (minutes)"  %}<span class="color-red" id="exam-duration-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                   <input type="text" class="form-control" id="exam-duration" placeholder="In Minutes" value="{{ self.duration }}" required>
+                                  </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4" style="position:relative;">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label">{% trans "Date de d&eacute;but de l'examen" %}  <span class="color-red" id="exam-start-date-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                   <input type="text" class="form-control" id="exam-start-date" value="{{ self.start_date|filter_date_format }}" required>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label">{% trans "Heure de d&eacute;but de l'examen" %} <span class="color-red" id="exam-start-time-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                      <select class="form-control" id="exam-start-time" value="{{ self.exam_start_time}}" required>
+                                          <option value="00:00">00:00</option>
+                                          <option value="01:00">01:00</option>
+                                          <option value="02:00">02:00</option>
+                                          <option value="03:00">03:00</option>
+                                          <option value="04:00">04:00</option>
+                                          <option value="05:00">05:00</option>
+                                          <option value="06:00">06:00</option>
+                                          <option value="07:00">07:00</option>
+                                          <option value="08:00">08:00</option>
+                                          <option value="09:00">09:00</option>
+                                          <option value="10:00">10:00</option>
+                                          <option value="11:00">11:00</option>
+                                          <option value="12:00">12:00</option>
+                                          <option value="13:00">13:00</option>
+                                          <option value="14:00">14:00</option>
+                                          <option value="15:00">15:00</option>
+                                          <option value="16:00">16:00</option>
+                                          <option value="17:00">17:00</option>
+                                          <option value="18:00">18:00</option>
+                                          <option value="19:00">19:00</option>
+                                          <option value="20:00">20:00</option>
+                                          <option value="21:00">21:00</option>
+                                          <option value="22:00">22:00</option>
+                                          <option value="23:00">23:00</option>
+                                      </select>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label">{% trans "Fuseau horaire" %}<span class="color-red" id="timezone-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                      <select class="form-control" id="time-zone" required>
+                                          <option>Fuseau horaire</option>
+                                          {% for time_zone in time_zone_list %}
+                                              {% if self.time_zone == time_zone.Id %}
+                                                  <option value="{{ time_zone.Id }}" selected>{{ time_zone.DisplayName }}</option>
+                                              {% endif %}
+                                                  <option value="{{ time_zone.Id }}">{{ time_zone.DisplayName  }}</option>
+                                          {% endfor %}
+                                      </select>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label">{% trans "Date de fin de l'examen" %}<span class="color-red" id="exam-end-date-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="exam-end-date"value="{{ self.end_date|filter_date_format }}" required>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="" class="col-sm-12 control-label">{% trans "Heure de fin de l'examen" %}<span class="color-red" id="exam-end-time-error" style="display:none;">{% trans "*" %}</span></label>
+                                  <div class="col-sm-12">
+                                      <select class="form-control" id="exam-end-time" value="{{ self.exam_end_time }}" required>
+                                          <option value="00:00">00:00</option>
+                                          <option value="01:00">01:00</option>
+                                          <option value="02:00">02:00</option>
+                                          <option value="03:00">03:00</option>
+                                          <option value="04:00">04:00</option>
+                                          <option value="05:00">05:00</option>
+                                          <option value="06:00">06:00</option>
+                                          <option value="07:00">07:00</option>
+                                          <option value="08:00">08:00</option>
+                                          <option value="09:00">09:00</option>
+                                          <option value="10:00">10:00</option>
+                                          <option value="11:00">11:00</option>
+                                          <option value="12:00">12:00</option>
+                                          <option value="13:00">13:00</option>
+                                          <option value="14:00">14:00</option>
+                                          <option value="15:00">15:00</option>
+                                          <option value="16:00">16:00</option>
+                                          <option value="17:00">17:00</option>
+                                          <option value="18:00">18:00</option>
+                                          <option value="19:00">19:00</option>
+                                          <option value="20:00">20:00</option>
+                                          <option value="21:00">21:00</option>
+                                          <option value="22:00">22:00</option>
+                                          <option value="23:00">23:00</option>
+                                      </select>
+                                  </div>
+                                </div>
+                            </div>
+
+                          </div>
+                          <!--end row-->  
+
+                             <div class="clearfix"></div>
+
+                            <div class="form-group">
+                              <label for="" class="col-sm-12 control-label">{% trans "Notes concernant l'examen (pour le surveillant)" %}<span class="color-red" id="exam-notes-error" style="display:none;">{% trans "*" %}</span></label>
+                              <div class="col-sm-12">
+                               <textarea class="form-control" rows="5" id="exam-notes" placeholder="Open Book, No Calculator" required>{{ self.notes }}</textarea>
+                              </div>
+                            </div>                          
+                        </form>
+                    </div>
+                    <!--end of popup form-->
+                </div>
+            <!--end white wrapper-->
+        </div>
+        <!--end popup-wrapper-->
+    </div>

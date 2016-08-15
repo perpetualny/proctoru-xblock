@@ -1,0 +1,1010 @@
+/* CSS for ProctorUXBlock */
+
+.proctoru .btn {
+    text-shadow: none;
+}
+
+.proctoru_block .count {
+    font-weight: bold;
+}
+
+.proctoru_block p {
+    cursor: pointer;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.color-skyblue {
+    color: #1EC4D8;
+}
+
+.content-wrapper.proctoru .min-height-calendar {
+    min-height: 311px;
+}
+
+.content-wrapper.proctoru {
+    padding: 0px;
+}
+
+.content-wrapper .content-para {
+    font-size: 14px;
+    color: #000;
+}
+
+.form-wrapper.proctoru {
+    padding: 31px 25px;
+    background-color: #FAFAFA;
+    border: 1px solid #d6d6d6;
+}
+
+.form-wrapper.proctoru h2.form-title {
+    color: #4c4c4c;
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+.form-wrapper.proctoru.user-info-form h2.form-title {
+    font-size: 18px;
+    text-align: center;
+}
+
+.form-wrapper.proctoru .border-bottom {
+    background: #D8D6D6;
+    height: 1px;
+    margin: 16px 0px;
+}
+
+.form-wrapper.proctoru label.form-control {
+    color: #8D8D8D;
+}
+
+.form-wrapper.proctoru .form-group label {
+    color: #8D8D8D;
+    font-size: 14px;
+}
+
+.form-wrapper.proctoru .form-group label.input-error {
+    color: #D43F3A;
+    margin-left: 3px;
+    font-size: 10px;
+}
+
+.form-wrapper.proctoru button.schedule-exam {
+    margin-top: 20px;
+}
+
+
+/*code for list*/
+
+.form-wrapper.proctoru .heading-time-section {
+    color: #4c4c4c;
+    font-size: 16px;
+    padding: 14px;
+    margin: 0px;
+    background-color: #f3f3f3;
+    border: 1px solid #dcdddd;
+}
+
+.form-wrapper.proctoru ul.time-section {
+    border: 1px solid #DCDDDD;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row {
+    border-bottom: 1px solid #D7D8D8;
+    background: #fff;
+    padding: 14px 20px 12px 14px;
+    overflow: hidden;
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row h4.time-row-heading {
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row .time-row-heading2 {
+    font-size: 14px;
+    color: #8D8D8D;
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row .time-row-text {
+    font-size: 10px;
+    color: #8D8D8D;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row button {
+    margin-top: 13px;
+}
+
+
+/*end code for list*/
+
+.form-wrapper.proctoru.user-info-form {
+    min-width: 500px;
+    padding: 0px;
+    float: left;
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+.inside-wrapper {
+    padding: 30px 30px 30px 25px;
+}
+
+.form-wrapper.proctoru.user-info-form .border-bottom {
+    margin: 17px 0px 24px 0;
+}
+
+.form-wrapper.proctoru .btn-info {
+    background-color: #19c0db;
+    border-color: #0b8cac;
+}
+
+.form-wrapper.proctoru .btn-info:focus,
+.form-wrapper.proctoru .btn-info:hover {
+    box-shadow: none;
+    outline: none;
+    background-image: none;
+}
+
+.form-wrapper.proctoru.user-info-form .form-group h4 {
+    color: #4c4c4c;
+    font-size: 14px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.form-wrapper.proctoru.user-info-form .form-group input.form-control {
+    color: #4c4c4c;
+}
+
+.form-wrapper.proctoru.user-info-form .clearfix {
+    height: 1px;
+}
+
+.proctoru .user-info-rhs {
+    overflow: hidden;
+    margin: 0px 0px 0px 55px;
+    padding: 0px !important;
+}
+
+.proctoru .user-info-rhs h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 80px;
+}
+
+.user-info-rhs .user-info-para {
+    font-size: 14px;
+    color: #0b0b0b;
+    margin-bottom: 64px;
+}
+
+.user-info-rhs .owl-img-wrapper {
+    text-align: center;
+}
+
+.form-wrapper.proctoru.user-info-form button.schedule-exam {
+    background: #1cc3d8;
+    background-image: -webkit-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -moz-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -ms-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -o-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: linear-gradient(to bottom, #1cc3d8, #11b7de);
+    -webkit-border-radius: 3;
+    -moz-border-radius: 3;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 1px #666666;
+    -moz-box-shadow: 0px 1px 1px #666666;
+    box-shadow: 0px 1px 1px #666666;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 14px;
+    border-top: solid #0b8cac 1px;
+    border-right: solid #0b8cac 1px;
+    border-bottom: solid #0b8cac 1px;
+    border-left: solid #0b8cac 1px;
+    text-decoration: none;
+    width: 140px;
+    height: 40px;
+}
+
+.form-wrapper.proctoru.user-info-form button.schedule-exam:hover {
+    background: #87ddf4;
+    background-image: -webkit-linear-gradient(top, #87ddf4, #12b7e0);
+    background-image: -moz-linear-gradient(top, #87ddf4, #12b7e0);
+    background-image: -ms-linear-gradient(top, #87ddf4, #12b7e0);
+    background-image: -o-linear-gradient(top, #87ddf4, #12b7e0);
+    background-image: linear-gradient(to bottom, #87ddf4, #12b7e0);
+    text-decoration: none;
+}
+
+
+/*css code for reschedule exam on date 11-3-2016*/
+
+.margin-left20 {
+    margin-left: 20px;
+}
+
+.form-wrapper.proctoru .box-wrapper {
+    border: 1px solid #dcdddd;
+}
+
+.form-wrapper.proctoru .box-wrapper .box-heading {
+    background-image: none;
+    color: #4c4c4c;
+    font-size: 16px;
+    padding: 14px;
+    margin: 0px;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #dcdddd;
+}
+
+
+/* custom ui dtepicker TO DO arrow needs to be fixed */
+
+.form-wrapper.proctoru #datepicker {
+    color: #4c4c4c;
+    font-size: 16px;
+    margin: 0px;
+    background-color: transparent;
+    border-bottom: none;
+}
+
+.form-wrapper.proctoru .box-wrapper .box-content {
+    background-color: #fff;
+    padding: 14px 14px 29px 14px;
+}
+
+.form-wrapper.proctoru .box-wrapper .box-content-heading {
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.form-wrapper.proctoru .box-wrapper .box-content-heading2 {
+    font-size: 14px;
+    color: #8D8D8D;
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
+.form-wrapper.proctoru .box-wrapper .box-content-text {
+    font-size: 10px;
+    color: #8D8D8D;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
+.form-wrapper.proctoru .box-wrapper .btn-grey {
+    background-color: #f3f3f3;
+    border: 1px solid #d6d6d6;
+    border-radius: 3px;
+    color: #666;
+    margin-top: 19px;
+    outline: none;
+}
+
+.form-wrapper.proctoru .box-wrapper .btn-grey:focus,
+.form-wrapper.proctoru .box-wrapper .btn-grey:hover {
+    background-color: #fff;
+    outline: none;
+    box-shadow: none;
+    background-image: none;
+}
+
+.display-inline-block {
+    display: inline-block;
+}
+
+.form-wrapper.proctoru .heading-label {
+    font-size: 12px;
+}
+
+.form-wrapper.proctoru .heading-label a {
+    color: #1EC4D8;
+    text-decoration: none;
+}
+
+.form-wrapper.proctoru .form-title-big {
+    color: #4c4c4c;
+    font-size: 24px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+
+/*end css code for reschedule exam on date 11-3-2016*/
+
+
+/*custom ui dtepicker*/
+
+.form-wrapper.proctoru #datepicker:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.form-wrapper.proctoru #datepicker:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.ui-widget-header {
+    background: #fff;
+    border: none;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+}
+
+.ui-widget-content {
+    background: #fff;
+    border: 1px solid #dcdddd;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    color: #000;
+    font-size: 12px;
+    border: none;
+    background: none;
+    text-align: center;
+}
+
+.ui-state-default:hover {
+    background: #0fb5df;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    background: #0fb5df;
+    border: none;
+    color: #fff;
+}
+
+.ui-datepicker .ui-state-default.ui-state-hover {
+    background: #0fb5df;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    padding: 14px;
+}
+
+.ui-datepicker td,
+.ui-datepicker th {
+    padding: 0px;
+    text-align: center !important
+}
+
+.ui-icon-circle-triangle-e {
+    background-position: -2px 2px;
+}
+
+.ui-widget-header .ui-icon {
+    background-image: url(/xblock/resource/proctoru/public/images/arrow.png);
+}
+
+.ui-datepicker .ui-datepicker-prev span {
+    background-image: #fff url(/xblock/resource/proctoru/public/images/arrow.png);
+    background-position: 0px 2px;
+}
+
+.ui-datepicker .ui-datepicker-next span {
+    background-image: #fff url(/xblock/resource/proctoru/public/images/arrow.png);
+}
+
+.ui-datepicker .ui-datepicker-prev span {
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: 0px 2px;
+}
+
+.ui-datepicker .ui-datepicker-next span {
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: -39px 2px;
+}
+
+.ui-datepicker-next.ui-corner-all.ui-state-hover.ui-datepicker-next-hover {
+    border: 1px solid #fff;
+    background: #fff;
+    font-weight: bold;
+    color: #fff;
+}
+
+.ui-datepicker-calendar tr td.ui-datepicker-current-day .ui-state-default.ui-state-active {
+    border-radius: 3px;
+}
+
+.ui-datepicker .ui-widget-header {
+    background-color: #fff
+}
+
+.proctoru a:hover {
+    outline: 0;
+    color: #23527c;
+    text-decoration: underline;
+}
+
+a:link:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:link,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:link,
+a:link:focus,
+a:visited:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:link,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:link,
+a:link:focus,
+a:visited:hover,
+div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited,
+div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+a:link:focus,
+a:visited:hover,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+a:link:hover,
+a:link:focus,
+a:visited:hover,
+a:visited:focus {
+    text-decoration: underline;
+}
+
+.ui-state-default:hover {
+    background: #0fb5df;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default .ui-datepicker-calendar tr th {
+    text-align: center;
+}
+
+.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    width: auto;
+}
+
+.ui-datepicker .ui-datepicker-next {
+    right: 1px;
+}
+
+.ui-datepicker .ui-datepicker-prev {
+    left: 1px;
+}
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+    top: 1px;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover {
+    border: none;
+}
+
+.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.ui-datepicker .ui-datepicker-next.ui-state-hover .ui-icon-circle-triangle-e,
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-w {
+    background-image: none;
+}
+
+.ui-datepicker-next.ui-corner-all.ui-state-hover.ui-datepicker-next-hover {
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    color: #fff;
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: -39px 2px;
+    background-repeat: no-repeat;
+}
+
+.ui-datepicker-prev.ui-corner-all.ui-state-hover.ui-datepicker-prev-hover {
+    border: none;
+    font-weight: bold;
+    background-color: transparent;
+    color: #fff;
+    background-image: url("/xblock/resource/proctoru/public/images/arrow.png");
+    background-position: 0px 2px;
+    background-repeat: no-repeat;
+}
+
+.ui-datepicker .ui-datepicker-next.ui-state-hover .ui-icon-circle-triangle-e,
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-e {
+    background-image: none;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-datepicker .ui-datepicker-prev.ui-state-hover .ui-icon-circle-triangle-w {
+    background-image: none;
+}
+
+.ui-datepicker .ui-datepicker-next,
+.ui-datepicker .ui-datepicker-prev {
+    width: 16px;
+    height: 16px;
+}
+
+
+/*end custom ui datepicker*/
+
+
+/*code for instructor editor page code*/
+
+.content-wrapper.no-padding {
+    padding: 0px;
+}
+
+.form-wrapper.proctoru ul.time-section li.time-row .no-padding {
+    padding: 0px;
+}
+
+div.course-wrapper section.course-content .vert-mod > div ul {
+    padding-left: 0px;
+}
+
+.popup-wrapper.proctoru {
+    margin: 0px auto;
+    background-color: #e5e5e5;
+    padding: 15px;
+    border-radius: 3px;
+}
+
+.popup-wrapper.proctoru h3.popup-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    padding-bottom: 20px;
+}
+
+.popup-wrapper.proctoru .popup-btn {
+    background: #1cc3d8;
+    background-image: -webkit-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -moz-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -ms-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: -o-linear-gradient(top, #1cc3d8, #11b7de);
+    background-image: linear-gradient(to bottom, #1cc3d8, #11b7de);
+    -webkit-border-radius: 3;
+    -moz-border-radius: 3;
+    border-radius: 3px;
+    box-shadow: 0px 1px 1px #666666;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    border-top: solid #0b8cac 1px;
+    border-right: solid #0b8cac 1px;
+    border-bottom: solid #0b8cac 1px;
+    border-left: solid #0b8cac 1px;
+    text-decoration: none;
+    width: 75px;
+    height: 35px;
+}
+
+.popup-wrapper.proctoru span.popup-btn-span a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1EC4D8;
+}
+
+.popup-wrapper.proctoru span.popup-btn-span a:hover {
+    text-decoration: none;
+}
+
+.popup-wrapper.proctoru .popup-wraper-white {
+    padding: 18px 25px 70px 25px;
+    background: #fff;
+    margin-bottom: 15px;
+}
+
+.popup-wrapper.proctoru .popup-wraper-white .popup-form {}
+
+.popup-wrapper.proctoru .popup-wraper-white .popup-form .control-label {
+    text-align: left;
+    color: #8d8d8d;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.ui-widget-header > .ui-state-hover {
+    background: none;
+}
+
+
+/*end code for instructor editor page code*/
+
+.margin-bottom15 {
+    margin-bottom: 15px;
+}
+
+
+/* Start clock css */
+
+#clockdiv {
+    font-family: sans-serif;
+    color: #000;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+}
+
+#clockdiv > div {
+    padding: 0px;
+    display: inline-block;
+}
+
+#clockdiv div > span {
+    padding: 0px;
+    display: inline-block;
+}
+
+.smalltext {
+    padding-top: 0px;
+    font-size: 16px;
+}
+
+
+/* End clock css */
+
+.col-sm-6 .color-green {
+    color: #28A22D;
+    font-weight: bold;
+}
+
+
+/*code for proctoring result for final exam*/
+
+.proctoring-results.proctoru .result-row {
+    padding: 10px 10px 11px 20px;
+    overflow: hidden;
+}
+
+.proctoring-results.proctoru h1.result-heading {
+    color: #4c4c4c;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.proctoring-results.proctoru h4.results-heading {
+    font-size: 16px;
+    color: #4c4c4c;
+    font-weight: 600;
+}
+
+.proctoring-results.proctoru .lhs .grey-bg {
+    background: #f3f3f3;
+}
+
+.proctoring-results.proctoru .lhs .result-row label {
+    color: #525252;
+    font-size: 15px;
+    margin-top: 7px;
+    margin-bottom: 0px;
+}
+
+.proctoring-results.proctoru .lhs .result-row button {
+    min-width: 120px;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper {
+    background-color: #f8f8f8;
+    border: 1px solid #d6d6d6;
+    padding: 30px 15px 40px 20px;
+    overflow: hidden;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper h2.results-heading {
+    font-size: 22px;
+    color: #4c4c4c;
+    padding-bottom: 20px;
+    margin: 0px;
+    border-bottom: 1px solid #d8d6d6;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper p.single-row {
+    margin-top: 14px;
+    margin-bottom: 2px;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper p.single-row label {
+    font-size: 14px;
+    color: #4c4c4c;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper h4.notes-heading {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper p.session-notes {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 42px;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper h3.session-status-heading {
+    font-size: 20px;
+    color: #4c4c4c;
+    margin-top: 0px;
+}
+
+.proctoring-results.proctoru .rhs .box-wrapper .checked {
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    margin: 0px auto;
+    display: block;
+    margin-bottom: 18px;
+}
+
+
+/*end code for proctoring result for final exam*/
+
+
+/* code for error * in studio editor */
+
+.color-red {
+    color: #ff0000;
+    ;
+}
+
+
+/* end */
+
+.modalDialog {
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+
+.modalDialog:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modalDialog > div,.modalDialog > div.modelbody{
+    width: 485px;
+    position: relative;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+}
+
+#user-info-modal.modalDialog > div.modelbody{
+width:500px;
+min-height: 586px;
+margin: 2% auto;
+
+background: -moz-linear-gradient(transparent, transparent);
+background: -webkit-linear-gradient(transparent, transparent);
+background: -o-linear-gradient(transparent, transparent);
+background: #f4f4f4;
+}
+
+.modalDialog h4.modeltitle{
+    font-size: 24px;
+    margin-top:30px;
+    padding-bottom:20px;
+    margin-bottom: 30px;
+    border-bottom:1px solid #ccc;
+}
+
+#user-info-modal.modalDialog button{
+padding:8px 30px;
+margin-top:30px;
+margin-left:10px;
+margin-right: 10px;
+border:1px solid #ccc !important;
+}
+
+#user-info-modal.modalDialog  .proctoru .btn-info:hover,button:hover:not(:disabled){
+outline: none;
+box-shadow: none;
+background-image: none;
+}
+
+.close {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover {
+    background: #00d9ff;
+}
+
+
+/*start of css code for style issue fixes*/
+
+.proctoru a.modify-user-string {
+    font-size: 12px;
+    cursor: pointer;
+    margin-top:26px;
+    margin-bottom: 0px !important;
+}
+
+.proctoru .margin-top10 {
+    margin-top: 10px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group {
+    padding-left: 5px;
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group h4 {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.content-wrapper.proctoru.proctoru-xblock-container {
+    margin-bottom: 0px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group .form-c {
+    height: 36px;
+    padding: 8px 13px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper button.schedule-exam {
+    margin-top: 38px;
+    width: 180px;
+}
+
+.content-wrapper.proctoru.proctoru-xblock-container .user-info-rhs {
+    float: left;
+    max-width: auto;
+    width: 252px;
+}
+
+#ui-datepicker-div.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    width: auto!important;
+}
+
+.form-wrapper.proctoru .exam-time {
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.form-wrapper.proctoru .text-uppercase {
+    text-transform: uppercase;
+}
+
+.content-wrapper.proctoru.proctoru-xblock-container h2 {
+    font-size: 28px;
+}
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper {
+    border-radius: 3px;
+}
+
+.content-wrapper.proctoru .form-wrapper.proctoru label.exam-schedule-timings {
+    font-size: 14px;
+    display: block;
+}
+
+
+/*end of css code for style issue fixes*/
+
+.form-wrapper.proctoru.user-info-form .inside-wrapper .form-group select {
+    max-width: 438px;
+}
+
+.form-wrapper.proctoru .min-height-calendar .form-control.date-time-input {
+    background: #f3f3f3;
+    margin: 0px;
+    border-radius: 0px;
+    border: 1px solid #dcdddd;
+    border-bottom: 0;
+    box-shadow: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* exam password page style */
+
+.proctoru .password-reset .form-control {
+    height: auto;
+}
+
+.proctoru .password-reset .exam-password-wrapper {
+    margin: 4px auto 38px auto;
+    float:none;
+}
+.proctoru .password-reset .button-align{
+    margin-bottom: 7px
+}
+.proctoru .password-reset button.btn-info{
+    padding: 8px 12px;
+}
+.proctoru .password-reset button.btn{
+    margin-left:10px;
+    margin-right: 10px;
+}
+.content-wrapper.proctoru h3.form-title.exam-pw-heading{
+    margin-top:0px;
+}
+.ui-button-icon-only.ui-dialog-titlebar-close .ui-button-icon-primary.ui-icon.ui-icon-closethick{
+    background-image: url("/static/css/vendor/ui-lightness/images/ui-icons_ef8c08_256x240.png");
+    background-position: -95px -128px;
+    left:0;
+    top:0;
+    margin:0;
+}
+/* end exam password page style */
+/*-----------*/
+#user-info-modal label.input-error{
+    font-weight: normal;
+    font-size: 10px;
+    color:#ff0000;
+    display: inline-block;
+}
+/*-----------*/
