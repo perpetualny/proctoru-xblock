@@ -31,7 +31,7 @@ It can be used to schedule a proctoring session for exams within an Open edX cou
 
 ![](http://i.imgur.com/Tr5Nlq4.jpg)
 
-To test out a clickable prototype, click _[here](https://projects.invisionapp.com/share/V76EZPRNU#/screens) {:target="_blank"}_
+To test out a clickable prototype, click <a href="https://projects.invisionapp.com/share/V76EZPRNU#/screens" target="_blank">here</a>
 
 
 Architecture
