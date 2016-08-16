@@ -22,7 +22,7 @@ def package_data(pkg, roots):
 
 setup(
     name='proctoru-xblock',
-    version='0.1',
+    version='1.0.0',
     description='ProctorU is an online proctoring company that allows a candidate to take their exam from home',
     packages=[
         'proctoru',
