@@ -22,8 +22,8 @@ def package_data(pkg, roots):
 
 setup(
     name='proctoru-xblock',
-    version='0.1',
-    description='ProctorU is an online proctoring company that allows a candidate to take their exam from home',
+    version='1.0.0',
+    description='ProctorU is an online proctoring company that allows a candidate to take their exam from home, this xBlock is for funmooc please check github.com/perpetualny/proctoru-xblock for english language support',
     packages=[
         'proctoru',
 	'proctoru.templatetags',
