@@ -60,6 +60,10 @@ Installation
 3. To install requirements for ProctorU XBlock. **Do not upgrade dependencies** as this will break the Open edX installation
 
         pip install -r --no-deps requirements.txt
+        
+   Alternatively you can install the package directly from PyPI
+   	
+   		pip install -U --no-deps proctoru-xblock
 
 4. Open “ lms/envs/common.py “, " cms/env/common.py " and put “proctoru” in installed apps.
 5. Run migrations for proctorU XBlock:
