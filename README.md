@@ -57,7 +57,7 @@ Installation
 
 1. Clone xblock repo from https://github.com/perpetualny/proctoru-xblock.git to xBlock directory.
 2. Change directory to where you have cloned ProctorU XBlock.
-3. To install requirements for ProctorU XBlock. **Do not upgrade dependencies** this will break the Open edX installation
+3. To install requirements for ProctorU XBlock. **Do not upgrade dependencies** as this will break the Open edX installation
 
         pip install -r --no-deps requirements.txt
 
