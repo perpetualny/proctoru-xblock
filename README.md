@@ -23,7 +23,7 @@ ProctorU
 
 Learn more about how ProctorU how ProctorU [ works ](http://www.proctoru.com/howitworks.php)
 
-This software is an xBlock (extension to Open edX courseware) that enables proctoring on any Open edX instance using [ProctorU](http://www.proctoru.com/).
+This software is an xBlock (extension to Open edX courseware) that enables proctoring on any Open edX instance using [ProctorU](http://www.proctoru.com/). It is currently in use in production on one of Europe's largest MOOCs, [FunMOOC](https://www.fun-mooc.fr/).
 
 It can be used to schedule a proctoring session for exams within an Open edX course.  Follow the below instructions to install the xBlock on an Open edX instance.You will need to register your institution with ProctorU to get an authentication token.
 
