@@ -200,7 +200,7 @@ function ProctorUXBlockArrived(runtime, element) {
     });
 
     $(element).find(".check-equipmnt-btn").click(function(){
-        window.open("http://www.proctoru.com/testitout/index_fr.php", '_blank');
+        window.open("http://www.proctoru.com/testitout/index.php", '_blank');
     });
 
     $(element).find(".start-exam-btn").click(function(){
