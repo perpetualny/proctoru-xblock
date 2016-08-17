@@ -153,7 +153,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def _is_studio(self):
         """
-        This Function checks if call is from CMS or LMS and returns boolean 
+        This Function checks if call is from CMS or LMS and returns boolean
         True if call is from studio.
         """
         studio = False
@@ -165,14 +165,14 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def _user_is_staff(self):
         """
-        This Function checks if user is staff and returns boolean 
+        This Function checks if user is staff and returns boolean
         True if user is staff.
         """
         return getattr(self.runtime, 'user_is_staff', False)
 
     def _allowed_verified(self):
         """
-        This Function checks if user is staff and returns boolean 
+        This Function checks if user is staff and returns boolean
         True if user is staff.
         """
         course_enrollment = CourseEnrollment.objects.get(
@@ -769,7 +769,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 if reservation_data.get('message')[:28] == 'Reservation is in the future':
                     return {
                         'status': _('error'),
-                        'msg': _(u"S'il vous plaît attendre le moment et essayez de nouveau."),
+                        #FR 'msg': _(u"S'il vous plaît attendre le moment et essayez de nouveau."),
+						'msg': _('Please wait for a moment and try again.'),
                     }
                 else:
                     self.is_exam_start_clicked = False
@@ -777,7 +778,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     self.is_exam_scheduled = False
                     return {
                         'status': _('error'),
-                        'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
+                        #FR 'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
+						'msg': _('Please reschedule the appointment'),
                     }
             else:
                 self.is_exam_start_clicked = False
@@ -785,7 +787,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 self.is_exam_scheduled = False
                 return {
                     'status': _('error'),
-                    'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
+                    #FR 'msg': _(u"S'il vous plaît Replanifiez Rendez-vous"),
+					'msg': _('Please reschedule the appointment'),
                 }
         elif reservation_data.get('data'):
             if exam_data:

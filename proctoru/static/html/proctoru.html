@@ -6,7 +6,7 @@
     <div class="form-wrapper proctoru user-info-form">
         <form id="user-info-form">
             <div class="inside-wrapper">
-                <h2 class="form-title"><span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span> {% trans "Informations utilisateur" %}</h2>
+                <h2 class="form-title"><span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span> {% trans "User Information" %}</h2>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="border-bottom">&nbsp;</div>
@@ -15,9 +15,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <h4 for="">{% trans "Num&eacute;ro de t&eacute;l&eacute;phone" %}</h4>
-                             <label class="input-error" id="phone-error-message" style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre num&eacute;ro de t&eacute;l&eacute;phone valide" %}</label>
-                            <input type="text" name="phone" class="form-control" id="phone" placeholder="{% trans '06 00 00 00 or +336 00 00 00' %}">
+                            <h4 for="">{% trans "Phone Number" %}</h4>
+                             <label class="input-error" id="phone-error-message" style="display:none;">{% trans "* Please enter your valid phone number" %}</label>
+                            <input type="text" name="phone" class="form-control" id="phone" placeholder="{% trans '+15548890099 or +917587678988' %}">
                         </div>
                     </div>
                 </div>
@@ -25,25 +25,25 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <h4>{% trans "Adresse" %}</h4>
-                            <label class="input-error" id="address-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre adresse" %}</label>
-                            <input type="text" name="address" id="address" class="form-control" placeholder="{% trans 'Appartement 123 Cit&eacute; des bosquets 10 rue de la Libert&eacute;' %}" />
+                            <label class="input-error" id="address-error-message"  style="display:none;">{% trans "* Please enter your valid address" %}</label>
+                            <input type="text" name="address" id="address" class="form-control" placeholder="{% trans '104W 42st, Apt C, New York, 10002' %}" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <h4>{% trans "Ville" %}</h4>
-                            <label class="input-error" id="city-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre ville" %}</label>
-                            <input type="text" name="city" id="city" class="form-control" placeholder="{% trans "Paris" %}" />
+                            <h4>{% trans "City" %}</h4>
+                            <label class="input-error" id="city-error-message"  style="display:none;">{% trans "* Please enter your city" %}</label>
+                            <input type="text" name="city" id="city" class="form-control" placeholder="{% trans "New York" %}" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <h4>{% trans "Fuseau horaire" %}</h4>
-                            <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre fuseau horaire" %}</label>
+                            <h4>{% trans "Time Zone" %}</h4>
+                            <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "* Please select your timezone" %}</label>
                             <select class="form-control" id="time-zone" name="time_zone">
                             {% if timezones %}
                                 {% for timezone in timezones %}
@@ -54,7 +54,7 @@
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <option>{% trans "Fuseau horaire ne se trouve pas s&apos;il vous pla&icirc;t essayer &agrave; nouveau" %}</option>
+                                <option>{% trans "Time zone is not found please try again" %}</option>
                             {% endif %}
                             </select>
                         </div>
@@ -63,10 +63,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <h4>{% trans "Pays" %}</h4>
-                            <label class="input-error" id="country-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre pays" %}</label>
+                            <h4>{% trans "Country" %}</h4>
+                            <label class="input-error" id="country-error-message"  style="display:none;">{% trans "* Please select your country" %}</label>
                             <select class="form-control" name="country" id="country" name="country">
-                                <option value="">Pays...</option>
+                                <option value="">Countries...</option>
                                 <option value="AF">Afghanistan</option>
                                 <option value="AL">Albania</option>
                                 <option value="DZ">Algeria</option>
@@ -319,8 +319,8 @@
                     </div>
                 </div>
                 <div class="form-group text-center">
-                    <button type="button" class="btn btn-info schedule-exam">{% trans "Planifiez un examen" %}</button>
-                    
+                    <button type="button" class="btn btn-info schedule-exam">{% trans "Schedule Exam" %}</button>
+
                 </div>
             </div>
         </form>
@@ -329,9 +329,15 @@
     <!--end form-wrapper-->
     <!--right part-->
     <div class="user-info-rhs">
-        <h3>{% trans "Qu'est-ce que ProctorU?" %}</h3>
-        <p class="user-info-para">{% trans "ProctorU vous permet de passer des examens surveill&eacute;s &agrave; distance avec une personne en utilisant votre webcam." %}<br/><br/>
-            {% trans "Vous ne devez saisir ces informations qu'une seule fois et vous serez ensuite pr&ecirc;ts &agrave; planifier cet examen et tous ceux que vous passerez ult&eacute;rieurement." %}
+        <h3>{% trans "What is ProctorU?" %}</h3>
+        <p class="user-info-para">{% trans "ProctorU allows students and test takers to take exams from any comfortable location. Forget complicated software or robots! Our service connects you to a real person who you can see and hear. This person will walk you through the exam process and help you if you run into any problems. " %}
+			<br/>
+			<br/>
+        {% trans "Appointments to have your exam proctored are available seven days a week. Simply sign up, make an appointment, and return to our site at the time of your exam. You will be connected with a live person from one of our proctoring centers." %}
+			<br/>
+			<br/>
+		{% trans "Exam time is stressful enough. Let one of our real proctors guide you into your exam and help you if you have technical difficulties. It's like having an exam concierge. " %}
+
         </p>
         <div class="owl-img-wrapper"><img src="/xblock/resource/proctoru/public/images/owl.png" class="owl-img"/></div>
     </div>

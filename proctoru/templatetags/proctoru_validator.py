@@ -34,7 +34,7 @@ def get_ramaining_timestamp(tm, user_id):
         dt = parser.parse(tm).astimezone(tzobj)
 
         delta = dt - utcmoment
-        return "{0} Jours {1} Heures {2} Minutes de maintenant".format(delta.days, delta.seconds//3600, (delta.seconds//60) % 60)
+        return "{0} Days {1} Hrs {2} Mins left".format(delta.days, delta.seconds//3600, (delta.seconds//60) % 60)
     except:
         return False
 

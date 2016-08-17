@@ -5,7 +5,7 @@
  <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>
     <div class="form-wrapper proctoru">
         <h3 class="form-title display-inline-block pull-left">{% trans "Planifiez un examen" %}</h3>
-        <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Modifiez vos informations personnelles" %}</a>
+        <a class="display-inline-block pull-right color-skyblue modify-user-string" href="#user-info-modal">{% trans "Edit your personal information" %}</a>
         <div class="row">
             <div class="col-md-12">
                 <div class="border-bottom">&nbsp;</div>
@@ -13,7 +13,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="form-title">{% trans "L'examen est disponible du ..." %}</h3>
+                <h3 class="form-title">{% trans "The exam is available from ..." %}</h3>
                 <label class="exam-schedule-timings">{{first_available_date}} {% trans "au" %} {{final_available_date}}</label>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="row min-height-calendar">
             <!--LHS-->
             <div class="col-sm-5">
-            <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une date ..." %}</label>
+            <label type="text" class="form-control date-time-input">{% trans "Select a date" %}</label>
                 <div id="datepicker"></div>
                     <input id="start-date" type="hidden" name="start-date" value="{{start_date}}">
                     <input id="end-date" type="hidden" name="end-date" value="{{end_date}}">
@@ -32,14 +32,14 @@
 
             <div class="col-sm-7">
                 <div class="form-group">
-                    <label type="text" class="form-control date-time-input">{% trans "S&eacute;lectionnez une heure" %}</label>
+                    <label type="text" class="form-control date-time-input">{% trans "Select Time" %}</label>
                     <ul class="list-unstyled time-section">
 
                     {% if status == "emptylist" %}
                     <li class="time-row">
                         <div class="col-md-8">
-                            <h4 class="time-row-heading">{% trans "Aucun horaire d'examen disponible" %}</h4>
-                            <p class="time-row-heading2">{% trans "Veuillez essayer une autre date" %}</p>
+                            <h4 class="time-row-heading">{% trans "Time slots not available today" %}</h4>
+                            <p class="time-row-heading2">{% trans "Please check another date" %}</p>
                         </div>
                     </li>
                     {% endif %}
@@ -48,7 +48,7 @@
 
                         <!--new code-->
                             <div class="col-md-6 no-padding "><h4 class="time-row-heading">{{available_time.time_utc}}</h4></div>
-                            <div class="col-md-6 no-padding "> <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "S&eacute;lectionnez une heure" %}</button></div>
+                            <div class="col-md-6 no-padding "> <button class="btn btn-info pull-right select-shedule-time" data-value="{{available_time.data_value}}">{% trans "Select Time" %}</button></div>
                        <!--end new code-->
 
                             <div class="col-md-12 no-padding ">
@@ -68,27 +68,27 @@
         <div id="user-info-modal" class="modalDialog">
             <div class="modelbody">
                 <!-- <a href="#close" title="Close" class="close">X</a> -->
-                <h4 class="modeltitle">{% trans "Modifiez vos informations " %}<span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span></h4>
+                <h4 class="modeltitle">{% trans "Edit yout personal information " %}<span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span></h4>
                   <div class="col-md-12">
                     <div class="proctoru form form-horizontal">
                        <div class="form-group">
-                           <label>{% trans "Num&eacute;ro de t&eacute;l&eacute;phone" %}</label>
-                           <label class="input-error" id="phone-error-message" style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre num&eacute;ro de t&eacute;l&eacute;phone valide" %}</label>
-                           <input type="text" id="phone" class="form-control" value="{{ proctoru_user.phone_number }}" placeholder="{% trans '06 00 00 00 or +336 00 00 00' %}"/>
+                           <label>{% trans "Phone number" %}</label>
+                           <label class="input-error" id="phone-error-message" style="display:none;">{% trans "* Please select a valid phone number" %}</label>
+                           <input type="text" id="phone" class="form-control" value="{{ proctoru_user.phone_number }}" placeholder="{% trans '+15548890099 or +917587678988' %}"/>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Adresse" %}</label>
-                           <label class="input-error" id="address-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre adresse" %}</label>
-                           <input type="text" id="address" class="form-control"  value="{{ proctoru_user.address }}" placeholder="{% trans 'Appartement 123 Cit&eacute; des bosquets 10 rue de la Libert&eacute;' %}"/>
+                           <label>{% trans "Address" %}</label>
+                           <label class="input-error" id="address-error-message"  style="display:none;">{% trans "* Please select a valid address" %}</label>
+                           <input type="text" id="address" class="form-control"  value="{{ proctoru_user.address }}" placeholder="{% trans '104W 42st, Apt C, New York, 10002' %}"/>
                        </div>
                        <div class="form-group">
                            <label>{% trans "Ville" %}</label>
-                           <label class="input-error" id="city-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre ville" %}</label>
-                           <input type="text" id="city" class="form-control" value="{{ proctoru_user.city }}" placeholder="{% trans "Paris" %}"/>
+                           <label class="input-error" id="city-error-message"  style="display:none;">{% trans "* Please enter your city" %}</label>
+                           <input type="text" id="city" class="form-control" value="{{ proctoru_user.city }}" placeholder="{% trans "New York" %}"/>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Fuseau horaire" %}</label>
-                           <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre fuseau horaire" %}</label>
+                           <label>{% trans "Time Zone" %}</label>
+                           <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "* Please select a valid time zone" %}</label>
                            <select class="form-control" id="time-zone">
                             {% for time_zone in time_zone_list %}
                                 {% if proctoru_user.time_zone == time_zone.Id %}
@@ -100,8 +100,8 @@
                            </select>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Pays" %}</label>
-                           <label class="input-error" id="country-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre pays" %}</label>
+                           <label>{% trans "Country" %}</label>
+                           <label class="input-error" id="country-error-message"  style="display:none;">{% trans "* Please select your country" %}</label>
                            <input type="hidden" id="proctoru-country" value="{{ proctoru_user.country }}" />
                            <select class="form-control" id="country">
                                <option value="AF">Afghanistan</option>
@@ -356,9 +356,9 @@
                     </div>
                   </div>
                   <p class="text-center">
-                   <button class="btn btn-info edit-proctoru-account">{% trans "Sauvegarder" %}</button>
-                   <button class="btn btn-default close-modal"><a href="#close">{% trans "Annuler" %}</a></button>
-                  </p> 
+                   <button class="btn btn-info edit-proctoru-account">{% trans "Save" %}</button>
+                   <button class="btn btn-default close-modal"><a href="#close">{% trans "Cancel" %}</a></button>
+                  </p>
             <div>
        </div>
     <!--End user information modal -->

@@ -39,7 +39,7 @@ function ProctoruStaffBlock(runtime, element) {
                 $(element).find(".result-box").show();
             } else {
                 $(element).find(".result-box").hide();
-                $(element).find(".result-box-no-data").text('Donn\xE9es non disponibles');
+                $(element).find(".result-box-no-data").text('No data available');
                 $(element).find(".result-box-no-data").show();
             }
             $(element).find("#block-loader").hide();

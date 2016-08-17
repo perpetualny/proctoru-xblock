@@ -4,8 +4,8 @@
  <h2>{{self.display_name}}</h2>
  <p class="content-para">{{self.description}}<span class="color-skyblue"><strong></strong></span></p>
     <div class="form-wrapper proctoru">
-        <h3 class="form-title display-inline-block pull-left">{% trans "Examen Planifi&eacute;" %}</h3>
-        <a class="display-inline-block pull-right color-skyblue modify-user-string" data-toggle="modal" href="#user-info-modal">{% trans "Modifiez vos informations personnelles" %}</a>
+        <h3 class="form-title display-inline-block pull-left">Exam Schedule</h3>
+        <a class="display-inline-block pull-right color-skyblue modify-user-string" data-toggle="modal" href="#user-info-modal">Modify your personal information</a>
         <div class="row">
          <div class="col-md-12">
           <div class="border-bottom">&nbsp;</div>
@@ -15,73 +15,73 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <h3 class="form-title">{% trans "Heure de l&apos;examen" %}</h3>
+                <h3 class="form-title">Exam Time</h3>
                 <p class="schedule-text exam-time text-uppercase">{{self.exam_time|format_date:self.runtime.user_id}}</p>
             </div>
             <div class="col-sm-6">
-                <h3 class="form-title">{% trans "L&apos;examen commence dans:" %}</h3>
+                <h3 class="form-title">Exam Begins in</h3>
 
                 <p class="schedule-text" style="display: none;">
-                <h2 class="exam-visible color-green" style="display: none;">Disponible maintenant</h2>
+                <h2 class="exam-visible color-green" style="display: none;">Available Now</h2>
                     <div class="exam-invisible" style="display: block;">
                         <input type="hidden" name="rem_time" id="rem_time" value="{{self.exam_time|get_ramaining_countdown:self.runtime.user_id}}"></input>
                         <div id="clockdiv">
                           <div>
                             <span class="days"></span>
-                            <span class="smalltext">{% trans "Jours" %}</span>
+                            <span class="smalltext">{% trans "Days" %}</span>
                           </div>
                           <div>
                             <span class="hours"></span>
-                            <span class="smalltext">{% trans "Heures" %}</span>
+                            <span class="smalltext">{% trans "Hrs" %}</span>
                           </div>
                           <div>
                             <span class="minutes"></span>
-                            <span class="smalltext">{% trans "Minutes" %}</span>
+                            <span class="smalltext">{% trans "Mins" %}</span>
                           </div>
                           <div>
                             <span class="seconds"></span>
-                            <span class="smalltext">{% trans "Seconds" %}</span>
+                            <span class="smalltext">{% trans "Secs" %}</span>
                           </div>
                         </div>
                     </div>
                 </p>
             </div>
         </div>
-      
+
          <div class="clearfix">&nbsp;</div>
           <div class="form-group">
-            <button type="button" class="btn btn-info start-exam-btn exam-visible" style="display: none;">{% trans "Commencer l&rsquo;examen" %}</button>
-            <button type="button" class="btn btn-info reschedule-exam-btn exam-invisible">{% trans "Modifier l&apos;horaire de l&apos;examen" %}</button>
-            <button type="button" class="btn btn-info check-equipmnt-btn">{% trans "V&eacute;rifiez votre &eacute;quipement" %}</button>
-            <button type="button" class="btn btn-default cancel-exam-btn pull-right">{% trans "Annuler" %}</button>
+            <button type="button" class="btn btn-info start-exam-btn exam-visible" style="display: none;">Start Exam</button>
+            <button type="button" class="btn btn-info reschedule-exam-btn exam-invisible">Reschedule Exam</button>
+            <button type="button" class="btn btn-info check-equipmnt-btn">Check your Equipment</button>
+            <button type="button" class="btn btn-default cancel-exam-btn pull-right">Cancel</button>
           </div>
     </div>
              <!--Start user information modal -->
         <div id="user-info-modal" class="modalDialog">
             <div class="modelbody">
                 <!-- <a href="#close" title="Close" class="close">X</a> -->
-                <h4 class="modeltitle">{% trans "Modifiez vos informations " %}<span class="color-skyblue"><strong>{% trans "ProctorU" %}</strong></span></h4>
+                <h4 class="modeltitle">Edit your information<span class="color-skyblue"><strong>ProctorU</strong></span></h4>
                   <div class="col-md-12">
                     <div class="proctoru form form-horizontal">
                        <div class="form-group">
-                           <label>{% trans "Num&eacute;ro de t&eacute;l&eacute;phone" %}</label>
-                           <label class="input-error" id="phone-error-message" style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre num&eacute;ro de t&eacute;l&eacute;phone valide" %}</label>
-                           <label class="input-error" id="address-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre adresse" %}</label>
-                           <input type="text" id="phone" class="form-control" value="{{ proctoru_user.phone_number }}" placeholder="{% trans '06 00 00 00 or +336 00 00 00' %}"/>
+                           <label>Phone Number</label>
+                           <label class="input-error" id="phone-error-message" style="display:none;">Please enter a valid number eg. +14457786675, +917598234355</label>
+                           <label class="input-error" id="address-error-message"  style="display:none;">Please enter your address</label>
+                           <input type="text" id="phone" class="form-control" value="{{ proctoru_user.phone_number }}" placeholder="+15448876576"/>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Adresse" %}</label>
-                           <label class="input-error" id="address-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre adresse" %}</label>
-                           <input type="text" id="address" class="form-control"  value="{{ proctoru_user.address }}" placeholder="{% trans 'Appartement 123 Cit&eacute; des bosquets 10 rue de la Libert&eacute;' %}"/>
+                           <label>Address</label>
+                           <label class="input-error" id="address-error-message"  style="display:none;">* Please enter your address</label>
+                           <input type="text" id="address" class="form-control"  value="{{ proctoru_user.address }}" placeholder="104W 42st, Apt C, New York, 10002"/>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Ville" %}</label>
-                           <label class="input-error" id="city-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t entrer votre ville" %}</label>
-                           <input type="text" id="city" class="form-control" value="{{ proctoru_user.city }}" placeholder="{% trans "Paris" %}"/>
+                           <label>{% trans "City" %}</label>
+                           <label class="input-error" id="city-error-message"  style="display:none;">* Please enter your city</label>
+                           <input type="text" id="city" class="form-control" value="{{ proctoru_user.city }}" placeholder="New York City"/>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Fuseau horaire" %}</label>
-                           <label class="input-error" id="timezone-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre fuseau horaire" %}</label>
+                           <label>Time Zone</label>
+                           <label class="input-error" id="timezone-error-message"  style="display:none;">* Please select a time zone</label>
                            <select class="form-control" id="time-zone">
                             {% for time_zone in time_zone_list %}
                                 {% if proctoru_user.time_zone == time_zone.Id %}
@@ -93,8 +93,8 @@
                            </select>
                        </div>
                        <div class="form-group">
-                           <label>{% trans "Pays" %}</label>
-                           <label class="input-error" id="country-error-message"  style="display:none;">{% trans "*S&apos;il vous pla&icirc;t s&eacute;lectionnez votre pays" %}</label>
+                           <label>Country</label>
+                           <label class="input-error" id="country-error-message"  style="display:none;">* Please select your country</label>
                            <input type="hidden" id="proctoru-country" value="{{ proctoru_user.country }}" />
                            <select class="form-control" id="country">
                                <option value="AF">Afghanistan</option>
@@ -345,14 +345,14 @@
                                 <option value="ZM">Zambia</option>
                                 <option value="ZW">Zimbabwe</option>
                            </select>
-                       </div>     
+                       </div>
                     </div>
-                  </div>  
+                  </div>
 
                   <p class="text-center">
-                   <button class="btn btn-info edit-proctoru-account">{% trans "Sauvegarder" %}</button>
-                   <button class="btn btn-default close-modal" data-dismiss="modal">{% trans "Annuler" %}</button>
-                  </p> 
+                   <button class="btn btn-info edit-proctoru-account">Submit</button>
+                   <button class="btn btn-default close-modal" data-dismiss="modal">Cancel</button>
+                  </p>
             <div>
        </div>
     <!--End user information modal -->

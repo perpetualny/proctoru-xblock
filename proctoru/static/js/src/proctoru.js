@@ -59,13 +59,13 @@ function ProctorUXBlockSchedule(runtime, element) {
                 },
                 minDate: $(element).find('#start-date').val(),
                 maxDate:  $(element).find('#end-date').val(),
-                monthNames: [ "janvier", "fevrier", "mars", "avril", "mai", "juin",
-		"juillet", "aout", "septembre", "octobre", "novembre", "decembre" ],
-         	monthNamesShort: [ "janv.", "fevr.", "mars", "avr.", "mai", "juin",
-		"juil.", "aout", "sept.", "oct.", "nov.", "dec." ],
-	        dayNames: [ "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" ],
-         	dayNamesShort: [ "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." ],
-	        dayNamesMin: [ "D","L","M","M","J","V","S" ],
+                monthNames: [ "January", "February", "March", "April", "May", "June",
+		"July", "August", "September", "October", "November", "December" ],
+         	monthNamesShort: [ "Jan", "Feb", "March", "April", "May", "June",
+		"July", "Aug", "Sept", "Oct", "Nov", "Dec" ],
+	        dayNames: [ "Sunday", "Monday", "Tuesday", "Wednesday" , "Thursday" , "Friday" , "Saturday" ],
+         	dayNamesShort: [ "Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat." ],
+	        dayNamesMin: [ "S","M","T","W","T","F","S" ],
          	firstDay: 1
             }
         );
@@ -143,11 +143,11 @@ var createAccountFormValidation = function(data){
             $("#phone-error-message").hide();
         } else {
             $("#phone-error-message").show();
-            return false; 
-        } 
+            return false;
+        }
     } else {
         $("#phone-error-message").show();
-        return false; 
+        return false;
     }
 
     if(data.address == "" | data.address.length > 100){
@@ -243,7 +243,7 @@ function ProctorUXBlockArrived(runtime, element) {
                 if(data.status==='success'){
                     $.cookie("remaining_time",null)
                     if(data.status=='success'){
-                        alert('examen annul\xE9 avec succ\xE8s');
+                        alert('Exam Cancelled');
                     }
                     location.reload();
                 }else{
@@ -319,7 +319,7 @@ function ProctorUXBlockExamPassword(runtime, element) {
                             if(data.status==='success'){
                                 $.cookie("remaining_time",null)
                                 if(data.status=='success'){
-                                    alert('examen annul\xE9 avec succ\xE8s');
+                                    alert('Exam Cancelled');
                                 }
                                 location.reload();
                             }
@@ -344,7 +344,7 @@ function ProctorUXBlockExamPassword(runtime, element) {
                 if(data.status==='success'){
                     location.reload();
                 }else{
-                    alert('Mot de passe incorrect');
+                    alert('Incorrect password');
                 }
             }
         });
@@ -364,7 +364,7 @@ function ProctorUXBlockExamPassword(runtime, element) {
 var countdownTimer = null;
 
 function ProctorUXBlockExamEnabled(runtime, element) {
-    
+
     $(element).find(".end-exam-btn").click(function(){
         $.ajax({
             type: "POST",
@@ -374,7 +374,7 @@ function ProctorUXBlockExamEnabled(runtime, element) {
                 if(data.status==='success'){
                     location.reload();
                 }else{
-                    alert('Erreur de la base de donn\xE9es');
+                    alert('Database error');
                 }
             }
         });
@@ -387,7 +387,7 @@ function ProctorUXBlockExamEnabled(runtime, element) {
         }else if($.cookie("remaining_time")>0){
             countdownTimer = setInterval('remainingExamTime()', 1000);
         }else{
-            alert("Votre temps est termine.");
+            alert("Exam time is over");
         }
     });
 }
@@ -401,7 +401,7 @@ function remainingExamTime() {
     var minutes     = Math.floor(minutesLeft/60);
     var remainingSeconds = seconds % 60;
     if (remainingSeconds < 10) {
-        remainingSeconds = "0" + remainingSeconds; 
+        remainingSeconds = "0" + remainingSeconds;
     }
     document.getElementById('countdown').innerHTML = hours + ":" + minutes + ":" + remainingSeconds;
     if (seconds == 0) {
@@ -411,7 +411,7 @@ function remainingExamTime() {
         catch(e){
             console.log(e);
         }
-        alert("Votre temps est ecoule ! Soumettez vos reponses immediatement avant la fermeture de la session.")
+        alert("Exam time is over, submit your answers immediately before closing the session.")
         document.getElementById('countdown').innerHTML = "Completed";
         $(document).find(".rm-label").hide()
         $.cookie("remaining_time",null)
