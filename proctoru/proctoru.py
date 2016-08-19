@@ -194,14 +194,19 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         The primary view of the ProctorUXBlock, shown to students
         when viewing courses.
         """
+
+		# Render xBlock inside studio
         if self._is_studio():  # studio view
             fragment = Fragment(
                 self._render_template('static/html/studio.html'))
             fragment.add_css(
                 self.resource_string('public/css/proctoru.css'))
             return fragment
+
+		# Render xBlock on LMS for instructors/staff
         elif self._user_is_staff():
             return self.staff_view()
+
         elif self._allowed_verified():
             api_obj = ProctoruAPI()
             fragment = Fragment()
@@ -213,183 +218,193 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 loader.load_unicode('static/js/src/proctoru.js'))
             if self.is_exam_ended:
                 context.update({"self": self})
-                fragment.add_content(
-                    loader.render_template('static/html/exam_ended.html', context))
-                fragment.initialize_js('ProctorUXBlockExamEnabled')
-                return fragment
+                # fragment.add_content(
+                #     loader.render_template('static/html/exam_ended.html', context))
+                # fragment.initialize_js('ProctorUXBlockExamEnabled')
+                # return fragment
+				return self.exam_ended(fragment,context)
+
             if self.is_exam_unlocked:
                 context.update({"self": self})
-                fragment.add_content(
-                    loader.render_template('static/html/exam_enabled.html', context))
-                fragment.initialize_js('ProctorUXBlockExamEnabled')
-                child_frags = self.runtime.render_children(
-                    block=self, view_name='student_view')
-                html = self._render_template(
-                    'static/html/sequence.html', children=child_frags)
-                fragment.add_content(html)
-                fragment.add_frags_resources(child_frags)
-                return fragment
-            elif self.is_exam_start_clicked:
-                exam_data = api_obj.get_student_reservation_list(
-                    self.runtime.user_id)
-                if len(exam_data) > 0:
-                    exam_found = False
-                    for exam in exam_data:
-                        start_date = exam.get('start_date')
-                        exam_obj = api_obj.get_schedule_exam_arrived(
-                            self.runtime.user_id, self.get_block_id())
-                        # check for reseration
-                        if int(exam_obj.reservation_no) == int(exam.get('reservation_no')):
-                            exam_found = True
+                # fragment.add_content(
+                #     loader.render_template('static/html/exam_enabled.html', context))
+                # fragment.initialize_js('ProctorUXBlockExamEnabled')
+                # child_frags = self.runtime.render_children(
+                #     block=self, view_name='student_view')
+                # html = self._render_template(
+                #     'static/html/sequence.html', children=child_frags)
+                # fragment.add_content(html)
+                # fragment.add_frags_resources(child_frags)
+                # return fragment
+				return self.exam_unlocked(fragment,context)
 
-                            context.update({
-                                "self": self,
-                                "exam": api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id())
-                            })
-                            fragment.add_content(
-                                loader.render_template('static/html/exam_password.html', context))
-                            fragment.initialize_js(
-                                'ProctorUXBlockExamPassword')
-                            return fragment
-                        else:
-                            # if reservatin id not found schedule page
-                            exam_found = False
+			# Start Exam Session
+			elif self.is_exam_start_clicked:
+                # exam_data = api_obj.get_student_reservation_list(
+                #     self.runtime.user_id)
+                # if len(exam_data) > 0:
+                #     exam_found = False
+                #     for exam in exam_data:
+                #         start_date = exam.get('start_date')
+                #         exam_obj = api_obj.get_schedule_exam_arrived(
+                #             self.runtime.user_id, self.get_block_id())
+                #         # check for reseration
+                #         if int(exam_obj.reservation_no) == int(exam.get('reservation_no')):
+                #             exam_found = True
+				#
+                #             context.update({
+                #                 "self": self,
+                #                 "exam": api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id())
+                #             })
+                #             fragment.add_content(
+                #                 loader.render_template('static/html/exam_password.html', context))
+                #             fragment.initialize_js(
+                #                 'ProctorUXBlockExamPassword')
+                #             return fragment
+                #         else:
+                #             # if reservatin id not found schedule page
+                #             exam_found = False
+				#
+                #     if not exam_found:
+                #         # if reservatin id not found return the
+                #         self.exam_time = ""
+                #         self.is_exam_scheduled = False
+                #         self.is_rescheduled = False
+                #         self.is_exam_canceled = False
+                #         self.is_exam_start_clicked = False
+                #         time_details = {
+                #             'exam_start_date_time': self.start_date,
+                #             'exam_end_date_time': self.end_date,
+                #         }
+				#
+                #         time_details = api_obj.get_time_details_api(
+                #             time_details, self.exam_date)
+				#
+                #         if time_details.get('status') == "examdatepass":
+                #             context.update(
+                #                 {'self': self, 'status': "examdatepass"})
+                #             fragment.add_content(
+                #                 loader.render_template('static/html/error_template.html', context))
+                #         else:
+                #             context = api_obj.render_shedule_ui(
+                #                 self.runtime.user_id, time_details, self.duration)
+                #             context.update({'self': self})
+				#
+                #             status = context.get('status')
+                #             if status == "error":
+                #                 fragment.add_content(
+                #                     loader.render_template('static/html/error_template.html', context))
+                #             elif status == "emptylist":
+                #                 fragment.add_content(
+                #                     loader.render_template('static/html/shedule_form_proctoru.html', context))
+                #             else:
+                #                 fragment.add_content(
+                #                     loader.render_template('static/html/shedule_form_proctoru.html', context))
+				#
+                #         fragment.initialize_js('ProctorUXBlockSchedule')
+                #         return fragment
+				#
+                # else:
+                #     # if exam not found
+                #     self.exam_time = ""
+                #     self.is_exam_scheduled = False
+                #     self.is_rescheduled = False
+                #     self.is_exam_canceled = False
+                #     self.is_exam_start_clicked = False
+                #     time_details = {
+                #         'exam_start_date_time': self.start_date,
+                #         'exam_end_date_time': self.end_date,
+                #     }
+				#
+                #     time_details = api_obj.get_time_details_api(
+                #         time_details, self.exam_date)
+				#
+                #     if time_details.get('status') == "examdatepass":
+                #         context.update(
+                #             {'self': self, 'status': "examdatepass"})
+                #         fragment.add_content(
+                #             loader.render_template('static/html/error_template.html', context))
+                #     else:
+                #         context = api_obj.render_shedule_ui(
+                #             self.runtime.user_id, time_details, self.duration)
+                #         context.update({'self': self})
+				#
+                #         status = context.get('status')
+                #         if status == "error":
+                #             fragment.add_content(
+                #                 loader.render_template('static/html/error_template.html', context))
+                #         elif status == "emptylist":
+                #             fragment.add_content(
+                #                 loader.render_template('static/html/shedule_form_proctoru.html', context))
+                #         else:
+                #             fragment.add_content(
+                #                 loader.render_template('static/html/shedule_form_proctoru.html', context))
+				#
+                #     fragment.initialize_js('ProctorUXBlockSchedule')
+                #     return fragment
+				return self.exam_started(fragment,context,api_obj)
 
-                    if not exam_found:
-                        # if reservatin id not found return the
-                        self.exam_time = ""
-                        self.is_exam_scheduled = False
-                        self.is_rescheduled = False
-                        self.is_exam_canceled = False
-                        self.is_exam_start_clicked = False
-                        time_details = {
-                            'exam_start_date_time': self.start_date,
-                            'exam_end_date_time': self.end_date,
-                        }
+			# Reschedule ProctorU Session
+			elif api_obj.is_user_created(self.runtime.user_id) and self.is_rescheduled:
+                # time_details = {
+                #     'exam_start_date_time': self.start_date,
+                #     'exam_end_date_time': self.end_date,
+                # }
+				#
+                # time_details = api_obj.get_time_details_api(
+                #     time_details, self.exam_date)
+				#
+                # if time_details.get('status') == "examdatepass":
+                #     context.update({'self': self, 'status': "examdatepass"})
+                #     fragment.add_content(
+                #         loader.render_template('static/html/error_template.html', context))
+                # else:
+                #     context = api_obj.render_shedule_ui(
+                #         self.runtime.user_id, time_details, self.duration)
+                #     context.update({'self': self})
+				#
+                #     exam_time_heading = api_obj.get_formated_exam_start_date(
+                #         self.exam_time, self.runtime.user_id)
+				#
+                #     old_exam_time = dateutil.parser.parse(self.exam_time)
+				#
+                #     exam_start_date_time = time_details.get(
+                #         'str_exam_start_date')
+				#
+                #     exam_end_date_time = time_details.get('exam_end_date_time')
+				#
+                #     allowed_keep_old_exam = False
+				#
+                #     if exam_start_date_time <= old_exam_time <= exam_end_date_time:
+                #         allowed_keep_old_exam = True
+                #     else:
+                #         allowed_keep_old_exam = False
+				#
+                #     context.update({
+                #         'exam_time_heading': exam_time_heading,
+                #         'allowed_keep_old_exam': allowed_keep_old_exam,
+                #     })
+                #     context.update({"proctoru_user": api_obj.get_proctoru_user(
+                #         self.runtime.user_id)})
+                #     timezones = api_obj.get_time_zones()
+                #     context.update(
+                #         {"time_zone_list": timezones.get("data", None)})
+                #     status = context.get('status')
+                #     if status == "error":
+                #         fragment.add_content(
+                #             loader.render_template('static/html/error_template.html', context))
+                #     elif status == "emptylist":
+                #         fragment.add_content(
+                #             loader.render_template('static/html/reshedule_form_proctoru.html', context))
+                #     else:
+                #         fragment.add_content(
+                #             loader.render_template('static/html/reshedule_form_proctoru.html', context))
+				#
+                # fragment.initialize_js('ProctorUXBlockSchedule')
+                # return fragment
+				return self.reschedule_proctoru_session(fragment,context,api_obj)
 
-                        time_details = api_obj.get_time_details_api(
-                            time_details, self.exam_date)
-
-                        if time_details.get('status') == "examdatepass":
-                            context.update(
-                                {'self': self, 'status': "examdatepass"})
-                            fragment.add_content(
-                                loader.render_template('static/html/error_template.html', context))
-                        else:
-                            context = api_obj.render_shedule_ui(
-                                self.runtime.user_id, time_details, self.duration)
-                            context.update({'self': self})
-
-                            status = context.get('status')
-                            if status == "error":
-                                fragment.add_content(
-                                    loader.render_template('static/html/error_template.html', context))
-                            elif status == "emptylist":
-                                fragment.add_content(
-                                    loader.render_template('static/html/shedule_form_proctoru.html', context))
-                            else:
-                                fragment.add_content(
-                                    loader.render_template('static/html/shedule_form_proctoru.html', context))
-
-                        fragment.initialize_js('ProctorUXBlockSchedule')
-                        return fragment
-
-                else:
-                    # if exam not found
-                    self.exam_time = ""
-                    self.is_exam_scheduled = False
-                    self.is_rescheduled = False
-                    self.is_exam_canceled = False
-                    self.is_exam_start_clicked = False
-                    time_details = {
-                        'exam_start_date_time': self.start_date,
-                        'exam_end_date_time': self.end_date,
-                    }
-
-                    time_details = api_obj.get_time_details_api(
-                        time_details, self.exam_date)
-
-                    if time_details.get('status') == "examdatepass":
-                        context.update(
-                            {'self': self, 'status': "examdatepass"})
-                        fragment.add_content(
-                            loader.render_template('static/html/error_template.html', context))
-                    else:
-                        context = api_obj.render_shedule_ui(
-                            self.runtime.user_id, time_details, self.duration)
-                        context.update({'self': self})
-
-                        status = context.get('status')
-                        if status == "error":
-                            fragment.add_content(
-                                loader.render_template('static/html/error_template.html', context))
-                        elif status == "emptylist":
-                            fragment.add_content(
-                                loader.render_template('static/html/shedule_form_proctoru.html', context))
-                        else:
-                            fragment.add_content(
-                                loader.render_template('static/html/shedule_form_proctoru.html', context))
-
-                    fragment.initialize_js('ProctorUXBlockSchedule')
-                    return fragment
-            elif api_obj.is_user_created(self.runtime.user_id) and self.is_rescheduled:
-                time_details = {
-                    'exam_start_date_time': self.start_date,
-                    'exam_end_date_time': self.end_date,
-                }
-
-                time_details = api_obj.get_time_details_api(
-                    time_details, self.exam_date)
-
-                if time_details.get('status') == "examdatepass":
-                    context.update({'self': self, 'status': "examdatepass"})
-                    fragment.add_content(
-                        loader.render_template('static/html/error_template.html', context))
-                else:
-                    context = api_obj.render_shedule_ui(
-                        self.runtime.user_id, time_details, self.duration)
-                    context.update({'self': self})
-
-                    exam_time_heading = api_obj.get_formated_exam_start_date(
-                        self.exam_time, self.runtime.user_id)
-
-                    old_exam_time = dateutil.parser.parse(self.exam_time)
-
-                    exam_start_date_time = time_details.get(
-                        'str_exam_start_date')
-
-                    exam_end_date_time = time_details.get('exam_end_date_time')
-
-                    allowed_keep_old_exam = False
-
-                    if exam_start_date_time <= old_exam_time <= exam_end_date_time:
-                        allowed_keep_old_exam = True
-                    else:
-                        allowed_keep_old_exam = False
-
-                    context.update({
-                        'exam_time_heading': exam_time_heading,
-                        'allowed_keep_old_exam': allowed_keep_old_exam,
-                    })
-                    context.update({"proctoru_user": api_obj.get_proctoru_user(
-                        self.runtime.user_id)})
-                    timezones = api_obj.get_time_zones()
-                    context.update(
-                        {"time_zone_list": timezones.get("data", None)})
-                    status = context.get('status')
-                    if status == "error":
-                        fragment.add_content(
-                            loader.render_template('static/html/error_template.html', context))
-                    elif status == "emptylist":
-                        fragment.add_content(
-                            loader.render_template('static/html/reshedule_form_proctoru.html', context))
-                    else:
-                        fragment.add_content(
-                            loader.render_template('static/html/reshedule_form_proctoru.html', context))
-
-                fragment.initialize_js('ProctorUXBlockSchedule')
-                return fragment
-            elif self.is_exam_scheduled:
+			elif self.is_exam_scheduled:
                 exam_data = api_obj.get_student_reservation_list(
                     self.runtime.user_id)
                 context.update({"proctoru_user": api_obj.get_proctoru_user(
@@ -557,45 +572,47 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     fragment.initialize_js('ProctorUXBlockSchedule')
                     return fragment
 
-            elif api_obj.is_user_created(self.runtime.user_id) and not self.is_exam_scheduled:
-                self.exam_time = ""
-                self.is_exam_scheduled = False
-                self.is_rescheduled = False
-                self.is_exam_canceled = False
-                time_details = {
-                    'exam_start_date_time': self.start_date,
-                    'exam_end_date_time': self.end_date,
-                }
-
-                time_details = api_obj.get_time_details_api(
-                    time_details, self.exam_date)
-
-                if time_details.get('status') == "examdatepass":
-                    context.update({'self': self, 'status': "examdatepass"})
-                    fragment.add_content(
-                        loader.render_template('static/html/error_template.html', context))
-                else:
-                    context = api_obj.render_shedule_ui(
-                        self.runtime.user_id, time_details, self.duration)
-                    context.update({'self': self})
-                    context.update({"proctoru_user": api_obj.get_proctoru_user(
-                        self.runtime.user_id)})
-                    timezones = api_obj.get_time_zones()
-                    context.update(
-                        {"time_zone_list": timezones.get("data", None)})
-                    status = context.get('status')
-                    if status == "error":
-                        fragment.add_content(
-                            loader.render_template('static/html/error_template.html', context))
-                    elif status == "emptylist":
-                        fragment.add_content(
-                            loader.render_template('static/html/shedule_form_proctoru.html', context))
-                    else:
-                        fragment.add_content(
-                            loader.render_template('static/html/shedule_form_proctoru.html', context))
-
-                fragment.initialize_js('ProctorUXBlockSchedule')
-                return fragment
+			# Schedule Proctor Session
+			elif api_obj.is_user_created(self.runtime.user_id) and not self.is_exam_scheduled:
+                # self.exam_time = ""
+                # self.is_exam_scheduled = False
+                # self.is_rescheduled = False
+                # self.is_exam_canceled = False
+                # time_details = {
+                #     'exam_start_date_time': self.start_date,
+                #     'exam_end_date_time': self.end_date,
+                # }
+				#
+                # time_details = api_obj.get_time_details_api(
+                #     time_details, self.exam_date)
+				#
+                # if time_details.get('status') == "examdatepass":
+                #     context.update({'self': self, 'status': "examdatepass"})
+                #     fragment.add_content(
+                #         loader.render_template('static/html/error_template.html', context))
+                # else:
+                #     context = api_obj.render_shedule_ui(
+                #         self.runtime.user_id, time_details, self.duration)
+                #     context.update({'self': self})
+                #     context.update({"proctoru_user": api_obj.get_proctoru_user(
+                #         self.runtime.user_id)})
+                #     timezones = api_obj.get_time_zones()
+                #     context.update(
+                #         {"time_zone_list": timezones.get("data", None)})
+                #     status = context.get('status')
+                #     if status == "error":
+                #         fragment.add_content(
+                #             loader.render_template('static/html/error_template.html', context))
+                #     elif status == "emptylist":
+                #         fragment.add_content(
+                #             loader.render_template('static/html/shedule_form_proctoru.html', context))
+                #     else:
+                #         fragment.add_content(
+                #             loader.render_template('static/html/shedule_form_proctoru.html', context))
+				#
+                # fragment.initialize_js('ProctorUXBlockSchedule')
+                # return fragment
+				return self.schedule_proctoru_session(fragment,context,api_obj)
             else:
                 api_obj = ProctoruAPI()
                 timezones = api_obj.get_time_zones()
@@ -605,14 +622,250 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                     loader.render_template('static/html/proctoru.html', context))
                 fragment.initialize_js('ProctorUXBlockCreate')
                 return fragment
-        else:
+
+		else:
             fragment = Fragment()
             context = {}
             context.update({"self": self})
-            fragment.add_content(
-                loader.render_template('static/html/blank.html', context))
-            fragment.initialize_js('ProctorUXBlockBlank')
-            return fragment
+            # fragment.add_content(
+            #     loader.render_template('static/html/blank.html', context))
+            # fragment.initialize_js('ProctorUXBlockBlank')
+            # return fragment
+			return self.render_blank_view(fragment,context)
+
+	# Extension of Student View - Exam Started - Password page View
+	def exam_started(self,fragment,context,api_obj):
+		exam_data = api_obj.get_student_reservation_list(
+		    self.runtime.user_id)
+
+		# exam_data api call returns non-empty response
+		if len(exam_data) > 0:
+		    exam_found = False
+		    for exam in exam_data:
+		        start_date = exam.get('start_date')
+		        exam_obj = api_obj.get_schedule_exam_arrived(
+		            self.runtime.user_id, self.get_block_id())
+		        # check for reseration
+		        if int(exam_obj.reservation_no) == int(exam.get('reservation_no')):
+		            exam_found = True
+
+		            context.update({
+		                "self": self,
+		                "exam": api_obj.get_schedule_exam_arrived(self.runtime.user_id, self.get_block_id())
+		            })
+		            fragment.add_content(
+		                loader.render_template('static/html/exam_password.html', context))
+		            fragment.initialize_js(
+		                'ProctorUXBlockExamPassword')
+		            return fragment
+		        else:
+		            # if reservatin id not found schedule page
+		            exam_found = False
+
+		    if not exam_found:
+		        # if reservatin id not found return the
+		        self.exam_time = ""
+		        self.is_exam_scheduled = False
+		        self.is_rescheduled = False
+		        self.is_exam_canceled = False
+		        self.is_exam_start_clicked = False
+		        time_details = {
+		            'exam_start_date_time': self.start_date,
+		            'exam_end_date_time': self.end_date,
+		        }
+
+		        time_details = api_obj.get_time_details_api(
+		            time_details, self.exam_date)
+
+		        if time_details.get('status') == "examdatepass":
+		            context.update(
+		                {'self': self, 'status': "examdatepass"})
+		            fragment.add_content(
+		                loader.render_template('static/html/error_template.html', context))
+		        else:
+		            context = api_obj.render_shedule_ui(
+		                self.runtime.user_id, time_details, self.duration)
+		            context.update({'self': self})
+
+		            status = context.get('status')
+		            if status == "error":
+		                fragment.add_content(
+		                    loader.render_template('static/html/error_template.html', context))
+		            elif status == "emptylist":
+		                fragment.add_content(
+		                    loader.render_template('static/html/shedule_form_proctoru.html', context))
+		            else:
+		                fragment.add_content(
+		                    loader.render_template('static/html/shedule_form_proctoru.html', context))
+
+		        fragment.initialize_js('ProctorUXBlockSchedule')
+		        return fragment
+
+		# If exam_data api call returns null, a.k.a exam not found
+		else:
+		    self.exam_time = ""
+		    self.is_exam_scheduled = False
+		    self.is_rescheduled = False
+		    self.is_exam_canceled = False
+		    self.is_exam_start_clicked = False
+		    time_details = {
+		        'exam_start_date_time': self.start_date,
+		        'exam_end_date_time': self.end_date,
+		    }
+
+		    time_details = api_obj.get_time_details_api(
+		        time_details, self.exam_date)
+
+		    if time_details.get('status') == "examdatepass":
+		        context.update(
+		            {'self': self, 'status': "examdatepass"})
+		        fragment.add_content(
+		            loader.render_template('static/html/error_template.html', context))
+		    else:
+		        context = api_obj.render_shedule_ui(
+		            self.runtime.user_id, time_details, self.duration)
+		        context.update({'self': self})
+
+		        status = context.get('status')
+		        if status == "error":
+		            fragment.add_content(
+		                loader.render_template('static/html/error_template.html', context))
+		        elif status == "emptylist":
+		            fragment.add_content(
+		                loader.render_template('static/html/shedule_form_proctoru.html', context))
+		        else:
+		            fragment.add_content(
+		                loader.render_template('static/html/shedule_form_proctoru.html', context))
+
+		    fragment.initialize_js('ProctorUXBlockSchedule')
+		    return fragment
+
+	# Extension of Student View - End Exam
+	def exam_ended(self,fragment,context):
+		fragment.add_content(loader.render_template('static/html/exam_ended.html', context))
+		fragment.initialize_js('ProctorUXBlockExamEnabled')
+		return fragment
+
+	# Extension of Student View - is_exam_unlocked
+	# called from self.is_exam_unlocked
+	def exam_unlocked(self,fragment,context):
+		context.update({"self": self})
+		fragment.add_content(loader.render_template('static/html/exam_enabled.html', context))
+		fragment.initialize_js('ProctorUXBlockExamEnabled')
+		child_frags = self.runtime.render_children(block=self, view_name='student_view')
+		html = self._render_template('static/html/sequence.html', children=child_frags)
+		fragment.add_content(html)
+		fragment.add_frags_resources(child_frags)
+		return fragment
+
+	# Extension of Student View -
+	# Schedule ProctorU Session
+	def schedule_proctoru_session(self,fragment,context,api_obj):
+		self.exam_time = ""
+		self.is_exam_scheduled = False
+		self.is_rescheduled = False
+		self.is_exam_canceled = False
+		time_details = {
+			'exam_start_date_time': self.start_date,
+			'exam_end_date_time': self.end_date,
+		}
+
+		time_details = api_obj.get_time_details_api(
+			time_details, self.exam_date)
+
+		if time_details.get('status') == "examdatepass":
+			context.update({'self': self, 'status': "examdatepass"})
+			fragment.add_content(
+				loader.render_template('static/html/error_template.html', context))
+		else:
+			context = api_obj.render_shedule_ui(
+				self.runtime.user_id, time_details, self.duration)
+			context.update({'self': self})
+			context.update({"proctoru_user": api_obj.get_proctoru_user(
+				self.runtime.user_id)})
+			timezones = api_obj.get_time_zones()
+			context.update(
+				{"time_zone_list": timezones.get("data", None)})
+			status = context.get('status')
+			if status == "error":
+				fragment.add_content(
+					loader.render_template('static/html/error_template.html', context))
+			elif status == "emptylist":
+				fragment.add_content(
+					loader.render_template('static/html/shedule_form_proctoru.html', context))
+			else:
+				fragment.add_content(
+					loader.render_template('static/html/shedule_form_proctoru.html', context))
+
+		fragment.initialize_js('ProctorUXBlockSchedule')
+		return fragment
+
+
+	# Extension of Student View - Reschedule proctoru exam Session
+	def reschedule_proctoru_session(self,fragment,context,api_obj):
+		time_details = {
+			'exam_start_date_time': self.start_date,
+			'exam_end_date_time': self.end_date,
+		}
+
+		time_details = api_obj.get_time_details_api(
+			time_details, self.exam_date)
+
+		if time_details.get('status') == "examdatepass":
+			context.update({'self': self, 'status': "examdatepass"})
+			fragment.add_content(
+				loader.render_template('static/html/error_template.html', context))
+		else:
+			context = api_obj.render_shedule_ui(
+				self.runtime.user_id, time_details, self.duration)
+			context.update({'self': self})
+
+			exam_time_heading = api_obj.get_formated_exam_start_date(
+				self.exam_time, self.runtime.user_id)
+
+			old_exam_time = dateutil.parser.parse(self.exam_time)
+
+			exam_start_date_time = time_details.get(
+				'str_exam_start_date')
+
+			exam_end_date_time = time_details.get('exam_end_date_time')
+
+			allowed_keep_old_exam = False
+
+			if exam_start_date_time <= old_exam_time <= exam_end_date_time:
+				allowed_keep_old_exam = True
+			else:
+				allowed_keep_old_exam = False
+
+			context.update({
+				'exam_time_heading': exam_time_heading,
+				'allowed_keep_old_exam': allowed_keep_old_exam,
+			})
+			context.update({"proctoru_user": api_obj.get_proctoru_user(
+				self.runtime.user_id)})
+			timezones = api_obj.get_time_zones()
+			context.update(
+				{"time_zone_list": timezones.get("data", None)})
+			status = context.get('status')
+			if status == "error":
+				fragment.add_content(
+					loader.render_template('static/html/error_template.html', context))
+			elif status == "emptylist":
+				fragment.add_content(
+					loader.render_template('static/html/reshedule_form_proctoru.html', context))
+			else:
+				fragment.add_content(
+					loader.render_template('static/html/reshedule_form_proctoru.html', context))
+
+		fragment.initialize_js('ProctorUXBlockSchedule')
+		return fragment
+
+
+	# Extension of Student View - render blank page
+	def render_blank_view(self,fragment,context):
+		fragment.add_content(loader.render_template('static/html/blank.html', context))
+		fragment.initialize_js('ProctorUXBlockBlank')
+		return fragment
 
     def _render_template(self, ressource, **kwargs):
         template = Template(self.resource_string(ressource))
