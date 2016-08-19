@@ -36,7 +36,7 @@ To test out a clickable prototype, click <a href="https://projects.invisionapp.c
 
 Architecture
 -----------------
-![](http://i.imgur.com/9Adm8SJ.jpg)
+![](http://i.imgur.com/kOTEtQp.jpg)
 
 To Do
 -------
