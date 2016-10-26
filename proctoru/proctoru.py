@@ -153,7 +153,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def _is_studio(self):
         """
-        This Function checks if call is from CMS or LMS and returns boolean 
+        This Function checks if call is from CMS or LMS and returns boolean
         True if call is from studio.
         """
         studio = False
@@ -165,14 +165,14 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def _user_is_staff(self):
         """
-        This Function checks if user is staff and returns boolean 
+        This Function checks if user is staff and returns boolean
         True if user is staff.
         """
         return getattr(self.runtime, 'user_is_staff', False)
 
     def _allowed_verified(self):
         """
-        This Function checks if user is staff and returns boolean 
+        This Function checks if user is staff and returns boolean
         True if user is staff.
         """
         course_enrollment = CourseEnrollment.objects.get(
@@ -740,7 +740,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         """
         self.exam_date = data.get('date')
         return {
-            'status': _('success')
+            'status': 'success'
         }
 
     @XBlock.json_handler
@@ -751,7 +751,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         self.student_old_time_zone = self.student_time_zone
         self.is_rescheduled = True
         return {
-            'status': _('success')
+            'status': 'success'
         }
 
     @XBlock.json_handler
@@ -793,12 +793,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 exam_data.save()
             self.is_exam_start_clicked = True
             return {
-                'status': _('success'),
+                'status': 'success',
                 'reservation_data': reservation_data.get('data')
             }
         else:
             return {
-                'status': _('error')
+                'status': 'error'
             }
 
     @XBlock.json_handler
@@ -836,16 +836,16 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                 User.objects.get(pk=self.runtime.user_id), self.get_block_id())
             if exam_status:
                 return {
-                    'status': _('success')
+                    'status': 'success'
                 }
             else:
                 return {
-                    'status': _('error'),
+                    'status': 'error',
                     'msg': _('Database error'),
                 }
         else:
             return {
-                'status': _('error'),
+                'status': 'error',
                 'msg': _("invalid password")
             }
 
@@ -861,11 +861,11 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             User.objects.get(pk=self.runtime.user_id), self.get_block_id())
         if exam_status:
             return {
-                'status': _('success')
+                'status': 'success'
             }
         else:
             return {
-                'status': _('error'),
+                'status': 'error',
                 'msg': _('Database error'),
             }
 
@@ -948,16 +948,16 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             api_obj.set_exam_schedule_arrived(exam_data)
 
             return {
-                'status': _('success')
+                'status': 'success'
             }
         elif json_response.get('response_code') == 2:
             return {
-                'status': _('error'),
+                'status': 'error',
                 'msg': _('exam already scheduled')
             }
         else:
             return {
-                'status': _('error'),
+                'status': 'error',
                 'msg': _('Please contact administrator')
             }
 
@@ -967,7 +967,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
         Cancel Rescheduling.
         """
         self.is_rescheduled = False
-        return {"message": _('success')}
+        return {"message": 'success'}
 
     @XBlock.json_handler
     def edit_proctoru_account(self, data=None, suffix=""):
