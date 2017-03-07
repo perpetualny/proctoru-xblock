@@ -21,6 +21,7 @@ from xblockutils2.studio_editable import StudioContainerXBlockMixin
 
 from .api import ProctoruAPI
 from .models import ProctoruUser
+from .settings import PROCTORU_EXAM_AWAY_TIMEOUT
 
 from .timezonemap import win_tz
 
@@ -427,7 +428,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                             remaining_time = (
                                 diff.days * 24 * 60) + (diff.seconds/60)
 
-                            if remaining_time <= -15:
+                            if remaining_time <= PROCTORU_EXAM_AWAY_TIMEOUT:
                                 # if examtime pass away
                                 self.exam_time = ""
                                 self.is_exam_scheduled = False
