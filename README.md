@@ -9,7 +9,8 @@ ProctorU xBlock
 3. [Todo](https://github.com/perpetualny/proctoru-xblock#to-do)
 4. [Pre-Installation Requirements](https://github.com/perpetualny/proctoru-xblock#pre-installation-requirements)
 5. [Installation](https://github.com/perpetualny/proctoru-xblock#installation)
-6. [License](https://github.com/perpetualny/proctoru-xblock#license)
+6. [Troubleshoot] (https://github.com/perpetualny/proctoru-xblock#troubleshoot)
+7. [License](https://github.com/perpetualny/proctoru-xblock#license)
 
 
 Open edX
@@ -55,31 +56,44 @@ Pre-Installation Requirements
 Installation
 -------------
 
-1. Clone xblock repo from https://github.com/perpetualny/proctoru-xblock.git to xBlock directory.
+1. Clone xblock repo from https://github.com/perpetualny/proctoru-xblock.git to xBlock directory as edxapp user.
 2. Change directory to where you have cloned ProctorU XBlock.
 3. To install requirements for ProctorU XBlock. **Do not upgrade dependencies** as this will break the Open edX installation
 
-        pip install -r --no-deps requirements.txt
+        pip install -r requirements.txt
         
    Alternatively you can install the package directly from PyPI
    	
-   		pip install -U --no-deps proctoru-xblock
+   		pip install -U proctoru-xblock
 
 4. Open “ lms/envs/common.py “, " cms/env/common.py " and put “proctoru” in installed apps.
-5. Run migrations for proctorU XBlock:
 
-        python manage.py lms migrate proctoru --settings=aws
+5. Create migrations for proctorU XBlock:
+	
+		python manage.py lms makemigrations proctoru --settings aws
 
-6. Add "PROCTORU_TOKEN" and "PROCTORU_API" in both lms and cms `envs/common.py` file and restart edxapp
+6. Run migrations for proctorU XBlock:
+
+        python manage.py lms migrate proctoru --settings aws
+
+7. Add "PROCTORU_TOKEN" and "PROCTORU_API" in both lms and cms `envs/common.py` file and restart edxapp
 
         PROCTORU_TOKEN = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         PROCTORU_API = "x.proctoru.com"
 
-7. Restart edxapp
+8. Restart edxapp
 
         sudo /edx/bin/supervisorctl restart all
 
 
+Troubleshoot
+-------------
+1. Remove proctoru-xblock from site-packages
+2. Follow installation process from point 3 to 7
+3. Run command :
+
+		pip install -e .
+4. Course enrolment mode for the student should be `verified`.
 
 License
 -------
