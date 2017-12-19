@@ -9,7 +9,7 @@ ProctorU xBlock
 3. [Todo](https://github.com/perpetualny/proctoru-xblock#to-do)
 4. [Pre-Installation Requirements](https://github.com/perpetualny/proctoru-xblock#pre-installation-requirements)
 5. [Installation](https://github.com/perpetualny/proctoru-xblock#installation)
-6. [Troubleshoot] (https://github.com/perpetualny/proctoru-xblock#troubleshoot)
+6. [Troubleshoot](https://github.com/perpetualny/proctoru-xblock#troubleshoot)
 7. [License](https://github.com/perpetualny/proctoru-xblock#license)
 
 
