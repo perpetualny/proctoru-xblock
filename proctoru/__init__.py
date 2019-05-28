@@ -1,2 +1,1 @@
-
-from .proctoru import ProctorUXBlock
+# from .proctoru import ProctorUXBlock
