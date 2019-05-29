@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from .models import ProctoruUser, ProctorUExam
 
 from .timezonemap import win_tz
@@ -116,9 +117,13 @@ class ProctoruAPI():
         This will return the auth token from settings
         output params: Authorization token.
         """
+    
+        
+        proctoru_token = configuration_helpers.get_value('PROCTORU_TOKEN',settings.PROCTORU_TOKEN)
         return {
-            "Authorization-Token": settings.PROCTORU_TOKEN,
+            "Authorization-Token": proctorU_token,
         }
+
 
     def get_endpoint(self, endpoint):
         """
@@ -127,7 +132,9 @@ class ProctoruAPI():
         input param: endpoint
         output param: URL with auth token.
         """
-        return API_URLS[endpoint] % settings.PROCTORU_API
+        proctoru_api = configuration_helpers.get_value('PROCTORU_API',settings.PROCTORU_API)
+        return API_URLS[endpoint] % settings.proctoru_api
+
 
     def get_time_zones(self):
         """
@@ -736,3 +743,4 @@ class ProctoruAPI():
         except Exception as e:
             logger.exception(e)
             return None
+2
