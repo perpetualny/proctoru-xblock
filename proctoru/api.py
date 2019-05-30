@@ -116,12 +116,10 @@ class ProctoruAPI():
         """
         This will return the auth token from settings
         output params: Authorization token.
-        """
-    
-        
+        """ 
         proctoru_token = configuration_helpers.get_value('PROCTORU_TOKEN',settings.PROCTORU_TOKEN)
         return {
-            "Authorization-Token": proctorU_token,
+            "Authorization-Token": proctoru_token,
         }
 
 
@@ -133,7 +131,7 @@ class ProctoruAPI():
         output param: URL with auth token.
         """
         proctoru_api = configuration_helpers.get_value('PROCTORU_API',settings.PROCTORU_API)
-        return API_URLS[endpoint] % settings.proctoru_api
+        return API_URLS[endpoint] % proctoru_api
 
 
     def get_time_zones(self):
