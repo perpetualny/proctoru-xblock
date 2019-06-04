@@ -106,7 +106,7 @@ Troubleshoot
 3. Run command :
 
 		pip install -e .
-4. Course enrolment mode for the student should be `verified`.
+4. Course enrollment mode for the student should be `verified`.
 
 License
 -------
