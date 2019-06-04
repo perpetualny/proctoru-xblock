@@ -46,7 +46,7 @@ To Do
 
 Pre-Installation Requirements
 --------------------------------------
-	1. Open edX Dogwood release
+	1. Open edX Hawthorn or Ironwood release
 	2. ProctorU Authentication Token
 	3. Django ( > v1.8 )
 
@@ -76,12 +76,25 @@ Installation
 
         python manage.py lms migrate proctoru --settings aws
 
-7. Add "PROCTORU_TOKEN" and "PROCTORU_API" in both lms and cms `envs/common.py` file and restart edxapp
+7. Add "PROCTORU_TOKEN" and "PROCTORU_API" in both lms and cms envs/common.py file.
 
-        PROCTORU_TOKEN = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-        PROCTORU_API = "x.proctoru.com"
+ PROCTORU_TOKEN = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+ PROCTORU_API = "x.proctoru.com"
+				
+8. Login to the Django Admin using a superuser (on the sandbox, use staff / edx).
 
-8. Restart edxapp
+9. On the Django Admin page, add a site in site Model. 
+
+10. On the Django Admin page in Site Configurations, add the "PROCTORU_TOKEN" and "PROCTORU_API"  for each particular site.
+
+`PROCTORU_TOKEN = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+ PROCTORU_API = "x.proctoru.com"`
+
+11. On the Django Admin page, add and activate a waffle switch  named `student.courseenrollment_admin`.
+
+12. Now you can see course enrollment model in django admin view. 
+
+13. Restart edxapp
 
         sudo /edx/bin/supervisorctl restart all
 

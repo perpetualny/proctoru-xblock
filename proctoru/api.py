@@ -117,6 +117,10 @@ class ProctoruAPI():
         This will return the auth token from settings
         output params: Authorization token.
         """ 
+
+        """
+        Hawthorn/Ironwood Changes to refactor the ProctorU token to use the get_value helper method and allow API tokens to be set per site. 
+        """
         proctoru_token = configuration_helpers.get_value('PROCTORU_TOKEN',settings.PROCTORU_TOKEN)
         return {
             "Authorization-Token": proctoru_token,
