@@ -55,9 +55,6 @@ To test out a clickable prototype, click <a href="https://projects.invisionapp.c
          pip install -r requirements.txt
 
 
-    Alternatively you can install the package directly from PyPI
-    pip install -U proctoru-xblock
-
 4.  Open “ lms/envs/common.py “, " cms/envs/common.py " and put “proctoru” in installed apps.
 
 5.  Create migrations for proctorU XBlock:
