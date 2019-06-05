@@ -101,19 +101,21 @@ On the Django Admin page, add and activate a waffle switch named `student.course
 Now you can see course enrollment model in django admin view.
 
 **Hawthorn Specific Change**
-  
- In order to successfully update an edX student's course enrollment mode as 'verified' on Hawthorn you must add the 3 lines below in the **init** method of CourseEnrollmentForm in
+
+In order to successfully update an edX student's course enrollment mode as 'verified' on Hawthorn you must add the 3 lines below in the **init** method of CourseEnrollmentForm in
 `/edx-platform/common/djangoapps/student/admin.py`.
 
 `mutable = self.data._mutable`
 
 `self.data._mutable = True`
+
 `self.data._mutable = mutable`
 
-Your CourseEnrollmentForm class should look like this after.
+Your CourseEnrollmentForm class should look like this after these changes.
 Note the placement of the 3 lines above.
 
-```class CourseEnrollmentForm(forms.ModelForm):
+```
+class CourseEnrollmentForm(forms.ModelForm):
  def __init__(self, *args, **kwargs):
         super(CourseEnrollmentForm, self).__init__(*args, **kwargs)
         if self.data.get('course'):
