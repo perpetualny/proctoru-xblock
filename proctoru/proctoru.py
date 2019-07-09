@@ -200,8 +200,6 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
             fragment.add_css(
                 self.resource_string('public/css/proctoru.css'))
             return fragment
-        elif self._user_is_staff():
-            return self.staff_view()
         elif self._allowed_verified():
             api_obj = ProctoruAPI()
             fragment = Fragment()
