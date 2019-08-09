@@ -7,6 +7,7 @@ import pkg_resources
 import random
 import pytz
 import dateutil.parser
+from importlib import import_module
 
 from django.contrib.auth.models import User
 from django.template import Context, Template
@@ -146,6 +147,17 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                    scope=Scope.user_state
                                    )
 
+    """
+    TODO: Add custom Tahoe parameters
+    """
+    enable_tahoe = Boolean(display_name=_("Parameters for Tahoe use"),
+                        scope=Scope.settings
+                        help=_("Select True to send the extra parameters, which might contain Personally Identifiable Information. "
+                        "The processors are site-wide, please consult the site administrator if you have any questions."),
+                        default=False,
+                        
+    )
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -172,8 +184,8 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def _allowed_verified(self):
         """
-        This Function checks if user is staff and returns boolean
-        True if user is staff.
+        This Function checks if user is verified and returns boolean
+        True if user is verified.
         """
         course_enrollment = CourseEnrollment.objects.get(
             course_id=self.location.course_key, user=self.runtime.user_id)
@@ -184,7 +196,7 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
     def get_block_id(self):
         """
-        Thsi function returns the block id.
+        This function returns the block id.
         """
         return self.url_name
 
@@ -252,11 +264,11 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                 'ProctorUXBlockExamPassword')
                             return fragment
                         else:
-                            # if reservatin id not found schedule page
+                            # if reservation id not found schedule page
                             exam_found = False
 
                     if not exam_found:
-                        # if reservatin id not found return the
+                        # if reservation id not found return the
                         self.exam_time = ""
                         self.is_exam_scheduled = False
                         self.is_rescheduled = False
@@ -476,12 +488,12 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
                                 fragment.initialize_js('ProctorUXBlockArrived')
                                 return fragment
                         else:
-                            # if reservatin id not found schedule page
+                            # if reservation id not found schedule page
                             exam_found = False
 
                     if not exam_found:
 
-                        # if reservatin id not found return the
+                        # if reservation id not found return the
                         self.exam_time = ""
                         self.is_exam_scheduled = False
                         self.is_rescheduled = False
@@ -997,6 +1009,31 @@ class ProctorUXBlock(StudioContainerXBlockMixin, XBlock):
 
         return {"status": "success"}
 
+    def get_settings(self):
+        settings_service = self.runtime.service(self, 'settings')
+        if settings_service:
+            return settings_service.get_settings_bucket(self)
+        return {}
+        
+
+
+    def get_tahoe_processors(self):
+        """
+        Read the parameter processor functions from the settings and return their functions.
+        """
+        if not self.enable_tahoe:
+            return
+
+        try:
+            for path in self.get_settings().get('enable_tahoe', []):
+                module_path, func_name = path.split(':', 1)
+                module = import_module(module_path)
+                yield getattr(module, func_name)
+        except Exception:
+            log.exception('Something went wrong in reading the ProctorU xBlock configuration.')
+            raise
+
+            
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
     @staticmethod

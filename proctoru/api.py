@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from .models import ProctoruUser, ProctorUExam
 
 from .timezonemap import win_tz
@@ -115,10 +116,19 @@ class ProctoruAPI():
         """
         This will return the auth token from settings
         output params: Authorization token.
+        """ 
+
         """
+        Hawthorn/Ironwood Changes to refactor the ProctorU token to use the 
+        value helper method and allow API tokens to be set per site. 
+        """
+        proctoru_token = configuration_helpers.get_value(‘PROCTORU_TOKEN’,get(settings.PROCTORU_TOKEN, “”)) 
+        
+        # proctoru_token = configuration_helpers.get_value('PROCTORU_TOKEN',settings.PROCTORU_TOKEN)
         return {
-            "Authorization-Token": settings.PROCTORU_TOKEN,
+            "Authorization-Token": proctoru_token,
         }
+
 
     def get_endpoint(self, endpoint):
         """
@@ -127,7 +137,9 @@ class ProctoruAPI():
         input param: endpoint
         output param: URL with auth token.
         """
-        return API_URLS[endpoint] % settings.PROCTORU_API
+        proctoru_api = configuration_helpers.get_value('PROCTORU_API',settings.PROCTORU_API)
+        return API_URLS[endpoint] % proctoru_api
+
 
     def get_time_zones(self):
         """
@@ -190,7 +202,7 @@ class ProctoruAPI():
             return {"status": "error"}
         api_exam_start_time = time_details.get("api_exam_start_time")
 
-        offset_time = self.get_ramaining_countdown(
+        offset_time = self.get_remaining_countdown(
             api_exam_start_time.isoformat(), pr_user)
 
         if api_exam_start_time:
@@ -597,9 +609,9 @@ class ProctoruAPI():
         }
         return context
 
-    def get_ramaining_countdown(self, tm, user):
+    def get_remaining_countdown(self, tm, user):
         """
-        Function get_ramaining_countdown returns reamaining time for the exam
+        Function get_remaining_countdown returns reamaining time for the exam
         input params: datetime object, user object
         output params: datetime object.
         """
@@ -614,7 +626,7 @@ class ProctoruAPI():
 
     def getexamtime_staff(self, tm, timezone):
         """
-        Function get_ramaining_countdown returns reamaining time for the exam
+        Function get_remaining_countdown returns reamaining time for the exam
         input params: datetime object, timezone object
         output params: datetime object.
         """
@@ -736,3 +748,4 @@ class ProctoruAPI():
         except Exception as e:
             logger.exception(e)
             return None
+2
