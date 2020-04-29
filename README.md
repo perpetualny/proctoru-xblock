@@ -22,7 +22,7 @@ ProctorU
 
 [ProctorU](http://www.proctoru.com/) is a leading online proctoring service that allows students to take proctored exams online from anywhere using a webcam and a high speed internet connection, and allows institutions to maintain academic integrity in their online education programs.
 
-Learn more about how ProctorU how ProctorU [ works ](http://www.proctoru.com/howitworks.php)
+Learn more about how ProctorU [ works ](http://www.proctoru.com/howitworks.php)
 
 This software is an xBlock (extension to Open edX courseware) that enables proctoring on any Open edX instance using [ProctorU](http://www.proctoru.com/). It is currently in use in production on one of Europe's largest MOOCs, [FunMOOC](https://www.fun-mooc.fr/).
 
@@ -49,9 +49,6 @@ Pre-Installation Requirements
 	1. Open edX Dogwood release
 	2. ProctorU Authentication Token
 	3. Django ( > v1.8 )
-
-
-
 
 Installation
 -------------
@@ -84,7 +81,6 @@ Installation
 8. Restart edxapp
 
         sudo /edx/bin/supervisorctl restart all
-
 
 Troubleshoot
 -------------
